@@ -39,14 +39,14 @@ public class ObjectPool : MonoBehaviour
         {
             var obj = Instance.WayPointQueue.Dequeue();
             obj.transform.SetParent(null);
-            obj.gameObject.SetActive(false);
+            obj.gameObject.SetActive(true);
             return obj;
         }
         else
         {
             var newObj = Instance.CreateNewObject();
             newObj.transform.SetParent(null);
-            newObj.gameObject.SetActive(true);
+            newObj.gameObject.SetActive(false);
             return newObj;
         }
     }

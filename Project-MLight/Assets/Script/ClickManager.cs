@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class ClickManager : MonoBehaviour
 {
     [SerializeField]
-    private Camera camera;
+    private Camera mcamera;
     [SerializeField]
     private Animator anim;
     private NavMeshAgent nav;
@@ -17,7 +17,7 @@ public class ClickManager : MonoBehaviour
 
     private void Awake()
     {
-        camera = Camera.main;
+        mcamera = Camera.main;
         anim = GetComponentInChildren<Animator>();
         nav = GetComponent<NavMeshAgent>();
         nav.updateRotation = false;
@@ -28,15 +28,17 @@ public class ClickManager : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
+           
             RaycastHit hit;
-            if(Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition),out hit ))
+            if(Physics.Raycast(mcamera.ScreenPointToRay(Input.mousePosition),out hit ))
             {
-                CheckTouch(hit);
+                CheckTouch(hit);             
                 SetDestination(hit.point);
                 var waypoint = ObjectPool.GetObject();
-                waypoint.transform.position = transform.position + hit.point.normalized;
-
-            }
+                Vector3 waytr = hit.point;
+                waytr.y += 3f;
+                waypoint.transform.position = waytr;
+         }
         }
         Move();
     }
@@ -64,16 +66,17 @@ public class ClickManager : MonoBehaviour
         nav.SetDestination(dest);
         destination = dest;
         isMove = true;
-       
+        
+
         anim.SetBool("isRun", isMove);
-        Debug.Log("달리는중");
+        
     }
 
     private void Move()
     {
         if(isMove)
         {
-            if(nav.velocity.magnitude == 0f)
+            if(Vector3.Distance(transform.position, destination) <= 0.1f)
             {
                 isMove = false;
                 anim.SetBool("isRun", isMove);
