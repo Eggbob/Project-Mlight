@@ -13,12 +13,12 @@ public class ClickManager : MonoBehaviour
     private NavMeshAgent nav; // 네비메쉬 컴포넌트
 
     private bool isMove; // 움직임 관련 불값
-    private Vector3 destination; // 캐릭터가 이동할 목적지
+    private Vector3 destination; // 캐릭터가 이동할 목적지 
+    private int targetlayer; //현재 타겟 레이어
+    private int prevtarget; // 이전 타겟 레이어
 
-    private int target; //현재 타겟
-    private int prevtarget; // 이전 타겟
-
-    
+   
+    private GameObject target; //지정된 타겟
     private GameObject eTargeting; //애너미 타겟팅 프리팹
     private GameObject oTaregeting; // 오브젝트 타겟팅 프리팹
 
@@ -45,24 +45,28 @@ public class ClickManager : MonoBehaviour
              }
         }
         Move();
+        nav.isStopped = false;
     }
 
     void CheckTouch(RaycastHit hit)
     {
-        prevtarget = target;
-        target = hit.collider.gameObject.layer;
+        prevtarget = targetlayer;
+        targetlayer = hit.collider.gameObject.layer;
 
         ReturnTargeting();
 
-        switch (target)
+        switch (targetlayer)
         {
             case 8://지형
+               
                 TerrianUpdate(hit);
               break;
             case 9: //적
+                target = hit.collider.gameObject;
                 EnemyUpdate(hit);
                 break;
             case 11: // 오브젝트
+                target = hit.collider.gameObject;
                 ObjectUpdate(hit);             
                 break;
 
@@ -84,28 +88,27 @@ public class ClickManager : MonoBehaviour
     }
 
 
-    void TerrianUpdate(RaycastHit hit)
+    void TerrianUpdate(RaycastHit hit) //지형 클릭시 호출
     {
-
         var waypoint = ObjectPool.GetWayPoint();
         Vector3 waytr = hit.point;
         waytr.y += 3f;
         waypoint.transform.position = waytr;
     }
 
-    void EnemyUpdate(RaycastHit hit)
+    void EnemyUpdate(RaycastHit hit) // 적 클릭시 호출
     {
        
-        eTargeting = ObjectPool.GetTargeting(target);
+        eTargeting = ObjectPool.GetTargeting(targetlayer);
         Transform waytr = hit.collider.gameObject.GetComponent<Enemy>().targetingTr;
         eTargeting.transform.position = waytr.position;
        
     }
 
-    void ObjectUpdate(RaycastHit hit)
+    void ObjectUpdate(RaycastHit hit) //오브젝트 클릭시
     {
         
-        oTaregeting = ObjectPool.GetTargeting(target);
+        oTaregeting = ObjectPool.GetTargeting(targetlayer);
         Transform waytr = hit.collider.gameObject.GetComponent<Object>().targetingTr;
         oTaregeting.transform.position = waytr.position;
     }
@@ -125,13 +128,14 @@ public class ClickManager : MonoBehaviour
     {
         if(isMove)
         {
-            if(target == 9 || target == 11)
+            if(targetlayer == 9 || targetlayer == 11) //타겟이 적이거나 오브젝일 경우
             {
-                if (Vector3.Distance(transform.position, destination) <= 5f)
-                {
-                    Debug.Log("aaaaa");
-                    isMove = false;
-                    nav.velocity = Vector3.zero;
+                
+                if (Vector3.Distance(target.transform.position, transform.position) <= 5.3f)
+                {                   
+                    nav.isStopped = true;         
+                    nav.velocity = Vector3.zero;                  
+                    isMove = false;      
                     anim.SetBool("isRun", isMove);
                     return;
                 }
@@ -139,8 +143,7 @@ public class ClickManager : MonoBehaviour
             else
             {
                 if (Vector3.Distance(transform.position, destination) <= 0.1f)
-                {
-                    Debug.Log("bbb");
+                {                 
                     isMove = false;
                     anim.SetBool("isRun", isMove);
                     return;
@@ -149,11 +152,10 @@ public class ClickManager : MonoBehaviour
 
            
 
-            //var dir = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
-              //  - transform.position;
+            var dir = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
+                - transform.position;
       
-           anim.transform.forward = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
-                - transform.position; 
+            anim.transform.forward = dir;
             
         }  
     }
