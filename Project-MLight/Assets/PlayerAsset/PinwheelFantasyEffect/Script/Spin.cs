@@ -21,7 +21,7 @@ public class Spin : MonoBehaviour {
         {
             time = 0;
             //gameObject.SetActive(false);
-            ObjectPool.ReturnObject(this);
+            ObjectPool.ReturnWayPoint(this);
         }
         time += Time.deltaTime;
     }
