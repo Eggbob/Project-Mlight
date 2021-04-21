@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : LivingEntity
 {
     private Status status;
     [SerializeField]

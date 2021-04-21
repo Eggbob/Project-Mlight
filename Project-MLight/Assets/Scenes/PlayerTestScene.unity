@@ -471,6 +471,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ab902f6c359d84c9b991ed60539e0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _level: 0
+  _exp: 0
+  _maxExp: 0
+  _hp: 0
+  _maxHP: 0
+  _mp: 0
+  _maxMP: 0
+  _power: 0
+  _int: 0
+  _ag: 0
+  _def: 0
   cmanager: {fileID: 0}
   pState: 0
   angleRange: 45
@@ -966,7 +977,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 633627315}
-  - component: {fileID: 633627316}
   m_Layer: 0
   m_Name: Terrian
   m_TagString: Untagged
@@ -993,21 +1003,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &633627316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 633627314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5330499aab7fbd54fba90689948a9fb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundPrefab: {fileID: 0}
-  parentGrid: {fileID: 0}
-  gridWorldSize: {x: 0, y: 0}
 --- !u!1 &794221656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1775,6 +1770,7 @@ GameObject:
   - component: {fileID: 8272943599092037659}
   - component: {fileID: 8272943599082638218}
   - component: {fileID: 8272943599082638220}
+  - component: {fileID: 8272943599082638222}
   m_Layer: 9
   m_Name: deb_Goblin01
   m_TagString: Enemy
@@ -1853,6 +1849,39 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8272943599082638222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8272943599082638217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20cd7efeb8a3b83499fae9711107a545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _level: 0
+  _exp: 0
+  _maxExp: 0
+  _hp: 0
+  _maxHP: 0
+  _mp: 0
+  _maxMP: 0
+  _power: 0
+  _int: 0
+  _ag: 0
+  _def: 0
+  gstate: 0
+  MoveSpeed: 1
+  target: {fileID: 0}
+  targetPos: {x: 0, y: 0, z: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  AttackRange: 1.5
+  fRange: 10
+  angleRange: 45
 --- !u!1 &8272943599082638223
 GameObject:
   m_ObjectHideFlags: 0
