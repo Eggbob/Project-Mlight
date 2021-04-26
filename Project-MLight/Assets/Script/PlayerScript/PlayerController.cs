@@ -14,13 +14,7 @@ public class PlayerController : LivingEntity
     public enum PlayerState { Idle, Move, Attack, Skill, Drop,  Die }
     public PlayerState pState;
 
-    [Header("공격범위 속성")]
-    public float angleRange = 45f;
-    private bool isCollision = false;
-    Color blue = new Color(0f, 0f, 1f, 0.2f);
-    Color red = new Color(1f, 0f, 0f, 0.2f);
-    float dotValue = 0f;
-    Vector3 direction;
+    
 
     private void Awake()
     {
@@ -88,26 +82,10 @@ public class PlayerController : LivingEntity
         Vector3 temp = cmanager.target.transform.position;
         temp.y = this.transform.position.y;
         Quaternion.LookRotation(temp);
-       
     }
 
 
-    void sectorCheck() // 부챗꼴 범위 충돌
-    {
-        dotValue = Mathf.Cos(Mathf.Deg2Rad * (angleRange / 2));
-        direction = cmanager.target.transform.position - transform.position;
-        if (direction.magnitude < 2f)
-        {
-            if (Vector3.Dot(direction.normalized, transform.forward) > dotValue)
-            {
-                isCollision = true;
-            }
-            else
-                isCollision = false;
-        }
-        else
-            isCollision = false;
-    }
+   
 
     private void Update()
     {
@@ -117,4 +95,5 @@ public class PlayerController : LivingEntity
         anim.SetBool("isInter", cmanager.isInter);
     }
 
+  
 }

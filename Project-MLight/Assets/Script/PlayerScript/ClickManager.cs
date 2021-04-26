@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEditor;
 
 
 public class ClickManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class ClickManager : MonoBehaviour
     [SerializeField]
     private NavMeshAgent nav; // 네비메쉬 컴포넌트
     private PlayerController pCon; // 플레이어 컨트롤러
+    private Rigidbody rigid;
 
     public bool isMove; // 움직임 관련 불값
     public bool isInter; // 오브젝트 상호작용 관련 불값
@@ -25,12 +27,37 @@ public class ClickManager : MonoBehaviour
     public GameObject target; //지정된 타겟
     private GameObject eTargeting; //애너미 타겟팅 프리팹
     private GameObject oTaregeting; // 오브젝트 타겟팅 프리팹
-                                                
+
+
+
+    [Header("공격범위 속성")]
+    public float attackRange = 3f;
+    public float angleRange = 45f;
+    public bool isCollision = false;
+    Color blue = new Color(0f, 0f, 1f, 0.2f);
+    Color red = new Color(1f, 0f, 0f, 0.2f);
+    float dotValue = 0f;
+    Vector3 direction;
+
+
+    private bool hasTarget
+    {
+        get
+        {
+            if (target != null )
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+
     private void Start()
     {
         mcamera = Camera.main; //메인카메라 가져오기
         nav = this.GetComponent<NavMeshAgent>(); // 네비 가져오기
         pCon = this.GetComponent<PlayerController>(); //플레이어 컨트롤러 가져오기
+        rigid = this.GetComponent<Rigidbody>();
 
         nav.updateRotation = false; // 네비의회전 기능 비활성화
         range = 7f;
@@ -39,6 +66,12 @@ public class ClickManager : MonoBehaviour
    
     void Update()
     {
+        if(target != null)
+        {          
+            sectorCheck();
+        }
+
+
         if(Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭시
         {
             isAttack = false;
@@ -52,8 +85,8 @@ public class ClickManager : MonoBehaviour
                 SetDestination(hit.point);   // 이동할 목적지 설정  
              }
         }
-        Move(); 
-        nav.isStopped = false; // 네비 멈추기
+        Move(); //움직이기
+        nav.isStopped = false; //네비 다시 실행
     }
 
     void CheckTouch() // 터치한 대상 분석
@@ -145,7 +178,7 @@ public class ClickManager : MonoBehaviour
                     break;
 
                 case 9: //적
-                    if (Vector3.Distance(transform.position, target.transform.position ) <= range + 0.5f) // 타겟과 나의 거리가 사거리 이하일 경우
+                    if (isCollision) // 타겟과 나의 거리가 공격 범위에 충돌했을시
                     {
                         navStop();
                         isAttack = true;
@@ -155,7 +188,7 @@ public class ClickManager : MonoBehaviour
                     break;
 
                 case 11: //오브젝트
-                    if (Vector3.Distance(transform.position, target.transform.position) <= range + 0.5f) // 타겟과 나의 거리가 사거리 이하일 경우
+                    if (Vector3.Distance(transform.position, target.transform.position) <= attackRange + 0.5f) // 타겟과 나의 거리가 사거리 이하일 경우
                     {
                         navStop();
                         isInter = true;
@@ -168,6 +201,8 @@ public class ClickManager : MonoBehaviour
           
             this.transform.forward = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
                 - transform.position;
+
+           
             
            
 
@@ -176,10 +211,35 @@ public class ClickManager : MonoBehaviour
 
     void navStop() //네비 멈추기
     {
-        nav.velocity = Vector3.zero;   // 네비게이션 속도 0으로 지정
-        
         nav.isStopped = true;         // 네비게이션 멈추기     
+        nav.velocity = Vector3.zero;   // 네비게이션 속도 0으로 지정               
+        rigid.velocity = Vector3.zero;
         isMove = false;    // 움직임 비활성화
     }
-    
+
+    void sectorCheck() // 부챗꼴 범위 충돌
+    {
+        dotValue = Mathf.Cos(Mathf.Deg2Rad * (angleRange / 2));
+        direction = target.transform.position - transform.position;
+        if (direction.magnitude < attackRange)
+        {
+            if (Vector3.Dot(direction.normalized, transform.forward) > dotValue)
+            {
+                isCollision = true;
+            }
+            else
+                isCollision = false;
+        }
+        else
+            isCollision = false;
+    }
+
+
+    private void OnDrawGizmos() // 범위 그리기
+    {
+        Handles.color = isCollision ? red : blue;
+        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, attackRange);
+        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, attackRange);
+
+    }
 }

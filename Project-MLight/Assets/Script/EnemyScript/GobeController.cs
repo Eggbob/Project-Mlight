@@ -213,7 +213,7 @@ public class GobeController : LivingEntity
             targetPos = target.transform.position;
             direction = targetPos - this.transform.position;
 
-            if (direction.sqrMagnitude <= AttackRange + 0.5f) // 적이 공격범위 내에 들어왔을시
+            if (isCollision) // 적이 공격범위 내에 들어왔을시
             {
                
                 chaseTime = 0f;
@@ -257,19 +257,20 @@ public class GobeController : LivingEntity
 
 
     void AttackUpdate() // 공격시
-    {       
+    {
+
         if (!isCollision) //공격범위보다 멀면
         {
             gstate = GobeState.Chase; // 추적상태로 변환            
         }
         else // 공격범위 내에 들어가면
-        {
-            
+        {           
             nav.isStopped = true;
             nav.velocity = Vector3.zero;
             rigid.velocity = Vector3.zero;
+            transform.LookAt(target.transform);
         }
-     
+   
     }
 
     public void GetBackUpdate() //귀환 상태일때
