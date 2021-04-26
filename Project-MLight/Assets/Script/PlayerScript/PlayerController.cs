@@ -7,21 +7,57 @@ public class PlayerController : LivingEntity
 {
     private Status status;
     [SerializeField]
-    private ClickManager cmanager;
+    private PlayerMoveController cmanager;
     private Animator anim; //애니메이터 컴포넌트
   
 
     public enum PlayerState { Idle, Move, Attack, Skill, Drop,  Die }
-    public PlayerState pState;
+    public PlayerState pState; //플레이어 상태 변수
 
-    
+    public bool isMove; // 움직임 관련 불값
+    public bool isInter; // 오브젝트 상호작용 관련 불값
+    public bool isAttack; // 공격 관련 불값
 
     private void Awake()
     {
         status = this.GetComponent<Status>();
-        cmanager = this.GetComponent<ClickManager>();
+        cmanager = this.GetComponent<PlayerMoveController>();
         anim = this.GetComponentInChildren<Animator>();
         pState = PlayerState.Idle;
+    }
+
+    void CheckAnimations()
+    {
+        switch (pState)
+        {
+            case PlayerState.Idle:
+                isMove = false;
+                isAttack = false;
+                isInter = false;
+                break;
+            case PlayerState.Move:
+                isMove = true;
+                isAttack = false;
+                isInter = false;
+                MoveUpdate();
+                break;
+            case PlayerState.Attack:
+                isMove = false;
+                isAttack = true;
+                isInter = false;
+                AttackUpdate();
+                break;
+            case PlayerState.Skill:
+                break;
+            case PlayerState.Drop:
+                isMove = false;
+                isAttack = false;
+                isInter = true;
+                DropUpdate();
+                break;
+            case PlayerState.Die:
+                break;
+        }
     }
 
     void CheckStatus()
@@ -58,31 +94,24 @@ public class PlayerController : LivingEntity
     
     void AttackUpdate()
     {
-       // LookTarget();
+       
     }
     
     void DropUpdate()
     {
-      //  LookTarget();
+      
         StartCoroutine("DropRoutine");
         
     }
 
     IEnumerator DropRoutine()
     {
-        yield return new WaitForSeconds(2.7f);
-        cmanager.isInter = false;
+        yield return new WaitForSeconds(1f);
+        isInter = false;
         pState = PlayerState.Idle;
     }
 
 
-    void LookTarget() //대상 바라보기
-    {
-        
-        Vector3 temp = cmanager.target.transform.position;
-        temp.y = this.transform.position.y;
-        Quaternion.LookRotation(temp);
-    }
 
 
    
@@ -90,9 +119,10 @@ public class PlayerController : LivingEntity
     private void Update()
     {
         CheckStatus();
-        anim.SetBool("isRun", cmanager.isMove);
-        anim.SetBool("isAttack", cmanager.isAttack);
-        anim.SetBool("isInter", cmanager.isInter);
+        CheckAnimations();
+        anim.SetBool("isRun",isMove);
+        anim.SetBool("isAttack", isAttack);
+        anim.SetBool("isInter", isInter);
     }
 
   

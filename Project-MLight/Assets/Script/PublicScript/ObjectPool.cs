@@ -50,8 +50,9 @@ public class ObjectPool : MonoBehaviour
 
     public static GameObject GetTargeting(int idx) // 타겟팅 오브젝트 가져가기
     {
-        if(idx == 11)
+        if(idx == 10)
         {
+            Debug.Log("Object Targeting");
             OTargeting.transform.SetParent(null);
             OTargeting.SetActive(true);
 
@@ -59,6 +60,7 @@ public class ObjectPool : MonoBehaviour
         }
         else if(idx == 9)
         {
+            Debug.Log("Enemy Targeting");
             ETargeting.transform.SetParent(null);
             ETargeting.SetActive(true);
 
