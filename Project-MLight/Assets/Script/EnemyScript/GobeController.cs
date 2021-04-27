@@ -8,6 +8,8 @@ public class GobeController : LivingEntity
 {
     public enum GobeState {None, Idle, Patrol, Chase, Wait, Attack, GetBack, Die};
 
+  
+
     [Header("기본속성")]
     public GobeState gstate = GobeState.None; // 고블린 상태 체크 변수
     public float MoveSpeed = 1f; // 이동속도
@@ -60,7 +62,8 @@ public class GobeController : LivingEntity
     {
         statusInit(); //스테이터스 초기화
         gstate = GobeState.Idle; // 상태를 유휴상태로 변환
-        nav.isStopped = true;           
+        nav.isStopped = true;
+
     }
 
 
