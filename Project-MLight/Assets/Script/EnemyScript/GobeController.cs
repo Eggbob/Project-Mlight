@@ -22,6 +22,7 @@ public class GobeController : LivingEntity
     private Animator anim;
     private Rigidbody rigid;
     private NavMeshAgent nav;
+
     [SerializeField]
     private float chaseTime = 0f; // 추적할시간
 
@@ -32,8 +33,6 @@ public class GobeController : LivingEntity
     Color red = new Color(1f, 0f, 0f, 0.2f);
     float dotValue = 0f;
     Vector3 direction;
-
-
 
     private bool move; // 움직임 관련 변수
 

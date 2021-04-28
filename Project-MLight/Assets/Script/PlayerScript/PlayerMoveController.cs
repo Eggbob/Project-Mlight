@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEditor;
+using UnityEngine.EventSystems;
 
 public class PlayerMoveController : MonoBehaviour
 {
@@ -69,13 +70,18 @@ public class PlayerMoveController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭시
         {
-
-            if (Physics.Raycast(mcamera.ScreenPointToRay(Input.mousePosition), out hit)) //카메라에서 클릭한 곳으로 레이 쏘기
+            if(!EventSystem.current.IsPointerOverGameObject())
             {
-                nav.velocity = Vector3.zero; //네비 속도 0으로 지정
-                CheckTouch();  // 터치한 대상 분석
-                SetDestination(hit.point);   // 이동할 목적지 설정  
+
+                if (Physics.Raycast(mcamera.ScreenPointToRay(Input.mousePosition), out hit)) //카메라에서 클릭한 곳으로 레이 쏘기
+                {
+                    nav.velocity = Vector3.zero; //네비 속도 0으로 지정
+                    CheckTouch();  // 터치한 대상 분석
+                    SetDestination(hit.point);   // 이동할 목적지 설정  
+                }
             }
+
+          
         }
         Move(); //움직이기
         nav.isStopped = false; //네비 다시 실행

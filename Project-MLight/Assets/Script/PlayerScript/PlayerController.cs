@@ -98,10 +98,8 @@ public class PlayerController : LivingEntity
     }
     
     void DropUpdate()
-    {
-      
-        StartCoroutine("DropRoutine");
-        
+    {      
+        StartCoroutine("DropRoutine");      
     }
 
     IEnumerator DropRoutine()
@@ -110,9 +108,6 @@ public class PlayerController : LivingEntity
         isInter = false;
         pState = PlayerState.Idle;
     }
-
-
-
 
    
 
