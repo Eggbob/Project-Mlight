@@ -47,6 +47,7 @@ public class PlayerController : LivingEntity
                 isInter = false;            
                 break;
             case PlayerState.Skill:
+                anim.SetTrigger("isSkill");
                 break;
             case PlayerState.Drop:
                 isMove = false;
@@ -80,6 +81,30 @@ public class PlayerController : LivingEntity
         }
     }
 
+    public void SkillUpdate(int sId)
+    {
+       if(pState == PlayerState.Attack && pmanager.target != null)
+        {
+            switch (sId)
+            {
+                case 1:
+                    anim.SetTrigger("isSkill");
+                    anim.SetInteger("Skill", 1);
+                    break;
+                case 2:
+                    anim.SetTrigger("isSkill");
+                    anim.SetInteger("Skill", 2);
+                    break;
+                case 3:
+                    anim.SetTrigger("isSkill");
+                    anim.SetInteger("Skill", 3);
+                    break;
+            }
+            pState = PlayerState.Skill;
+        }
+        
+    }
+
     void IdleUpdate()
     {
 
@@ -111,7 +136,10 @@ public class PlayerController : LivingEntity
         pState = PlayerState.Idle;
     }
 
-   
+    public override void OnDamage(int damage)
+    {
+        base.OnDamage(damage);
+    }
 
     private void Update()
     {
