@@ -52,15 +52,13 @@ public class ObjectPool : MonoBehaviour
     {
         if(idx == 10)
         {
-            Debug.Log("Object Targeting");
             OTargeting.transform.SetParent(null);
             OTargeting.SetActive(true);
 
             return OTargeting;
         }
         else if(idx == 9)
-        {
-            Debug.Log("Enemy Targeting");
+        {   
             ETargeting.transform.SetParent(null);
             ETargeting.SetActive(true);
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LivingEntity : Status
+public class LivingEntity : Status, IDamageable
 {
  
     public virtual void OnDamage(int damage)

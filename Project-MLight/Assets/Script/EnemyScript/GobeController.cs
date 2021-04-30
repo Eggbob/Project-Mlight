@@ -9,7 +9,6 @@ public class GobeController : LivingEntity
     public enum GobeState {None, Idle, Patrol, Chase, Wait, Attack, GetBack, Die};
 
   
-
     [Header("기본속성")]
     public GobeState gstate = GobeState.None; // 고블린 상태 체크 변수
     public float MoveSpeed = 1f; // 이동속도
@@ -68,6 +67,9 @@ public class GobeController : LivingEntity
 
     void CheckState()
     {
+        if (dead) { return; }
+
+
         switch(gstate)
         {
             case GobeState.Idle:
@@ -96,6 +98,7 @@ public class GobeController : LivingEntity
                 break;
 
             case GobeState.Die:
+                
                 break;
         }
     }
@@ -123,6 +126,8 @@ public class GobeController : LivingEntity
                 break;
 
             case GobeState.Die:
+                move = false;
+                attack = false;
                 break;
         }
     }
@@ -161,9 +166,7 @@ public class GobeController : LivingEntity
 
         if (Physics.Raycast(ray, out raycastHit, Mathf.Infinity) == true)
         {
-            patrolPos.y = raycastHit.point.y;
-
-            
+            patrolPos.y = raycastHit.point.y;           
         }
     }
 
@@ -243,7 +246,7 @@ public class GobeController : LivingEntity
     }
 
 
-    void OnSetTarget(PlayerController _target)
+    void OnSetTarget(PlayerController _target) //타겟 지정
     {
         if(gstate == GobeState.GetBack || hasTarget) //귀환 상태일때는 리턴해주기
         {
@@ -293,9 +296,8 @@ public class GobeController : LivingEntity
 
     public override void Die() // 사망상태일시
     {
-        base.Die();
         Collider[] enemyColliders = GetComponents<Collider>();
-
+        Debug.Log("I'm Die");
         // 콜라이더 다끄기
         for (int i = 0; i < enemyColliders.Length; i++)
         {
@@ -303,17 +305,22 @@ public class GobeController : LivingEntity
         }
         nav.isStopped = true; //네비 멈추기
         nav.enabled = false; // 네비 비활성화
-        attack = false;
-        move = false;
-        anim.SetTrigger("isDead"); // 트리거 활성화
+        anim.SetTrigger("Die"); // 트리거 활성화
+        base.Die();
     }
 
-
+    public override void OnDamage(int damage)
+    {        
+        anim.SetTrigger("isHit");
+        
+        base.OnDamage(damage);
+        gstate = GobeState.Die;
+    }
 
 
     private void Update()
     {
-        if (hasTarget)
+        if (hasTarget && !dead)
         {
             sectorCheck();
         }
@@ -321,14 +328,14 @@ public class GobeController : LivingEntity
         CheckState();
         AnimationState();
 
+        
         anim.SetBool("isAttack", attack);
         anim.SetBool("isMove", move);
         anim.SetBool("hasTarget", hasTarget);
-            
+        anim.SetBool("isDead", dead);
+        
+                   
     }
-
-
-   
 
     void sectorCheck() // 부챗꼴 범위 충돌
     {

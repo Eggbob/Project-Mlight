@@ -7,7 +7,7 @@ public class PlayerController : LivingEntity
 {
     private Status status;
     [SerializeField]
-    private PlayerMoveController cmanager;
+    private PlayerMoveController pmanager;
     private Animator anim; //애니메이터 컴포넌트
   
 
@@ -21,8 +21,8 @@ public class PlayerController : LivingEntity
     private void Awake()
     {
         status = this.GetComponent<Status>();
-        cmanager = this.GetComponent<PlayerMoveController>();
-        anim = this.GetComponentInChildren<Animator>();
+        pmanager = this.GetComponent<PlayerMoveController>();
+        anim = this.GetComponent<Animator>();
         pState = PlayerState.Idle;
     }
 
@@ -44,8 +44,7 @@ public class PlayerController : LivingEntity
             case PlayerState.Attack:
                 isMove = false;
                 isAttack = true;
-                isInter = false;
-                AttackUpdate();
+                isInter = false;            
                 break;
             case PlayerState.Skill:
                 break;
@@ -70,7 +69,6 @@ public class PlayerController : LivingEntity
                 MoveUpdate();
                 break;
             case PlayerState.Attack:
-                AttackUpdate();
                 break;
             case PlayerState.Skill:
                 break;
@@ -94,7 +92,11 @@ public class PlayerController : LivingEntity
     
     void AttackUpdate()
     {
-       
+        LivingEntity enemytarget = pmanager.target.GetComponent<LivingEntity>();
+
+        if (enemytarget != null && !enemytarget.dead) { enemytarget.OnDamage(Power); }
+        else if(enemytarget.dead) { pState = PlayerState.Idle; }
+        Debug.Log(enemytarget.dead);
     }
     
     void DropUpdate()
