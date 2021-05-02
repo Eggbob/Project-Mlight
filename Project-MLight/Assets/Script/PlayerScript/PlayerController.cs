@@ -18,12 +18,34 @@ public class PlayerController : LivingEntity
     public bool isInter; // 오브젝트 상호작용 관련 불값
     public bool isAttack; // 공격 관련 불값
 
+
+
+    public Skill[] AllSkills; // 모든 스킬
+    public Skill[] PlayerSkills; // 플레이어블 스킬
+
+
+
     private void Awake()
     {
         status = this.GetComponent<Status>();
         pmanager = this.GetComponent<PlayerMoveController>();
         anim = this.GetComponent<Animator>();
         pState = PlayerState.Idle;
+    }
+
+
+    private void Start()
+    {
+        Debug.Log(AllSkills[0].SkillName);
+       // PlayerSkills[0].Skillid = AllSkills[0].Skillid;
+       // PlayerSkills[0].Icon = AllSkills[].Icon;
+       // PlayerSkills[0].SkillName = AllSkills[1].SkillName;
+       // PlayerSkills[0].Description = AllSkills[1].Description;
+
+        PlayerSkills[1].Skillid = AllSkills[1].Skillid;
+        PlayerSkills[1].Icon = AllSkills[1].Icon;
+        PlayerSkills[1].SkillName = AllSkills[1].SkillName;
+        PlayerSkills[1].Description = AllSkills[1].Description;
     }
 
     void CheckAnimations()
@@ -121,7 +143,7 @@ public class PlayerController : LivingEntity
 
         if (enemytarget != null && !enemytarget.dead) { enemytarget.OnDamage(Power); }
         else if(enemytarget.dead) { pState = PlayerState.Idle; }
-        Debug.Log(enemytarget.dead);
+  
     }
     
     void DropUpdate()
@@ -148,7 +170,39 @@ public class PlayerController : LivingEntity
         anim.SetBool("isRun",isMove);
         anim.SetBool("isAttack", isAttack);
         anim.SetBool("isInter", isInter);
+
+        if(Input.GetKeyDown("s"))
+        {
+            UsedSkill(PlayerSkills[0].Skillid);
+        }
+        if (Input.GetKeyDown("6"))
+        {
+            UsedSkill(PlayerSkills[1].Skillid);
+        }
     }
+
+    void UsedSkill (int id)
+    {
+        switch(id)
+        {
+            case 0:
+                print("Used Skill 1");
+                break;
+            case 1:
+                print("Used Skill 2");
+                break;
+            case 2:
+                print("Used Skill 3");
+                break;
+            case 3:
+                print("Used Skill 4");
+                break;
+            default:
+                print("Skill Error");
+                break;
+        }
+    }
+
 
   
 }

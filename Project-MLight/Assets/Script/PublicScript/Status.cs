@@ -41,6 +41,7 @@ public class Status : MonoBehaviour
     public int DEF { get { return _def; } set { _def = value; } }
     public bool dead { get; protected set; } // 사망 상태
 
+   
     //초기상태 설정
     public void statusInit(int pHp =100, int pMp = 100, int pPower = 10, int pInt = 10, int pAg = 10, int pDef = 10 )
     {

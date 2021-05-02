@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Skill : MonoBehaviour
 {
+    public Texture Icon; // 스킬 아이콘
     public string SkillName; //스킬 이름
-    public int SkillId; // 스킬 식별아이디
-    public int MpCost; // 스킬 마나 소모량
-    public float CoolTime; // 스킬 쿨타임
-    public float SkillDamage; // 스킬 데미지
+    public string Description; //스킬 설명
+    public int Skillid; //스킬 아이디
 
-   public virtual void InitSkill(string _name, int _id, int _cost, float _coolTime, float _damage)
+    public Skill(Skill s)
     {
-        SkillName = _name;
-        SkillId = _id;
-        MpCost = _cost;
-
+        Icon = s.Icon;
+        name = s.name;
+        Description = s.Description;
+        Skillid = s.Skillid;
     }
+
 }

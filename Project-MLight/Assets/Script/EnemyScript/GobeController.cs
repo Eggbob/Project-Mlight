@@ -296,8 +296,10 @@ public class GobeController : LivingEntity
 
     public override void Die() // 사망상태일시
     {
+        gstate = GobeState.Die;
+
         Collider[] enemyColliders = GetComponents<Collider>();
-        Debug.Log("I'm Die");
+       
         // 콜라이더 다끄기
         for (int i = 0; i < enemyColliders.Length; i++)
         {
@@ -314,7 +316,7 @@ public class GobeController : LivingEntity
         anim.SetTrigger("isHit");
         
         base.OnDamage(damage);
-        gstate = GobeState.Die;
+       // gstate = GobeState.Die;
     }
 
 
