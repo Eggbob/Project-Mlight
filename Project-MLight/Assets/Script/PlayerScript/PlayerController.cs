@@ -36,16 +36,7 @@ public class PlayerController : LivingEntity
 
     private void Start()
     {
-        Debug.Log(AllSkills[0].SkillName);
-       // PlayerSkills[0].Skillid = AllSkills[0].Skillid;
-       // PlayerSkills[0].Icon = AllSkills[].Icon;
-       // PlayerSkills[0].SkillName = AllSkills[1].SkillName;
-       // PlayerSkills[0].Description = AllSkills[1].Description;
-
-        PlayerSkills[1].Skillid = AllSkills[1].Skillid;
-        PlayerSkills[1].Icon = AllSkills[1].Icon;
-        PlayerSkills[1].SkillName = AllSkills[1].SkillName;
-        PlayerSkills[1].Description = AllSkills[1].Description;
+     
     }
 
     void CheckAnimations()
