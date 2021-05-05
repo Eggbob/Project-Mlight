@@ -201,8 +201,10 @@ public class PlayerMoveController : MonoBehaviour
 
             }
 
-            this.transform.forward = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
-                - transform.position;
+        Vector3 test = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
+            - transform.position;
+        
+        transform.forward = test;
 
     }
 
