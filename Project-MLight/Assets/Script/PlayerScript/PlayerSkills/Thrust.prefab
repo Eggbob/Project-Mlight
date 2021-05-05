@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8858065649023353966}
   m_Layer: 0
   m_Name: Thrust
-  m_TagString: ActiveSkill
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a93536144d49cd74488828111a12d0c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 2800000, guid: 4873aa989d5fcd546b28025805f15ee8, type: 3}
+  Icon: {fileID: 21300000, guid: 1fcf412abaeabee4a8d27b45394ad0c4, type: 3}
   SkillName: Thrust
   Description: "\uBB3C\uB9AC \uACF5\uACA9\uB825\uC5D0 \uBE44\uB798\uD574 \uC801\uC744
     \uB109\uBC31\uC2DC\uD0A4\uB294 \uACF5\uACA9\uC744 \uD569\uB2C8\uB2E4"
@@ -51,3 +51,4 @@ MonoBehaviour:
   SkillExp: 0
   MpCost: 10
   coolTime: 3
+  sType: 0

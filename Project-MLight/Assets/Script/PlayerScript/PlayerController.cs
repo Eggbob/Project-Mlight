@@ -18,13 +18,6 @@ public class PlayerController : LivingEntity
     public bool isInter; // 오브젝트 상호작용 관련 불값
     public bool isAttack; // 공격 관련 불값
 
-
-
-    public Skill[] AllSkills; // 모든 스킬
-    public Skill[] PlayerSkills; // 플레이어블 스킬
-
-
-
     private void Awake()
     {
         status = this.GetComponent<Status>();
@@ -162,14 +155,7 @@ public class PlayerController : LivingEntity
         anim.SetBool("isAttack", isAttack);
         anim.SetBool("isInter", isInter);
 
-        if(Input.GetKeyDown("s"))
-        {
-            UsedSkill(PlayerSkills[0].Skillid);
-        }
-        if (Input.GetKeyDown("6"))
-        {
-            UsedSkill(PlayerSkills[1].Skillid);
-        }
+      
     }
 
     void UsedSkill (int id)
