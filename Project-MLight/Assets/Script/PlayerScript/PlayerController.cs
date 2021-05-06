@@ -9,7 +9,7 @@ public class PlayerController : LivingEntity
     [SerializeField]
     private PlayerMoveController pmanager;
     private Animator anim; //애니메이터 컴포넌트
-  
+    public static PlayerController instance; //싱글톤을 위한 instance
 
     public enum PlayerState { Idle, Move, Attack, Skill, Drop,  Die }
     public PlayerState pState; //플레이어 상태 변수
@@ -24,6 +24,17 @@ public class PlayerController : LivingEntity
         pmanager = this.GetComponent<PlayerMoveController>();
         anim = this.GetComponent<Animator>();
         pState = PlayerState.Idle;
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            if (instance != this)
+                Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
 
