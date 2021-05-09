@@ -10,6 +10,7 @@ public class PlayerController : LivingEntity
     private PlayerMoveController pmanager;
     private Animator anim; //애니메이터 컴포넌트
     public static PlayerController instance; //싱글톤을 위한 instance
+    public GameObject target;
 
     public enum PlayerState { Idle, Move, Attack, Skill, Drop,  Die }
     public PlayerState pState; //플레이어 상태 변수
@@ -87,6 +88,7 @@ public class PlayerController : LivingEntity
                 MoveUpdate();
                 break;
             case PlayerState.Attack:
+                StartCoroutine(AttackUpdate());
                 break;
             case PlayerState.Skill:
                 break;
@@ -100,7 +102,7 @@ public class PlayerController : LivingEntity
 
     public void SkillUpdate(int sId)
     {
-       if(pState == PlayerState.Attack && pmanager.target != null)
+       if(pState == PlayerState.Attack && target != null)
         {
             switch (sId)
             {
@@ -124,7 +126,7 @@ public class PlayerController : LivingEntity
 
     void IdleUpdate()
     {
-
+       
     }
 
     void MoveUpdate()
@@ -132,13 +134,34 @@ public class PlayerController : LivingEntity
       
     }
     
-    void AttackUpdate()
+    IEnumerator AttackUpdate()
     {
-        LivingEntity enemytarget = pmanager.target.GetComponent<LivingEntity>();
+        LivingEntity enemytarget = target.GetComponent<LivingEntity>();
 
-        if (enemytarget != null && !enemytarget.dead) { enemytarget.OnDamage(Power); }
-        else if(enemytarget.dead) { pState = PlayerState.Idle; }
-  
+        while(pState == PlayerState.Attack)
+        {
+            yield return new WaitForSeconds(5f);
+
+            if (enemytarget != null)
+            {
+                if (enemytarget.dead)
+                {
+                    pState = PlayerState.Idle;
+                   
+                    break;
+                }
+                else
+                {
+                    enemytarget.OnDamage(Power);
+                }
+            }
+
+            yield return new WaitForSeconds(5f);
+
+        }
+        
+        
+        
     }
     
     void DropUpdate()
@@ -160,13 +183,17 @@ public class PlayerController : LivingEntity
 
     private void Update()
     {
+        target = pmanager.target;
         CheckStatus();
         CheckAnimations();
         anim.SetBool("isRun",isMove);
         anim.SetBool("isAttack", isAttack);
         anim.SetBool("isInter", isInter);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Hp -= 10;
+        }
 
-      
     }
 
     void UsedSkill (int id)

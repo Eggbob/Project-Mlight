@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEditor;
+using UnityEngine.UI;
 
 public class GobeController : LivingEntity
 {
@@ -21,6 +22,7 @@ public class GobeController : LivingEntity
     private Animator anim;
     private Rigidbody rigid;
     private NavMeshAgent nav;
+    public Image hpBar; //hp바
 
     [SerializeField]
     private float chaseTime = 0f; // 추적할시간
@@ -61,7 +63,7 @@ public class GobeController : LivingEntity
         statusInit(); //스테이터스 초기화
         gstate = GobeState.Idle; // 상태를 유휴상태로 변환
         nav.isStopped = true;
-
+        hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f); //hp바 초기 상태 설정
     }
 
 
@@ -296,7 +298,12 @@ public class GobeController : LivingEntity
 
     public override void Die() // 사망상태일시
     {
+        base.Die();
+        anim.SetTrigger("Die"); // 트리거 활성화
         gstate = GobeState.Die;
+
+       
+        nav.enabled = false; // 네비 비활성화
 
         Collider[] enemyColliders = GetComponents<Collider>();
        
@@ -305,19 +312,25 @@ public class GobeController : LivingEntity
         {
             enemyColliders[i].enabled = false;
         }
-        nav.isStopped = true; //네비 멈추기
-        nav.enabled = false; // 네비 비활성화
-        anim.SetTrigger("Die"); // 트리거 활성화
-        base.Die();
+
+       gameObject.SetActive(false);
+        
+    
     }
 
     public override void OnDamage(int damage)
-    {        
-        anim.SetTrigger("isHit");
+    {
         
+        anim.SetTrigger("isHit");
+        hpBar.rectTransform.localScale = new Vector3((float)Hp / (float)MaxHp, 1f, 1f);
         base.OnDamage(damage);
-       // gstate = GobeState.Die;
+
+        if(Hp< 0)
+        {
+            Die();
+        }
     }
+
 
 
     private void Update()

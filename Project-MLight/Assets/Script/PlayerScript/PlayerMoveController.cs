@@ -66,7 +66,7 @@ public class PlayerMoveController : MonoBehaviour
         {
             sectorCheck();
         }
-
+       
 
         if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭시
         {
@@ -110,6 +110,7 @@ public class PlayerMoveController : MonoBehaviour
                 target = hit.collider.gameObject; // 타겟을 오브젝트로 지정        
                 ObjectUpdate();
                 break;
+         
 
         }
     }
@@ -199,7 +200,12 @@ public class PlayerMoveController : MonoBehaviour
                     }
                     break;
 
-            }
+            case TargetLayer.None:
+                navStop();
+                pCon.pState = PlayerController.PlayerState.Idle; //플레이어 상태를 아이들로 변환            
+                break;
+
+        }
 
         Vector3 test = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
             - transform.position;
