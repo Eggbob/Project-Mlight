@@ -18,7 +18,7 @@ public class PlayerMoveController : MonoBehaviour
 
     private Vector3 destination; // 캐릭터가 이동할 목적지 
     private float range; // 사거리
-    private TargetLayer curtarget; //현재 타겟 레이어
+    public TargetLayer curtarget; //현재 타겟 레이어
     private TargetLayer prevtarget; // 이전 타겟 레이어
 
     RaycastHit hit; //레이 캐스트 변수
@@ -110,7 +110,6 @@ public class PlayerMoveController : MonoBehaviour
                 target = hit.collider.gameObject; // 타겟을 오브젝트로 지정        
                 ObjectUpdate();
                 break;
-         
 
         }
     }
@@ -201,6 +200,7 @@ public class PlayerMoveController : MonoBehaviour
                     break;
 
             case TargetLayer.None:
+
                 navStop();
                 pCon.pState = PlayerController.PlayerState.Idle; //플레이어 상태를 아이들로 변환            
                 break;

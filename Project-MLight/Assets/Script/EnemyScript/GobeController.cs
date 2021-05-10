@@ -26,6 +26,7 @@ public class GobeController : LivingEntity
 
     [SerializeField]
     private float chaseTime = 0f; // 추적할시간
+   
 
     [Header("공격범위 속성")]
     public float angleRange = 45f;
@@ -172,14 +173,19 @@ public class GobeController : LivingEntity
         }
     }
 
+  
+
 
     void PatrolUpdate()// 순찰 지점까지 이동시에 
     {
         Vector3 lookAtPosition = Vector3.zero;
 
+        chaseTime += Time.deltaTime; //추적 시간 갱신
+
         if (Vector3.Distance(this.transform.position, patrolPos) <= AttackRange) // 순찰지점까지 도착하면
         {
             gstate = GobeState.Wait;
+            chaseTime = 0;
         }
 
         nav.isStopped = false; 
@@ -188,6 +194,15 @@ public class GobeController : LivingEntity
 
         lookAtPosition = new Vector3(patrolPos.x, this.transform.position.y, patrolPos.z); //이동시 바라볼 방향체크
         this.transform.LookAt(lookAtPosition);
+
+
+        if (chaseTime >= 5f) //추적 시간이 8초를 넘겼을시
+        {
+            chaseTime = 0f;
+            target = null; //타겟을 없애기
+            gstate = GobeState.Idle;              
+            return;
+        }
 
     }
 
@@ -229,7 +244,7 @@ public class GobeController : LivingEntity
             }
             else //적이 공격범위 내에 없을때 
             {
-                if (chaseTime >= 8f) //추적 시간이 3초를 넘겼을시
+                if (chaseTime >= 8f) //추적 시간이 8초를 넘겼을시
                 {
                     chaseTime = 0f;
                     target = null; //타겟을 없애기
@@ -296,9 +311,9 @@ public class GobeController : LivingEntity
 
     }
 
-    public override void Die() // 사망상태일시
+    IEnumerator Die() // 사망상태일시
     {
-        base.Die();
+        
         anim.SetTrigger("Die"); // 트리거 활성화
         gstate = GobeState.Die;
 
@@ -313,22 +328,29 @@ public class GobeController : LivingEntity
             enemyColliders[i].enabled = false;
         }
 
-       gameObject.SetActive(false);
-        
+        yield return new WaitForSeconds(1f);
+        this.gameObject.SetActive(false);
     
     }
 
     public override void OnDamage(int damage)
     {
-        
         anim.SetTrigger("isHit");
-        hpBar.rectTransform.localScale = new Vector3((float)Hp / (float)MaxHp, 1f, 1f);
+
+ 
+
         base.OnDamage(damage);
 
-        if(Hp< 0)
+      
+        if (Hp< 0)
         {
-            Die();
+            StartCoroutine(Die());
+            Hp = 0;
         }
+        hpBar.rectTransform.localScale = new Vector3((float)Hp / (float)MaxHp, 1f, 1f);
+
+
+
     }
 
 

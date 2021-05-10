@@ -958,6 +958,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mcamera: {fileID: 0}
   nav: {fileID: 0}
+  curtarget: 0
   target: {fileID: 0}
   attackRange: 7
   angleRange: 90
@@ -981,11 +982,12 @@ MonoBehaviour:
   _maxHP: 100
   _mp: 200
   _maxMP: 200
-  _power: 10
+  _power: 30
   _int: 0
   _ag: 0
   _def: 0
   pmanager: {fileID: 0}
+  target: {fileID: 0}
   pState: 0
   isMove: 0
   isInter: 0
@@ -7767,6 +7769,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_UseGravity
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914609066910891084, guid: a0d743433d3bc4a4da9f641dc3d1f5bc,
+        type: 3}
+      propertyPath: m_AutoRepath
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6914609066910891086, guid: a0d743433d3bc4a4da9f641dc3d1f5bc,
         type: 3}

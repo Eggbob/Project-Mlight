@@ -17,7 +17,7 @@ public class PlayerController : LivingEntity
 
     public bool isMove; // 움직임 관련 불값
     public bool isInter; // 오브젝트 상호작용 관련 불값
-    public bool isAttack; // 공격 관련 불값
+    public bool isAttack; // 공격하는지
 
     private void Awake()
     {
@@ -61,8 +61,8 @@ public class PlayerController : LivingEntity
                 break;
             case PlayerState.Attack:
                 isMove = false;
+                isInter = false;
                 isAttack = true;
-                isInter = false;            
                 break;
             case PlayerState.Skill:
                 anim.SetTrigger("isSkill");
@@ -88,7 +88,6 @@ public class PlayerController : LivingEntity
                 MoveUpdate();
                 break;
             case PlayerState.Attack:
-                StartCoroutine(AttackUpdate());
                 break;
             case PlayerState.Skill:
                 break;
@@ -134,36 +133,36 @@ public class PlayerController : LivingEntity
       
     }
     
-    IEnumerator AttackUpdate()
+   
+
+    void AttackCheck()
     {
         LivingEntity enemytarget = target.GetComponent<LivingEntity>();
 
-        while(pState == PlayerState.Attack)
+        if (enemytarget != null)
         {
-            yield return new WaitForSeconds(5f);
-
-            if (enemytarget != null)
-            {
-                if (enemytarget.dead)
-                {
-                    pState = PlayerState.Idle;
-                   
-                    break;
-                }
-                else
-                {
-                    enemytarget.OnDamage(Power);
-                }
+            
+            if (enemytarget.dead)
+            {            
+                pmanager.curtarget = PlayerMoveController.TargetLayer.None;
+                pState = PlayerState.Idle;
+                anim.SetBool("isAttack", false);
+                return;
             }
-
-            yield return new WaitForSeconds(5f);
-
+            else
+            {
+                StartCoroutine(AttackUpdate(enemytarget));
+            }
         }
-        
-        
-        
     }
     
+
+    IEnumerator AttackUpdate(LivingEntity enemyTarget)
+    {
+        yield return new WaitForSeconds(0.7f);
+        enemyTarget.OnDamage(Power);
+    }
+
     void DropUpdate()
     {      
         StartCoroutine("DropRoutine");      
