@@ -22,6 +22,7 @@ public class GobeController : LivingEntity
     private Animator anim;
     private Rigidbody rigid;
     private NavMeshAgent nav;
+    private MeshRenderer[] mesh;
     public Image hpBar; //hp바
 
     [SerializeField]
@@ -37,7 +38,7 @@ public class GobeController : LivingEntity
     Vector3 direction;
 
     private bool move; // 움직임 관련 변수
-
+    private bool firstHit = true; //피격 관련 변수
     private bool attack; // 공격 관련 변수
 
     private bool hasTarget
@@ -54,6 +55,7 @@ public class GobeController : LivingEntity
 
     public void Awake()
     {
+        mesh = GetComponentsInChildren<MeshRenderer>();
         rigid = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
@@ -295,6 +297,36 @@ public class GobeController : LivingEntity
    
     }
 
+
+
+    void AttackCheck()
+    {
+        LivingEntity enemytarget = target.GetComponent<LivingEntity>();
+
+        if (enemytarget != null)
+        {
+
+            if (enemytarget.dead)
+            {
+                
+                gstate = GobeState.Idle;
+                anim.SetBool("isAttack", false);
+                return;
+            }
+            else
+            {
+                StartCoroutine(Damage(enemytarget));
+            }
+        }
+    }
+
+
+    IEnumerator Damage(LivingEntity enemyTarget)
+    {
+        yield return new WaitForSeconds(0.7f);
+        enemyTarget.OnDamage(Power);
+    }
+
     public void GetBackUpdate() //귀환 상태일때
     {     
           
@@ -335,25 +367,22 @@ public class GobeController : LivingEntity
 
     public override void OnDamage(int damage)
     {
-        anim.SetTrigger("isHit");
-
- 
-
+        if(firstHit) //만약 첫번쨰 피격이라면
+        {
+            anim.SetTrigger("isHit");
+            firstHit = false;
+        }
         base.OnDamage(damage);
 
-      
         if (Hp< 0)
         {
             StartCoroutine(Die());
             Hp = 0;
         }
         hpBar.rectTransform.localScale = new Vector3((float)Hp / (float)MaxHp, 1f, 1f);
-
-
-
     }
 
-
+ 
 
     private void Update()
     {
