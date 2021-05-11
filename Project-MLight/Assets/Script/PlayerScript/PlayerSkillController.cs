@@ -8,6 +8,7 @@ public class PlayerSkillController : MonoBehaviour
 
     public List<Skill> PlayerSkills; //플레이어의 모든 스킬
 
+
     private void Awake()
     {
         if(instance == null) 
@@ -20,8 +21,6 @@ public class PlayerSkillController : MonoBehaviour
                 Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-
-   
     }
 
     

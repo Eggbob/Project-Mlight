@@ -6400,8 +6400,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 317747612}
-        m_MethodName: SkillUpdate
+      - m_Target: {fileID: 11500000, guid: a93536144d49cd74488828111a12d0c5, type: 3}
+        m_MethodName: 
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

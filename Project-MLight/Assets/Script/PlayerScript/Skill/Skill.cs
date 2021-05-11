@@ -13,7 +13,7 @@ public abstract class Skill: MonoBehaviour
     public float SkillExp = 0; //스킬 경험치
     public int MpCost; //마나 사용량
     public float coolTime; // 재사용 대기시간
-  
+    protected PlayerController pCon; 
 
     public event Action contents; //스킬효과
 
@@ -27,7 +27,7 @@ public abstract class Skill: MonoBehaviour
     private void Awake()
     {
         contents += SKillContent;
-
+        pCon = PlayerController.instance;
     }
 
     private void SKillContent()
