@@ -22,7 +22,6 @@ public class GobeController : LivingEntity
     private Animator anim;
     private Rigidbody rigid;
     private NavMeshAgent nav;
-    private MeshRenderer[] mesh;
     public Image hpBar; //hp바
 
     [SerializeField]
@@ -55,10 +54,11 @@ public class GobeController : LivingEntity
 
     public void Awake()
     {
-        mesh = GetComponentsInChildren<MeshRenderer>();
+      
         rigid = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+ 
     }
 
     public void OnEnable()
@@ -315,7 +315,9 @@ public class GobeController : LivingEntity
             }
             else
             {
+               
                 StartCoroutine(Damage(enemytarget));
+               
             }
         }
     }
@@ -325,7 +327,9 @@ public class GobeController : LivingEntity
     {
         yield return new WaitForSeconds(0.7f);
         enemyTarget.OnDamage(Power);
+     
     }
+
 
     public void GetBackUpdate() //귀환 상태일때
     {     

@@ -30,6 +30,16 @@ public abstract class Skill: MonoBehaviour
         pCon = PlayerController.instance;
     }
 
+    public virtual void ActiveAction()
+    {
+        contents();
+    }
+
+    public virtual void PassiveAction()
+    {
+        contents();
+    }
+
     private void SKillContent()
     {
 
