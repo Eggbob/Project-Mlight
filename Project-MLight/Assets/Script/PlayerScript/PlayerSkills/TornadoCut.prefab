@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2609311933814826278}
   m_Layer: 0
   m_Name: TornadoCut
-  m_TagString: Untagged
+  m_TagString: ActiveSkill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,5 +50,4 @@ MonoBehaviour:
   SkillExp: 200
   MpCost: 10
   coolTime: 5
-  SkillMastery: 
-  sType: 0
+  sType: 1

@@ -6,6 +6,7 @@ using System;
 //종합 스킬 클래스
 public abstract class Skill: MonoBehaviour
 {
+  
     public Sprite Icon; // 스킬 아이콘
     public string SkillName; //스킬 이름
     public string Description; //스킬 설명
@@ -19,15 +20,14 @@ public abstract class Skill: MonoBehaviour
 
     public enum SkillType
     {
-        Active, Passive
+        None, Melee, KnockBack, Stun, Done
     }
 
     public SkillType sType;
 
-    private void Awake()
+    private  void Awake()
     {
-        contents += SKillContent;
-        pCon = PlayerController.instance;
+       
     }
 
     public virtual void ActiveAction()

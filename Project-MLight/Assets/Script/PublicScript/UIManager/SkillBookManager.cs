@@ -34,9 +34,9 @@ public class SkillBookManager : MonoBehaviour
 
         for(int i = 0; i< psCon.PlayerSkills.Count; i++)
         {
-            switch (psCon.PlayerSkills[i].sType)
+            switch (psCon.PlayerSkills[i].gameObject.tag)
             {
-                case Skill.SkillType.Active:
+                case "ActiveSkill":
                     sButton = Instantiate(sButtonTemp, ActiveskillList.transform);
                     sButton.transform.GetChild(0).GetComponent<Image>().sprite = psCon.PlayerSkills[i].Icon;
                     sButton.transform.GetChild(1).GetComponent<Text>().text = psCon.PlayerSkills[i].SkillName;
@@ -44,7 +44,7 @@ public class SkillBookManager : MonoBehaviour
                     sButton.GetComponent<Button>().AddEventListner(i, ShowSkillpage);
                     break;
 
-                case Skill.SkillType.Passive:
+                case "PassiveSkill":
                     sButton = Instantiate(sButtonTemp, PassiveSkillList.transform);
                     sButton.transform.GetChild(0).GetComponent<Image>().sprite = psCon.PlayerSkills[i].Icon;
                     sButton.transform.GetChild(1).GetComponent<Text>().text = psCon.PlayerSkills[i].SkillName;

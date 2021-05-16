@@ -326,7 +326,7 @@ public class GobeController : LivingEntity
     IEnumerator Damage(LivingEntity enemyTarget)
     {
         yield return new WaitForSeconds(0.7f);
-        enemyTarget.OnDamage(Power);
+        enemyTarget.OnDamage(Power, Skill.SkillType.Melee);
      
     }
 
@@ -369,14 +369,14 @@ public class GobeController : LivingEntity
     
     }
 
-    public override void OnDamage(int damage)
+    public override void OnDamage(int damage, Skill.SkillType sType)
     {
         if(firstHit) //만약 첫번쨰 피격이라면
         {
             anim.SetTrigger("isHit");
             firstHit = false;
         }
-        base.OnDamage(damage);
+        base.OnDamage(damage, sType);
 
         if (Hp< 0)
         {

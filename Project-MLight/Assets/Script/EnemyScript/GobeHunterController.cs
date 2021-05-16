@@ -328,7 +328,7 @@ public class GobeHunterController : LivingEntity
     }
 
 
-    public override void OnDamage(int damage)
+    public override void OnDamage(int damage, Skill.SkillType mType)
     {
 
         if (firstHit) //만약 첫번쨰 피격이라면
@@ -338,7 +338,7 @@ public class GobeHunterController : LivingEntity
         }
         
 
-        base.OnDamage(damage);
+        base.OnDamage(damage, mType);
 
 
         if (Hp < 0)

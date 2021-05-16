@@ -5,7 +5,7 @@ using UnityEngine;
 public class LivingEntity : Status, IDamageable
 {
  
-    public virtual void OnDamage(int damage)
+    public virtual void OnDamage(int damage, Skill.SkillType mtype)
     {
         Hp -= damage;
 

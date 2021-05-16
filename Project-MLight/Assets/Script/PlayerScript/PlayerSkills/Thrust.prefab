@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8858065649023353966}
   m_Layer: 0
   m_Name: Thrust
-  m_TagString: Untagged
+  m_TagString: ActiveSkill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,4 +51,6 @@ MonoBehaviour:
   SkillExp: 0
   MpCost: 10
   coolTime: 3
-  sType: 0
+  sType: 2
+  nuckBackForce: 0
+  Damage: 0

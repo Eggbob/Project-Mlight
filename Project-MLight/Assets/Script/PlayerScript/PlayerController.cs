@@ -160,7 +160,7 @@ public class PlayerController : LivingEntity
     IEnumerator AttackUpdate(LivingEntity enemyTarget)
     {
         yield return new WaitForSeconds(0.7f);
-        enemyTarget.OnDamage(Power);
+        enemyTarget.OnDamage(Power, Skill.SkillType.Melee);
     }
 
     void DropUpdate()
@@ -175,9 +175,9 @@ public class PlayerController : LivingEntity
         pState = PlayerState.Idle;
     }
 
-    public override void OnDamage(int damage)
+    public override void OnDamage(int damage,Skill.SkillType mType)
     {
-        base.OnDamage(damage);
+        base.OnDamage(damage , mType);
     }
 
     private void Update()

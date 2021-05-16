@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1519484536072424024}
   m_Layer: 0
   m_Name: Cross
-  m_TagString: Untagged
+  m_TagString: ActiveSkill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,4 +51,4 @@ MonoBehaviour:
   SkillExp: 50
   MpCost: 10
   coolTime: 5
-  sType: 0
+  sType: 3
