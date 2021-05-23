@@ -6821,6 +6821,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8858065649023353966, guid: 161fe0ecd71fa24419c330dbd9225f31,
+        type: 3}
+      propertyPath: nuckBackForce
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 161fe0ecd71fa24419c330dbd9225f31, type: 3}
 --- !u!1 &1963825884
@@ -7829,6 +7834,11 @@ PrefabInstance:
       propertyPath: hpBar
       value: 
       objectReference: {fileID: 679002942}
+    - target: {fileID: 6914609066910891090, guid: a0d743433d3bc4a4da9f641dc3d1f5bc,
+        type: 3}
+      propertyPath: m_Height
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6914609066910891090, guid: a0d743433d3bc4a4da9f641dc3d1f5bc,
         type: 3}
       propertyPath: m_IsTrigger

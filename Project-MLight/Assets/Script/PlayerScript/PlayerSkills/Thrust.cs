@@ -9,10 +9,7 @@ public class Thrust : Skill
 
     public override void ActiveAction()
     {
-        Debug.Log(MpCost);
-        Debug.Log(pCon.Mp);
-       
-        
+
 
        if(pCon.Mp < this.MpCost)
         {
@@ -40,15 +37,15 @@ public class Thrust : Skill
         LivingEntity enemytarget = pCon.target.GetComponent<LivingEntity>();
         yield return new WaitForSeconds(1f);
         enemytarget.OnDamage(pCon.Power * (1+(Damage/100)), sType);
-         tRigid.AddForce(pCon.target.transform.forward * nuckBackForce * -1, ForceMode.Impulse);
+        tRigid.AddForce(pCon.target.transform.forward * nuckBackForce * -1, ForceMode.Impulse);
+        yield return new WaitForSeconds(0.9f);
+        tRigid.velocity = Vector3.zero;
     }
 
     private void SKillContent()
-    {
-        
+    {        
         Rigidbody tRigid = pCon.target.GetComponent<Rigidbody>();
-        StartCoroutine(DamageRoutine(tRigid));
-       
+        StartCoroutine(DamageRoutine(tRigid));      
     }
 
 }

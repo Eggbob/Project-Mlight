@@ -160,7 +160,7 @@ public class PlayerController : LivingEntity
     IEnumerator AttackUpdate(LivingEntity enemyTarget)
     {
         yield return new WaitForSeconds(0.7f);
-        enemyTarget.OnDamage(Power, Skill.SkillType.Melee);
+        enemyTarget.OnDamage(1, Skill.SkillType.Melee);
     }
 
     void DropUpdate()
