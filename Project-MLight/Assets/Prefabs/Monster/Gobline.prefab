@@ -788,12 +788,15 @@ MonoBehaviour:
   _int: 0
   _ag: 0
   _def: 0
+  target: {fileID: 0}
   gstate: 0
   MoveSpeed: 1
-  target: {fileID: 0}
   targetPos: {x: 0, y: 0, z: 0}
   patrolPos: {x: 0, y: 0, z: 0}
+  GobeAttack: {fileID: 5300616936279747795, guid: 334bb9a9c97c7ff4289fc30282205cb0,
+    type: 3}
   AttackRange: 5.5
+  hpBar: {fileID: 0}
   chaseTime: 0
   angleRange: 60
 --- !u!114 &6914609066910891088

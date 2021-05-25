@@ -7,17 +7,19 @@ using UnityEngine.UI;
 
 public class GobeController : LivingEntity
 {
-    public enum GobeState {None, Idle, Patrol, Chase, Wait, Attack, GetBack, Stun, KnockBack, Die};
+    public enum GobeState {None, Idle, Patrol, Chase, Wait, Attack, GetBack, Stun,  Die};
 
   
     [Header("기본속성")]
     public GobeState gstate = GobeState.None; // 고블린 상태 체크 변수
     public float MoveSpeed = 1f; // 이동속도
-    public LivingEntity target; //  타겟
     public Vector3 targetPos; // 타겟의 위치
     public Vector3 patrolPos;
+    public Skill GobeAttack; //일반 공격
     public float AttackRange; // 공격범위
     private Vector3 prevPosition; 
+
+
 
     private Animator anim;
     private Rigidbody rigid;
@@ -37,14 +39,14 @@ public class GobeController : LivingEntity
     Vector3 direction;
 
     private bool move; // 움직임 관련 변수
-    private bool firstHit = true; //피격 관련 변수
+    //private bool firstHit = true; //피격 관련 변수
     private bool attack; // 공격 관련 변수
 
     private bool hasTarget
     {
         get
         {
-            if (target != null && !target.dead)
+            if (target != null)
             {
                 return true;
             }
@@ -58,8 +60,10 @@ public class GobeController : LivingEntity
         rigid = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
- 
+        GobeAttack.LCon = this;
     }
+
+  
 
     public void OnEnable()
     {
@@ -262,7 +266,7 @@ public class GobeController : LivingEntity
     }
 
 
-    void OnSetTarget(LivingEntity _target) //타겟 지정
+    void OnSetTarget(GameObject _target) //타겟 지정
     {
         if(gstate == GobeState.GetBack || hasTarget) //귀환 상태일때는 리턴해주기
         {
@@ -302,7 +306,6 @@ public class GobeController : LivingEntity
 
         if (enemytarget != null)
         {
-
             if (enemytarget.dead)
             {
                 gstate = GobeState.Idle;
@@ -310,10 +313,8 @@ public class GobeController : LivingEntity
                 return;
             }
             else
-            {
-               
-                StartCoroutine(Damage(enemytarget));
-               
+            {              
+                StartCoroutine(Damage(enemytarget));              
             }
         }
     }
@@ -322,7 +323,7 @@ public class GobeController : LivingEntity
     IEnumerator Damage(LivingEntity enemyTarget)
     {
         yield return new WaitForSeconds(0.7f);
-        enemyTarget.OnDamage(Power, Skill.SkillType.Melee);
+        enemyTarget.OnDamage(GobeAttack);
      
     }
 
@@ -345,12 +346,12 @@ public class GobeController : LivingEntity
 
     
 
-    public override void OnDamage(int damage, Skill.SkillType sType)
+    public override void OnDamage(Skill skill)
     {
         if (dead) return;
 
-        StopAllCoroutines();
-        base.OnDamage(damage, sType);
+        //StopAllCoroutines();
+        base.OnDamage(skill);
 
         if(Hp <= 0 && this.gameObject.activeInHierarchy)
         {
@@ -360,16 +361,13 @@ public class GobeController : LivingEntity
 
         else
         {
-            switch(sType)
+            switch(skill.sAttr)
             {
-                case Skill.SkillType.Melee:
+                case Skill.SkillAttr.Melee:
                     StartCoroutine(NormalDamageRoutine());//일반 공격일시
                     break;
-                case Skill.SkillType.KnockBack:
-                    StartCoroutine(KnockBackDamageRoutine(3f));
-                    break;
-                case Skill.SkillType.Stun:
-                    StartCoroutine(StunRoutine(3f));
+                case Skill.SkillAttr.Stun:
+                    StartCoroutine(StunRoutine(9f));
                     break;
             }
         }
@@ -382,7 +380,7 @@ public class GobeController : LivingEntity
         /*if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.KnockBack")
             || !anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.WakeUp"))*/
 
-        if(gstate != GobeState.Stun || gstate != GobeState.KnockBack)
+        if(gstate != GobeState.Stun)
         { anim.SetTrigger("isHit"); } // 트리거 실행
 
 
@@ -397,53 +395,14 @@ public class GobeController : LivingEntity
         }
     }
 
-    IEnumerator KnockBackDamageRoutine(float nuckTime) //넉백시
-    {
-
-        nav.velocity = Vector3.zero;
-
-       // if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.KnockBack"))
-       if(gstate != GobeState.KnockBack || gstate != GobeState.Stun)
-        { anim.SetTrigger("isKnockBack"); }// 트리거 실행
-
-        gstate = GobeState.KnockBack;
-        float startTime = Time.time;
-
-        while (Time.time < startTime + nuckTime)
-        {
-            nav.isStopped = true;
-            rigid.angularVelocity = Vector3.zero;
-            yield return null;
-        }
-
-        startTime = Time.time;
-        anim.SetTrigger("wakeUp");
-
-        while (Time.time < startTime + 3.8f)
-        {
-            rigid.angularVelocity = Vector3.zero;
-
-            yield return null;
-        }
-
-        if (isCollision)
-        {
-            gstate = GobeState.Attack;
-        }
-        else
-        {
-            gstate = GobeState.Chase;
-        }
-    }
+  
 
     IEnumerator StunRoutine(float nuckTime) //스턴
     {
         nav.velocity = Vector3.zero;
 
-        /* if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.KnockBack"))
-         { anim.SetTrigger("isStun"); } // 트리거 실행*/
 
-        if (gstate != GobeState.KnockBack || gstate != GobeState.Stun)
+        if (gstate != GobeState.Stun )
         { anim.SetTrigger("isStun"); }
 
         gstate = GobeState.Stun;

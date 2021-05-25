@@ -9,16 +9,20 @@ public class Thrust : Skill
 
     public override void ActiveAction()
     {
-
-
-       if(pCon.Mp < this.MpCost)
+        if (LCon.target == null)
+        {
+            Debug.Log("대상이 없습니다");
+            return;
+        }
+        else if (LCon.Mp < this.MpCost)
         {
             Debug.Log("마나가 부족합니다");
-        }
+            return;
+        }      
        else
         {
-            pCon.Mp -= this.MpCost;
-            pCon.SkillUpdate(Skillid);
+            LCon.Mp -= this.MpCost;
+            //LCon.SkillUpdate(Skillid);
             base.ActiveAction();
         }
 
@@ -27,24 +31,27 @@ public class Thrust : Skill
 
     private void Start()
     {
+        LCon = PlayerController.instance;
         contents += SKillContent;
-        pCon = PlayerController.instance;
+        this.SkillPower = LCon.Power * (1 + (Damage / 100));
+        this.sAttr = SkillAttr.Stun;
+        nuckBackForce = 5;
     }
 
 
     IEnumerator DamageRoutine(Rigidbody tRigid)
     {
-        LivingEntity enemytarget = pCon.target.GetComponent<LivingEntity>();
+        LivingEntity enemytarget = LCon.target.GetComponent<LivingEntity>();
         yield return new WaitForSeconds(1f);
-        enemytarget.OnDamage(pCon.Power * (1+(Damage/100)), sType);
-        tRigid.AddForce(pCon.target.transform.forward * nuckBackForce * -1, ForceMode.Impulse);
+        enemytarget.OnDamage(this);
+        tRigid.AddForce(LCon.target.transform.forward * nuckBackForce * -1, ForceMode.Impulse);
         yield return new WaitForSeconds(0.9f);
         tRigid.velocity = Vector3.zero;
     }
 
     private void SKillContent()
     {        
-        Rigidbody tRigid = pCon.target.GetComponent<Rigidbody>();
+        Rigidbody tRigid = LCon.target.GetComponent<Rigidbody>();
         StartCoroutine(DamageRoutine(tRigid));      
     }
 

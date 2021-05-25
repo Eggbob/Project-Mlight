@@ -13,7 +13,7 @@ public class GobeHunterController : LivingEntity
     [Header("기본속성")]
     public GobeHState ghstate = GobeHState.None; // 고블린 상태 체크 변수
     public float MoveSpeed = 1f; // 이동속도
-    public PlayerController target; //  타겟
+
     public Vector3 targetPos; // 타겟의 위치
     public Vector3 patrolPos;
     public float AttackRange; // 공격범위
@@ -43,7 +43,7 @@ public class GobeHunterController : LivingEntity
     {
         get
         {
-            if (target != null && !target.dead)
+            if (target != null)
             {
                 return true;
             }
@@ -255,7 +255,7 @@ public class GobeHunterController : LivingEntity
 
     }
 
-    void OnSetTarget(PlayerController _target) //타겟 지정
+    void OnSetTarget(GameObject _target) //타겟 지정
     {
         if (ghstate == GobeHState.GetBack || hasTarget) //귀환 상태일때는 리턴해주기
         {
@@ -328,7 +328,7 @@ public class GobeHunterController : LivingEntity
     }
 
 
-    public override void OnDamage(int damage, Skill.SkillType mType)
+    public override void OnDamage(Skill skill)
     {
 
         if (firstHit) //만약 첫번쨰 피격이라면
@@ -338,7 +338,7 @@ public class GobeHunterController : LivingEntity
         }
         
 
-        base.OnDamage(damage, mType);
+        base.OnDamage(skill);
 
 
         if (Hp < 0)

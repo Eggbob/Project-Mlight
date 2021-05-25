@@ -10,7 +10,7 @@ public class PlayerController : LivingEntity
     private PlayerMoveController pmanager;
     private Animator anim; //애니메이터 컴포넌트
     public static PlayerController instance; //싱글톤을 위한 instance
-    public GameObject target;
+    public Skill pAttack; 
 
     public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }
     public PlayerState pState; //플레이어 상태 변수
@@ -25,6 +25,8 @@ public class PlayerController : LivingEntity
         pmanager = this.GetComponent<PlayerMoveController>();
         anim = this.GetComponent<Animator>();
         pState = PlayerState.Idle;
+        pAttack.LCon = this;
+
 
         if (instance == null)
         {
@@ -160,7 +162,7 @@ public class PlayerController : LivingEntity
     IEnumerator AttackUpdate(LivingEntity enemyTarget)
     {
         yield return new WaitForSeconds(0.7f);
-        enemyTarget.OnDamage(1, Skill.SkillType.Melee);
+        enemyTarget.OnDamage(pAttack);
     }
 
     void DropUpdate()
@@ -175,9 +177,9 @@ public class PlayerController : LivingEntity
         pState = PlayerState.Idle;
     }
 
-    public override void OnDamage(int damage,Skill.SkillType mType)
+    public override void OnDamage(Skill skill)
     {
-        base.OnDamage(damage , mType);
+        base.OnDamage(skill);
     }
 
     private void Update()
