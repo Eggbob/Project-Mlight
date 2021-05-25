@@ -34,7 +34,8 @@ public class TargetCheck : MonoBehaviour
 
         if (colliderMin != null) //콜라이더가 비어있지 않으면
         {
-            PlayerController livingEntity = colliderMin.GetComponent<PlayerController>();
+            //PlayerController livingEntity = colliderMin.GetComponent<PlayerController>();
+            LivingEntity livingEntity = colliderMin.GetComponent<LivingEntity>();
 
 
             if (livingEntity != null && !livingEntity.dead) //찾은 리빙엔티티가 죽지않고 null값이 아닐때

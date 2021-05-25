@@ -12,7 +12,7 @@ public class PlayerController : LivingEntity
     public static PlayerController instance; //싱글톤을 위한 instance
     public GameObject target;
 
-    public enum PlayerState { Idle, Move, Attack, Skill, Drop,  Die }
+    public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }
     public PlayerState pState; //플레이어 상태 변수
 
     public bool isMove; // 움직임 관련 불값
@@ -41,7 +41,7 @@ public class PlayerController : LivingEntity
 
     private void Start()
     {
-     
+
     }
 
     void CheckAnimations()
@@ -101,7 +101,7 @@ public class PlayerController : LivingEntity
 
     public void SkillUpdate(int sId)
     {
-       if(pState == PlayerState.Attack && target != null)
+        if (pState == PlayerState.Attack && target != null)
         {
             switch (sId)
             {
@@ -120,20 +120,20 @@ public class PlayerController : LivingEntity
             }
             pState = PlayerState.Skill;
         }
-        
+
     }
 
     void IdleUpdate()
     {
-       
+
     }
 
     void MoveUpdate()
     {
-      
+
     }
-    
-   
+
+
 
     void AttackCheck()
     {

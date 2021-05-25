@@ -83,7 +83,7 @@ public class SkillBookManager : MonoBehaviour
     {
         SkillPage.transform.GetChild(0).GetComponent<Text>().text = psCon.PlayerSkills[i].SkillName;
         SkillPage.transform.GetChild(1).GetComponent<Text>().text = "MP 소모량 : " + psCon.PlayerSkills[i].MpCost.ToString();
-        SkillPage.transform.GetChild(2).GetComponent<Text>().text = "재사용 대기시간 : " + psCon.PlayerSkills[i].coolTime.ToString();
+        SkillPage.transform.GetChild(2).GetComponent<Text>().text = "재사용 대기시간 : " + psCon.PlayerSkills[i].CoolTime.ToString();
         SkillPage.transform.GetChild(3).GetComponent<Text>().text = psCon.PlayerSkills[i].Description;
 
         SkillPage.SetActive(true);

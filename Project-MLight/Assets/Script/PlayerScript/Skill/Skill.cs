@@ -13,7 +13,10 @@ public abstract class Skill: MonoBehaviour
     public int Skillid; //스킬 아이디
     public float SkillExp = 0; //스킬 경험치
     public int MpCost; //마나 사용량
-    public float coolTime; // 재사용 대기시간
+    public float CoolTime; // 재사용 대기시간
+    public float ActTime; //스킬 지속시간
+    public float SkillDamage; //스킬 데미지
+
     protected PlayerController pCon; 
 
     public event Action contents; //스킬효과

@@ -7,13 +7,13 @@ using UnityEngine.UI;
 
 public class GobeController : LivingEntity
 {
-    public enum GobeState {None, Idle, Patrol, Chase, Wait, Attack, GetBack, Die};
+    public enum GobeState {None, Idle, Patrol, Chase, Wait, Attack, GetBack, Stun, KnockBack, Die};
 
   
     [Header("기본속성")]
     public GobeState gstate = GobeState.None; // 고블린 상태 체크 변수
     public float MoveSpeed = 1f; // 이동속도
-    public PlayerController target; //  타겟
+    public LivingEntity target; //  타겟
     public Vector3 targetPos; // 타겟의 위치
     public Vector3 patrolPos;
     public float AttackRange; // 공격범위
@@ -175,9 +175,6 @@ public class GobeController : LivingEntity
         }
     }
 
-  
-
-
     void PatrolUpdate()// 순찰 지점까지 이동시에 
     {
         Vector3 lookAtPosition = Vector3.zero;
@@ -265,7 +262,7 @@ public class GobeController : LivingEntity
     }
 
 
-    void OnSetTarget(PlayerController _target) //타겟 지정
+    void OnSetTarget(LivingEntity _target) //타겟 지정
     {
         if(gstate == GobeState.GetBack || hasTarget) //귀환 상태일때는 리턴해주기
         {
@@ -308,7 +305,6 @@ public class GobeController : LivingEntity
 
             if (enemytarget.dead)
             {
-                
                 gstate = GobeState.Idle;
                 anim.SetBool("isAttack", false);
                 return;
@@ -347,17 +343,145 @@ public class GobeController : LivingEntity
 
     }
 
-    IEnumerator Die() // 사망상태일시
+    
+
+    public override void OnDamage(int damage, Skill.SkillType sType)
     {
-        
+        if (dead) return;
+
+        StopAllCoroutines();
+        base.OnDamage(damage, sType);
+
+        if(Hp <= 0 && this.gameObject.activeInHierarchy)
+        {
+            StartCoroutine(Die());
+            Hp = 0;
+        }
+
+        else
+        {
+            switch(sType)
+            {
+                case Skill.SkillType.Melee:
+                    StartCoroutine(NormalDamageRoutine());//일반 공격일시
+                    break;
+                case Skill.SkillType.KnockBack:
+                    StartCoroutine(KnockBackDamageRoutine(3f));
+                    break;
+                case Skill.SkillType.Stun:
+                    StartCoroutine(StunRoutine(3f));
+                    break;
+            }
+        }
+        hpBar.rectTransform.localScale = new Vector3((float)Hp / (float)MaxHp, 1f, 1f);
+        //hp바 설정
+    }
+
+    IEnumerator NormalDamageRoutine()
+    {
+        /*if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.KnockBack")
+            || !anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.WakeUp"))*/
+
+        if(gstate != GobeState.Stun || gstate != GobeState.KnockBack)
+        { anim.SetTrigger("isHit"); } // 트리거 실행
+
+
+        float startTime = Time.time; //시간체크
+
+        nav.velocity = Vector3.zero;
+
+        while (Time.time < startTime + 0.8f)
+        {
+            nav.velocity = Vector3.zero;
+            yield return null;
+        }
+    }
+
+    IEnumerator KnockBackDamageRoutine(float nuckTime) //넉백시
+    {
+
+        nav.velocity = Vector3.zero;
+
+       // if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.KnockBack"))
+       if(gstate != GobeState.KnockBack || gstate != GobeState.Stun)
+        { anim.SetTrigger("isKnockBack"); }// 트리거 실행
+
+        gstate = GobeState.KnockBack;
+        float startTime = Time.time;
+
+        while (Time.time < startTime + nuckTime)
+        {
+            nav.isStopped = true;
+            rigid.angularVelocity = Vector3.zero;
+            yield return null;
+        }
+
+        startTime = Time.time;
+        anim.SetTrigger("wakeUp");
+
+        while (Time.time < startTime + 3.8f)
+        {
+            rigid.angularVelocity = Vector3.zero;
+
+            yield return null;
+        }
+
+        if (isCollision)
+        {
+            gstate = GobeState.Attack;
+        }
+        else
+        {
+            gstate = GobeState.Chase;
+        }
+    }
+
+    IEnumerator StunRoutine(float nuckTime) //스턴
+    {
+        nav.velocity = Vector3.zero;
+
+        /* if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.KnockBack"))
+         { anim.SetTrigger("isStun"); } // 트리거 실행*/
+
+        if (gstate != GobeState.KnockBack || gstate != GobeState.Stun)
+        { anim.SetTrigger("isStun"); }
+
+        gstate = GobeState.Stun;
+        float startTime = Time.time;
+
+        while (Time.time < startTime + nuckTime)
+        {
+            nav.isStopped = true;
+            rigid.angularVelocity = Vector3.zero;
+            yield return null;
+        }
+
+
+        anim.SetTrigger("wakeUp");
+
+        yield return new WaitForSeconds(0.2f);
+
+        if (isCollision)
+        {
+            gstate = GobeState.Attack;
+        }
+        else
+        {
+            gstate = GobeState.Chase;
+        }
+    }
+
+    new IEnumerator Die() // 사망상태일시
+    {
+
         anim.SetTrigger("Die"); // 트리거 활성화
         gstate = GobeState.Die;
 
-       
+
         nav.enabled = false; // 네비 비활성화
 
         Collider[] enemyColliders = GetComponents<Collider>();
-       
+
         // 콜라이더 다끄기
         for (int i = 0; i < enemyColliders.Length; i++)
         {
@@ -366,27 +490,8 @@ public class GobeController : LivingEntity
 
         yield return new WaitForSeconds(1f);
         this.gameObject.SetActive(false);
-    
+
     }
-
-    public override void OnDamage(int damage, Skill.SkillType sType)
-    {
-        if(firstHit) //만약 첫번쨰 피격이라면
-        {
-            anim.SetTrigger("isHit");
-            firstHit = false;
-        }
-        base.OnDamage(damage, sType);
-
-        if (Hp< 0)
-        {
-            StartCoroutine(Die());
-            Hp = 0;
-        }
-        hpBar.rectTransform.localScale = new Vector3((float)Hp / (float)MaxHp, 1f, 1f);
-    }
-
- 
 
     private void Update()
     {
