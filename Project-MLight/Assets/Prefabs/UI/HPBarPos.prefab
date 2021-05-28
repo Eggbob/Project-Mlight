@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 110110416231181702}
-  m_Layer: 9
+  m_Layer: 5
   m_Name: HPBarPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -8,7 +8,7 @@ public class PlayerController : LivingEntity
     private Status status;
     [SerializeField]
     private PlayerMoveController pmanager;
-    private Animator anim; //애니메이터 컴포넌트
+    public Animator anim; //애니메이터 컴포넌트
     public static PlayerController instance; //싱글톤을 위한 instance
     public Skill pAttack; 
 
@@ -142,8 +142,7 @@ public class PlayerController : LivingEntity
         LivingEntity enemytarget = target.GetComponent<LivingEntity>();
 
         if (enemytarget != null)
-        {
-            
+        {            
             if (enemytarget.dead)
             {            
                 pmanager.curtarget = PlayerMoveController.TargetLayer.None;

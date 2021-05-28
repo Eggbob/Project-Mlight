@@ -77,7 +77,7 @@ public class PlayerMoveController : MonoBehaviour
                 {
                     nav.velocity = Vector3.zero; //네비 속도 0으로 지정
                     CheckTouch();  // 터치한 대상 분석
-                    SetDestination(hit.point);   // 이동할 목적지 설정  
+                    //SetDestination(hit.point);   // 이동할 목적지 설정  
                 }
             }
 
@@ -96,19 +96,21 @@ public class PlayerMoveController : MonoBehaviour
 
         switch (curtarget)
         {
-            case TargetLayer.Terrian://지형              
-             
+            case TargetLayer.Terrian://지형                           
                 TerrianUpdate();
+                SetDestination(hit.point);
                 break;
             case TargetLayer.Enemy: //적
                
                 target = hit.collider.gameObject;  // 타겟을 적으로 지정
                 EnemyUpdate();
+                SetDestination(target.transform.position);
                 break;
             case TargetLayer.Object: // 오브젝트
 
                 target = hit.collider.gameObject; // 타겟을 오브젝트로 지정        
                 ObjectUpdate();
+                SetDestination(target.transform.position);
                 break;
 
         }
@@ -207,10 +209,10 @@ public class PlayerMoveController : MonoBehaviour
 
         }
 
-        Vector3 test = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
+        Vector3 lookPos = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
             - transform.position;
         
-        transform.forward = test;
+        pCon.anim.transform.forward = lookPos;
 
     }
 

@@ -17,9 +17,7 @@ public class GobeController : LivingEntity
     public Vector3 patrolPos;
     public Skill GobeAttack; //일반 공격
     public float AttackRange; // 공격범위
-    private Vector3 prevPosition; 
-
-
+    private Vector3 prevPosition; //귀환시 돌아갈 지점
 
     private Animator anim;
     private Rigidbody rigid;
@@ -27,8 +25,9 @@ public class GobeController : LivingEntity
     public Image hpBar; //hp바
 
     [SerializeField]
-    private float chaseTime = 0f; // 추적할시간
-   
+    private float chaseTime; // 추적할시간
+    [SerializeField]
+    private float timer = 0;
 
     [Header("공격범위 속성")]
     public float angleRange = 45f;
@@ -39,8 +38,8 @@ public class GobeController : LivingEntity
     Vector3 direction;
 
     private bool move; // 움직임 관련 변수
-    //private bool firstHit = true; //피격 관련 변수
     private bool attack; // 공격 관련 변수
+    Vector3 lookAtPosition; //캐릭터가 바라볼 위치
 
     private bool hasTarget
     {
@@ -55,12 +54,13 @@ public class GobeController : LivingEntity
     }
 
     public void Awake()
-    {
-      
+    {      
         rigid = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         GobeAttack.LCon = this;
+        nav.updateRotation = false;
+        nav.speed = MoveSpeed;
     }
 
   
@@ -77,7 +77,6 @@ public class GobeController : LivingEntity
     void CheckState()
     {
         if (dead) { return; }
-
 
         switch(gstate)
         {
@@ -98,8 +97,8 @@ public class GobeController : LivingEntity
                 break;
 
             case GobeState.Attack:
-               
-                AttackUpdate();
+                StartCoroutine(AttackUpdate());
+                
                 break;
 
             case GobeState.GetBack:
@@ -181,14 +180,13 @@ public class GobeController : LivingEntity
 
     void PatrolUpdate()// 순찰 지점까지 이동시에 
     {
-        Vector3 lookAtPosition = Vector3.zero;
 
-        chaseTime += Time.deltaTime; //추적 시간 갱신
+        timer += Time.deltaTime; //추적 시간 갱신
 
         if (Vector3.Distance(this.transform.position, patrolPos) <= AttackRange) // 순찰지점까지 도착하면
         {
             gstate = GobeState.Wait;
-            chaseTime = 0;
+            timer = 0;
         }
 
         nav.isStopped = false; 
@@ -196,14 +194,14 @@ public class GobeController : LivingEntity
 
 
         lookAtPosition = new Vector3(patrolPos.x, this.transform.position.y, patrolPos.z); //이동시 바라볼 방향체크
-        this.transform.LookAt(lookAtPosition);
+        this.transform.LookAt(lookAtPosition); // 이동할 지점 바라보기
 
 
-        if (chaseTime >= 5f) //추적 시간이 8초를 넘겼을시
-        {
-            chaseTime = 0f;
+        if (timer >= chaseTime) //순찰 시간이 일정 시간 이상이 되었을경우
+        {           
             target = null; //타겟을 없애기
-            gstate = GobeState.Idle;              
+            gstate = GobeState.Idle;
+            timer = 0;
             return;
         }
 
@@ -230,27 +228,25 @@ public class GobeController : LivingEntity
 
     void ChaseUpdate() // 추적시
     {
-        Vector3 lookAtPosition = Vector3.zero;
 
         if (hasTarget)
         {
-            chaseTime += Time.deltaTime; //추적 시간 갱신
-            targetPos = target.transform.position;
-            direction = targetPos - this.transform.position;
 
+            timer += Time.deltaTime; //추적 시간 갱신         
+            targetPos = target.transform.position;
+           
             if (isCollision) // 적이 공격범위 내에 들어왔을시
             {
-               
-                chaseTime = 0f;
+                timer = 0;
                 gstate = GobeState.Attack; // 공격 상태로 변환                
                 return;
             }
             else //적이 공격범위 내에 없을때 
             {
-                if (chaseTime >= 8f) //추적 시간이 8초를 넘겼을시
-                {
-                    chaseTime = 0f;
+                if (timer >= chaseTime) //추적 시간이 일정 시간을 넘었을시
+                {                   
                     target = null; //타겟을 없애기
+                    timer = 0;
                     gstate = GobeState.GetBack; // 복귀 상태로 변환                               
                     return;
                 }
@@ -261,27 +257,27 @@ public class GobeController : LivingEntity
         }
      
         nav.isStopped = false;
-        nav.SetDestination(lookAtPosition);
+        nav.SetDestination(targetPos);
+        transform.LookAt(lookAtPosition);
      
     }
 
 
     void OnSetTarget(GameObject _target) //타겟 지정
     {
-        if(gstate == GobeState.GetBack || hasTarget) //귀환 상태일때는 리턴해주기
+        if(hasTarget) //귀환 상태일때는 리턴해주기
         {
             return;
         }
 
-        prevPosition = this.transform.position;
-        target = _target;
-        targetPos = target.transform.position;
-        //타겟을 향해 이동하는 상태로 전환
-        gstate = GobeState.Chase;
+       
+        target = _target;      
+        prevPosition = this.transform.position; //귀환 지점      
+        gstate = GobeState.Chase; //타겟을 향해 이동하는 상태로 전환
     }
 
 
-    void AttackUpdate() // 공격시
+    IEnumerator AttackUpdate() // 공격시
     {
 
         if (!isCollision) //공격범위보다 멀면
@@ -289,18 +285,19 @@ public class GobeController : LivingEntity
             gstate = GobeState.Chase; // 추적상태로 변환            
         }
         else // 공격범위 내에 들어가면
-        {           
+        {
+            lookAtPosition = new Vector3(targetPos.x, this.transform.position.y, targetPos.z); //공격시 바라볼 방향
             nav.isStopped = true;
             nav.velocity = Vector3.zero;
             rigid.velocity = Vector3.zero;
-            transform.LookAt(target.transform);
+            transform.LookAt(lookAtPosition);
         }
-   
+        yield return new WaitForSeconds(0.5f);
     }
 
 
 
-    void AttackCheck()
+    void AttackCheck() //공격 체크
     {
         LivingEntity enemytarget = target.GetComponent<LivingEntity>();
 
@@ -309,11 +306,11 @@ public class GobeController : LivingEntity
             if (enemytarget.dead)
             {
                 gstate = GobeState.Idle;
-                anim.SetBool("isAttack", false);
+                //anim.SetBool("isAttack", false);
                 return;
             }
             else
-            {              
+            {                          
                 StartCoroutine(Damage(enemytarget));              
             }
         }
@@ -333,14 +330,16 @@ public class GobeController : LivingEntity
           
         if (Vector3.Distance(this.transform.position, prevPosition) <= AttackRange)// 귀환을 완료할시
         {
-            gstate = GobeState.Idle; // 일반 상태로 변환
-            target = null;
-            
+            gstate = GobeState.Wait; //대기 상태로 변환
+            target = null; // 타겟 없애기
+            nav.speed = MoveSpeed; //이동 속도 원상태로 복귀
             return;
         }
 
+        nav.speed = 15f; //귀환 속도 지정
         nav.isStopped = false;
         nav.SetDestination(prevPosition);
+        transform.LookAt(prevPosition);
 
     }
 
@@ -380,10 +379,15 @@ public class GobeController : LivingEntity
         /*if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.KnockBack")
             || !anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.WakeUp"))*/
 
-        if(gstate != GobeState.Stun)
-        { anim.SetTrigger("isHit"); } // 트리거 실행
+        //lookAtPosition = new Vector3(targetPos.x, this.transform.position.y, targetPos.z); //공격시 바라볼 방향
+
+        if (gstate != GobeState.Stun || !anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack01"))
+        { anim.SetTrigger("isHit");} // 트리거 실행
 
 
+
+
+        //transform.LookAt(lookAtPosition);
         float startTime = Time.time; //시간체크
 
         nav.velocity = Vector3.zero;
@@ -457,6 +461,7 @@ public class GobeController : LivingEntity
         if (hasTarget && !dead)
         {
             sectorCheck();
+            targetPos = target.transform.position; //타겟위치 업데이트
         }
 
         CheckState();
