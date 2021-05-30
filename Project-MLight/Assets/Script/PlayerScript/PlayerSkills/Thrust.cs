@@ -7,37 +7,22 @@ public class Thrust : Skill
     public int nuckBackForce;
     public int Damage;
 
+
     public override void ActiveAction()
     {
-        if (LCon.target == null)
-        {
-            Debug.Log("대상이 없습니다");
-            return;
-        }
-        else if (LCon.Mp < this.MpCost)
-        {
-            Debug.Log("마나가 부족합니다");
-            return;
-        }      
-       else
-        {
-            LCon.Mp -= this.MpCost;
-            //LCon.SkillUpdate(Skillid);
-            base.ActiveAction();
-        }
+        Rigidbody tRigid = LCon.target.GetComponent<Rigidbody>();
 
+        StartCoroutine(DamageRoutine(tRigid));
     }
 
 
-    private void Start()
+    public override void Init(LivingEntity _LCon)
     {
-        LCon = PlayerController.instance;
-        contents += SKillContent;
+        LCon = _LCon;
         this.SkillPower = LCon.Power * (1 + (Damage / 100));
         this.sAttr = SkillAttr.Stun;
         nuckBackForce = 5;
     }
-
 
     IEnumerator DamageRoutine(Rigidbody tRigid)
     {
@@ -49,10 +34,6 @@ public class Thrust : Skill
         tRigid.velocity = Vector3.zero;
     }
 
-    private void SKillContent()
-    {        
-        Rigidbody tRigid = LCon.target.GetComponent<Rigidbody>();
-        StartCoroutine(DamageRoutine(tRigid));      
-    }
+   
 
 }

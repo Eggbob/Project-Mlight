@@ -47,14 +47,14 @@ MonoBehaviour:
   SkillName: Thrust
   Description: "\uBB3C\uB9AC \uACF5\uACA9\uB825\uC5D0 \uBE44\uB798\uD574 \uC801\uC744
     \uB109\uBC31\uC2DC\uD0A4\uB294 \uACF5\uACA9\uC744 \uD569\uB2C8\uB2E4"
-  Skillid: 1
+  Skillid: 2
   SkillExp: 0
   MaxSkillExp: 0
   MpCost: 10
-  CoolTime: 0
+  CoolTime: 8
   ActTime: 2
   SkillPower: 0
   LCon: {fileID: 0}
   sAttr: 0
-  nuckBackForce: 5
-  Damage: 0
+  nuckBackForce: 15
+  Damage: 5

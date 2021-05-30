@@ -8,11 +8,12 @@ using UnityEngine.EventSystems;
 public class PlayerMoveController : MonoBehaviour
 {
     public enum TargetLayer : int { None, Terrian = 8 , Enemy = 9, Object = 10,  }
+    public enum MoveState {None, Move, Stop }
 
     [SerializeField]
     private Camera mcamera; //메인카메라 컴포넌트
     [SerializeField]
-    private NavMeshAgent nav; // 네비메쉬 컴포넌트
+    public NavMeshAgent nav; // 네비메쉬 컴포넌트
     private PlayerController pCon; // 플레이어 컨트롤러
     private Rigidbody rigid;
 
@@ -20,6 +21,7 @@ public class PlayerMoveController : MonoBehaviour
     private float range; // 사거리
     public TargetLayer curtarget; //현재 타겟 레이어
     private TargetLayer prevtarget; // 이전 타겟 레이어
+    public MoveState mstate; 
 
     RaycastHit hit; //레이 캐스트 변수
     public GameObject target; //지정된 타겟
@@ -54,7 +56,7 @@ public class PlayerMoveController : MonoBehaviour
         nav = this.GetComponent<NavMeshAgent>(); // 네비 가져오기
         pCon = this.GetComponent<PlayerController>(); //플레이어 컨트롤러 가져오기
         rigid = this.GetComponent<Rigidbody>();
-
+        mstate = MoveState.None;
         nav.updateRotation = false; // 네비의회전 기능 비활성화
         range = 7f;
     }
@@ -77,14 +79,10 @@ public class PlayerMoveController : MonoBehaviour
                 {
                     nav.velocity = Vector3.zero; //네비 속도 0으로 지정
                     CheckTouch();  // 터치한 대상 분석
-                    //SetDestination(hit.point);   // 이동할 목적지 설정  
                 }
-            }
-
-          
+            }   
         }
-        Move(); //움직이기
-        nav.isStopped = false; //네비 다시 실행
+        Move(); //움직이기     
     }
 
     void CheckTouch() // 터치한 대상 분석
@@ -97,20 +95,23 @@ public class PlayerMoveController : MonoBehaviour
         switch (curtarget)
         {
             case TargetLayer.Terrian://지형                           
-                TerrianUpdate();
                 SetDestination(hit.point);
+                StartCoroutine(TerrianUpdate());
+                        
                 break;
             case TargetLayer.Enemy: //적
                
                 target = hit.collider.gameObject;  // 타겟을 적으로 지정
-                EnemyUpdate();
                 SetDestination(target.transform.position);
+                StartCoroutine(EnemyUpdate());
+               
                 break;
             case TargetLayer.Object: // 오브젝트
 
                 target = hit.collider.gameObject; // 타겟을 오브젝트로 지정        
-                ObjectUpdate();
                 SetDestination(target.transform.position);
+                StartCoroutine(ObjectUpdate());
+             
                 break;
 
         }
@@ -132,15 +133,33 @@ public class PlayerMoveController : MonoBehaviour
     }
 
 
-    void TerrianUpdate() //지형 클릭시 호출
+    IEnumerator TerrianUpdate() //지형 클릭시 호출
     {
         var waypoint = ObjectPool.GetWayPoint(); //웨이포인트 가져오기
         Vector3 waytr = hit.point; //웨이포인트 생성할 위치 생성
         waytr.y += 3f;
         waypoint.transform.position = waytr; //웨이포인트 생성할 위치 지정 
+
+
+        mstate = MoveState.Move;
+
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, destination) <= 0.1f);
+
+        mstate = MoveState.Stop;
+        pCon.pState = PlayerController.PlayerState.Idle; //플레이어 상태를 유휴상태로 변환
+
+        //if (Vector3.Distance(transform.position, destination) <= 0.1f) //이동할 지점까지 다다르면
+        //{
+        //    mstate = MoveState.Stop;
+        //    pCon.pState = PlayerController.PlayerState.Idle; //플레이어 상태를 유휴상태로 변환
+
+        //    return;
+        //}
+
+        
     }
 
-    void EnemyUpdate() // 적 클릭시 호출
+    IEnumerator EnemyUpdate() // 적 클릭시 호출
     {
 
         eTargeting = ObjectPool.GetTargeting((int)curtarget); // 타겟팅 오브젝트 가져오기
@@ -148,15 +167,44 @@ public class PlayerMoveController : MonoBehaviour
         eTargeting.transform.position = waytr.position;//타겟팅 오브젝트 위치 지정
         eTargeting.transform.parent = target.transform;
 
+        mstate = MoveState.Move;
+
+        yield return new WaitUntil(() => isCollision);
+        mstate = MoveState.Stop;
+
+        pCon.pState = PlayerController.PlayerState.Attack; // 플레이어 상태를 공격으로 변환
+
+
+        //if (isCollision) // 타겟과 나의 거리가 공격 범위에 충돌했을시
+        //{
+        //    mstate = MoveState.Stop;
+
+        //    pCon.pState = PlayerController.PlayerState.Attack; // 플레이어 상태를 공격으로 변환
+        //    return;
+        //}
+
     }
 
-    void ObjectUpdate() //오브젝트 클릭시
+    IEnumerator ObjectUpdate() //오브젝트 클릭시
     {
 
         oTaregeting = ObjectPool.GetTargeting((int)curtarget);
         Transform waytr = target.GetComponent<Object>().targetingTr;
         oTaregeting.transform.position = waytr.position;//타겟팅 오브젝트 위치 지정
         oTaregeting.transform.parent = target.transform;
+
+        mstate = MoveState.Move;
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, target.transform.position) <= attackRange + 0.5f);
+
+        mstate = MoveState.Stop;
+        pCon.pState = PlayerController.PlayerState.Drop; //플레이어 상태를 오브젝트 활성화로 변환 
+
+        //if (Vector3.Distance(transform.position, target.transform.position) <= attackRange + 0.5f) // 타겟과 나의 거리가 사거리 이하일 경우
+        //{
+        //    mstate = MoveState.Stop;
+        //    pCon.pState = PlayerController.PlayerState.Drop; //플레이어 상태를 오브젝트 활성화로 변환 
+        //    return;
+        //}
     }
 
     void SetDestination(Vector3 dest) //목적지 설정
@@ -167,7 +215,7 @@ public class PlayerMoveController : MonoBehaviour
     }
 
 
-    private void Move() //직접 움직이기
+    /*private void Move() 
     {
       
             switch (curtarget)
@@ -177,6 +225,7 @@ public class PlayerMoveController : MonoBehaviour
                     {
                         navStop();
                         pCon.pState = PlayerController.PlayerState.Idle; //플레이어 상태를 유휴상태로 변환
+                        
                         return;
                     }
                     break;
@@ -189,31 +238,56 @@ public class PlayerMoveController : MonoBehaviour
                         pCon.pState = PlayerController.PlayerState.Attack; // 플레이어 상태를 공격으로 변환
                         return;
                     }
+                    else
+                    {
+                       pCon.pState = PlayerController.PlayerState.Move;
+                    }
                     break;
 
                 case TargetLayer.Object: //오브젝트
                     if (Vector3.Distance(transform.position, target.transform.position) <= attackRange + 0.5f) // 타겟과 나의 거리가 사거리 이하일 경우
                     {
-                        navStop();
-                     
+                        navStop();                   
                         pCon.pState = PlayerController.PlayerState.Drop; //플레이어 상태를 오브젝트 활성화로 변환 
                         return;
                     }
                     break;
 
-            case TargetLayer.None:
-
-                navStop();
-                pCon.pState = PlayerController.PlayerState.Idle; //플레이어 상태를 아이들로 변환            
-                break;
+                 case TargetLayer.None:
+                    navStop();                         
+                    break;
 
         }
 
         Vector3 lookPos = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
             - transform.position;
-        
-        pCon.anim.transform.forward = lookPos;
 
+        pCon.anim.transform.forward = lookPos;
+        nav.isStopped = false; //네비 다시 실행
+    }*/
+
+    private void Move()
+    {
+        switch(mstate)
+        {
+            case MoveState.Move:
+                navStart();
+                break;
+
+            case MoveState.Stop:
+                navStop();
+                break;
+        }
+    }
+
+    void navStart() //네비 움직이기
+    {
+
+        Vector3 lookPos = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
+            - transform.position;
+
+        pCon.anim.transform.forward = lookPos;
+        nav.isStopped = false; //네비 다시 실행
     }
 
     void navStop() //네비 멈추기

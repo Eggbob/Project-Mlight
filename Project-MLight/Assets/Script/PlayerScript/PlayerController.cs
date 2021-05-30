@@ -10,14 +10,15 @@ public class PlayerController : LivingEntity
     private PlayerMoveController pmanager;
     public Animator anim; //애니메이터 컴포넌트
     public static PlayerController instance; //싱글톤을 위한 instance
-    public Skill pAttack; 
+    public Skill pAttack;
 
     public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }
     public PlayerState pState; //플레이어 상태 변수
 
-    public bool isMove; // 움직임 관련 불값
-    public bool isInter; // 오브젝트 상호작용 관련 불값
-    public bool isAttack; // 공격하는지
+    private bool isMove; // 움직임 관련 불값
+    private bool isInter; // 오브젝트 상호작용 관련 불값
+    private bool isAttack; // 공격하는지
+    private int sid; //스킬 아이디를 저장할 변수
 
     private void Awake()
     {
@@ -58,16 +59,12 @@ public class PlayerController : LivingEntity
             case PlayerState.Move:
                 isMove = true;
                 isAttack = false;
-                isInter = false;
-                MoveUpdate();
+                isInter = false;      
                 break;
             case PlayerState.Attack:
                 isMove = false;
                 isInter = false;
                 isAttack = true;
-                break;
-            case PlayerState.Skill:
-                anim.SetTrigger("isSkill");
                 break;
             case PlayerState.Drop:
                 isMove = false;
@@ -86,55 +83,40 @@ public class PlayerController : LivingEntity
         {
             case PlayerState.Idle:
                 break;
-            case PlayerState.Move:
-                MoveUpdate();
+            case PlayerState.Move:               
                 break;
             case PlayerState.Attack:
                 break;
             case PlayerState.Skill:
                 break;
             case PlayerState.Drop:
-                DropUpdate();
+              //  DropUpdate();
                 break;
             case PlayerState.Die:
                 break;
         }
     }
 
-    public void SkillUpdate(int sId)
+    public void SkillUpdate(int sId, float stime)
     {
-        if (pState == PlayerState.Attack && target != null)
+
+        pState = PlayerState.Skill;
+        if (target != null)
         {
-            switch (sId)
-            {
-                case 1:
-                    anim.SetTrigger("isSkill");
-                    anim.SetInteger("Skill", 1);
-                    break;
-                case 2:
-                    anim.SetTrigger("isSkill");
-                    anim.SetInteger("Skill", 2);
-                    break;
-                case 3:
-                    anim.SetTrigger("isSkill");
-                    anim.SetInteger("Skill", 3);
-                    break;
-            }
-            pState = PlayerState.Skill;
+            anim.SetTrigger("isSkill");
+            anim.SetInteger("Skill", sId);
         }
 
+      
     }
 
-    void IdleUpdate()
+   
+
+
+    void AttackUpdate()
     {
-
+        
     }
-
-    void MoveUpdate()
-    {
-
-    }
-
 
 
     void AttackCheck()
@@ -147,19 +129,19 @@ public class PlayerController : LivingEntity
             {            
                 pmanager.curtarget = PlayerMoveController.TargetLayer.None;
                 pState = PlayerState.Idle;
-                anim.SetBool("isAttack", false);
+                pmanager.nav.isStopped = true;
                 return;
             }
             else
             {
-                StartCoroutine(AttackUpdate(enemytarget));
+                StartCoroutine(DamageUpdate(enemytarget));
             }
         }
     }
     
 
-    IEnumerator AttackUpdate(LivingEntity enemyTarget)
-    {
+    IEnumerator DamageUpdate(LivingEntity enemyTarget)
+    {       
         yield return new WaitForSeconds(0.7f);
         enemyTarget.OnDamage(pAttack);
     }
@@ -184,39 +166,14 @@ public class PlayerController : LivingEntity
     private void Update()
     {
         target = pmanager.target;
-        CheckStatus();
         CheckAnimations();
         anim.SetBool("isRun",isMove);
         anim.SetBool("isAttack", isAttack);
         anim.SetBool("isInter", isInter);
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Hp -= 10;
-        }
-
+ 
     }
 
-    void UsedSkill (int id)
-    {
-        switch(id)
-        {
-            case 0:
-                print("Used Skill 1");
-                break;
-            case 1:
-                print("Used Skill 2");
-                break;
-            case 2:
-                print("Used Skill 3");
-                break;
-            case 3:
-                print("Used Skill 4");
-                break;
-            default:
-                print("Skill Error");
-                break;
-        }
-    }
+   
 
 
   

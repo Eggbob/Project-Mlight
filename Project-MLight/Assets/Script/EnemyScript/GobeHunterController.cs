@@ -96,8 +96,8 @@ public class GobeHunterController : LivingEntity
                 break;
 
             case GobeHState.Attack:
-
-                AttackUpdate();
+                StartCoroutine(AttackUpdate());
+            
                 break;
 
             case GobeHState.GetBack:
@@ -177,14 +177,13 @@ public class GobeHunterController : LivingEntity
 
     void PatrolUpdate()// 순찰 지점까지 이동시에 
     {
-        Vector3 lookAtPosition = Vector3.zero;
-
-        chaseTime += Time.deltaTime; //추적 시간 갱신
+       
+        timer += Time.deltaTime; //추적 시간 갱신
 
         if (Vector3.Distance(this.transform.position, patrolPos) <= AttackRange) // 순찰지점까지 도착하면
         {
             ghstate = GobeHState.Wait;
-            chaseTime = 0;
+            timer = 0;
         }
 
         nav.isStopped = false;
@@ -195,11 +194,12 @@ public class GobeHunterController : LivingEntity
         this.transform.LookAt(lookAtPosition);
 
 
-        if (chaseTime >= 5f) //추적 시간이 8초를 넘겼을시
+        if (timer >= chaseTime) //추적 시간이 8초를 넘겼을시
         {
-            chaseTime = 0f;
+       
             target = null; //타겟을 없애기
             ghstate = GobeHState.Idle;
+            timer = 0;
             return;
         }
 
@@ -225,26 +225,26 @@ public class GobeHunterController : LivingEntity
 
     void ChaseUpdate() // 추적시
     {
-        Vector3 lookAtPosition = Vector3.zero;
+        
 
         if (hasTarget)
         {
-            chaseTime += Time.deltaTime; //추적 시간 갱신
+            timer += Time.deltaTime; //추적 시간 갱신
             targetPos = target.transform.position;
-            direction = targetPos - this.transform.position;
+           
 
             if (isCollision) // 적이 공격범위 내에 들어왔을시
             {
 
-                chaseTime = 0f;
+                timer = 0f;
                 ghstate = GobeHState.Attack; // 공격 상태로 변환                
                 return;
             }
             else //적이 공격범위 내에 없을때 
             {
-                if (chaseTime >= 8f) //추적 시간이 8초를 넘겼을시
+                if (timer >= chaseTime) //추적 시간이 8초를 넘겼을시
                 {
-                    chaseTime = 0f;
+                    timer = 0;
                     target = null; //타겟을 없애기
                     ghstate = GobeHState.GetBack; // 복귀 상태로 변환                               
                     return;
@@ -257,19 +257,18 @@ public class GobeHunterController : LivingEntity
 
         nav.isStopped = false;
         nav.SetDestination(lookAtPosition);
-
+        transform.LookAt(lookAtPosition);
     }
 
     void OnSetTarget(GameObject _target) //타겟 지정
     {
-        if (ghstate == GobeHState.GetBack || hasTarget) //귀환 상태일때는 리턴해주기
+        if (hasTarget) //귀환 상태일때는 리턴해주기
         {
             return;
         }
 
         prevPosition = this.transform.position;
         target = _target;
-        targetPos = target.transform.position;
         //타겟을 향해 이동하는 상태로 전환
         ghstate = GobeHState.Chase;
     }
@@ -277,7 +276,7 @@ public class GobeHunterController : LivingEntity
 
 
 
-    void AttackUpdate() // 공격시
+    IEnumerator AttackUpdate() // 공격시
     {
 
         if (!isCollision) //공격범위보다 멀면
@@ -286,13 +285,41 @@ public class GobeHunterController : LivingEntity
         }
         else // 공격범위 내에 들어가면
         {
+            lookAtPosition = new Vector3(targetPos.x, this.transform.position.y, targetPos.z); //공격시 바라볼 방향
             nav.isStopped = true;
             nav.velocity = Vector3.zero;
             rigid.velocity = Vector3.zero;
-            transform.LookAt(target.transform);
+            transform.LookAt(lookAtPosition);
         }
+        yield return new WaitForSeconds(0.5f);
+    }
+
+    void AttackCheck() //공격 체크
+    {
+        LivingEntity enemytarget = target.GetComponent<LivingEntity>();
+
+        if (enemytarget != null)
+        {
+            if (enemytarget.dead)
+            {
+                ghstate = GobeHState.Idle;
+                //anim.SetBool("isAttack", false);
+                return;
+            }
+            else
+            {
+                StartCoroutine(Damage(enemytarget));
+            }
+        }
+    }
+
+    IEnumerator Damage(LivingEntity enemyTarget)
+    {
+        yield return new WaitForSeconds(0.7f);
+        enemyTarget.OnDamage(HunterAttack);
 
     }
+
 
     public void GetBackUpdate() //귀환 상태일때
     {
