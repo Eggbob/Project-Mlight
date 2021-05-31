@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &166723257
 RectTransform:
   m_ObjectHideFlags: 0
@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -7.78}
+  m_AnchoredPosition: {x: 0, y: -5}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &166723260
@@ -224,14 +224,14 @@ MonoBehaviour:
   SkillExp: 200
   MaxSkillExp: 0
   MpCost: 10
-  CoolTime: 0
+  CoolTime: 6
   ActTime: 0
   SkillPower: 0
   LCon: {fileID: 0}
   sAttr: 1
-  SkillRange: {fileID: 166723256}
-  Damage: 0
+  SkillRangePrefab: {fileID: 166723256}
+  Damage: 20
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   fRange: 6

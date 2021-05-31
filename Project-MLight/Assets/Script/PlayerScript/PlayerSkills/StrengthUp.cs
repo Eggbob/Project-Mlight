@@ -2,17 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StrengthUp : MonoBehaviour
+public class StrengthUp : Skill
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public int Damage;
+
+    public override void ActiveAction()
     {
-        
+        StartCoroutine(BuffRoutine());
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Init(LivingEntity _LCon)
     {
-        
+        LCon = _LCon;
+        this.SkillPower = (LCon.Power * Damage) / 100;
+        this.sAttr = SkillAttr.Buff;
     }
+
+    IEnumerator BuffRoutine()
+    {
+        yield return new WaitForSeconds(this.ActTime);                                                                                                                              
+    }
+
 }

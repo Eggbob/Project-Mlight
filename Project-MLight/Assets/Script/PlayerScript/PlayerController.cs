@@ -26,8 +26,6 @@ public class PlayerController : LivingEntity
         pmanager = this.GetComponent<PlayerMoveController>();
         anim = this.GetComponent<Animator>();
         pState = PlayerState.Idle;
-        pAttack.LCon = this;
-
 
         if (instance == null)
         {
@@ -44,7 +42,7 @@ public class PlayerController : LivingEntity
 
     private void Start()
     {
-
+  
     }
 
     void CheckAnimations()
@@ -106,13 +104,9 @@ public class PlayerController : LivingEntity
             anim.SetTrigger("isSkill");
             anim.SetInteger("Skill", sId);
         }
-
-      
     }
 
    
-
-
     void AttackUpdate()
     {
         

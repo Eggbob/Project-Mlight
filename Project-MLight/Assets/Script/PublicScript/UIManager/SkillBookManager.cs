@@ -32,7 +32,7 @@ public class SkillBookManager : MonoBehaviour
     {
         GameObject sButton;
 
-        for(int i = 0; i< psCon.PlayerSkills.Count; i++)
+        for(int i = 1; i< psCon.PlayerSkills.Count; i++)
         {
             switch (psCon.PlayerSkills[i].gameObject.tag)
             {

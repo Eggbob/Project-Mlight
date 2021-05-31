@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerSkillController : MonoBehaviour
 {
     public static PlayerSkillController instance; //싱글톤을 위한 instance  
+    public GameObject[] PlayerSkillObject; //생성할 플레이어의 스킬 오브젝트
     public List<Skill> PlayerSkills; //플레이어의 모든 스킬
     public List<Button> SkillButtons; //플레이어 스킬 버튼 리스트
     public List<Skill> QuickSkill;
@@ -24,12 +25,22 @@ public class PlayerSkillController : MonoBehaviour
                 Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-     
+        Init();
+    }
+
+    private void Init()
+    {
+        for(int i = 0; i< PlayerSkillObject.Length; i++)
+        {
+           var pSkill = Instantiate(PlayerSkillObject[i], this.transform.GetChild(1)).GetComponent<Skill>();
+           PlayerSkills.Add(pSkill);
+        }
     }
 
     private void Start()
     {
         pCon = PlayerController.instance;
+    
 
         for (int i=0; i<SkillButtons.Count; i++) //온클릭 리스너 등록
         {
@@ -43,9 +54,10 @@ public class PlayerSkillController : MonoBehaviour
             PlayerSkills[i].Init(pCon);
         }
 
-        QuickSkill.Add(PlayerSkills[1]);
+        pCon.pAttack = PlayerSkills[0];
         QuickSkill.Add(PlayerSkills[0]);
-       
+        QuickSkill.Add(PlayerSkills[1]);
+        QuickSkill.Add(PlayerSkills[2]);
     }
 
     public void SkillAction(int SlotNum, SkillCoolDown coolTime)
