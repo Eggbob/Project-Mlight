@@ -354,6 +354,7 @@ public class GobeController : LivingEntity
 
         if(Hp <= 0 && this.gameObject.activeInHierarchy)
         {
+            StopAllCoroutines();
             StartCoroutine(Die());
             Hp = 0;
         }
@@ -436,6 +437,8 @@ public class GobeController : LivingEntity
 
     new IEnumerator Die() // 사망상태일시
     {
+
+      
 
         anim.SetTrigger("Die"); // 트리거 활성화
         gstate = GobeState.Die;

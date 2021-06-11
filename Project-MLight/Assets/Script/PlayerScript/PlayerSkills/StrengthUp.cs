@@ -5,7 +5,6 @@ using UnityEngine;
 public class StrengthUp : Skill
 {
 
-    public int Damage;
 
     public override void ActiveAction()
     {
@@ -15,13 +14,15 @@ public class StrengthUp : Skill
     public override void Init(LivingEntity _LCon)
     {
         LCon = _LCon;
-        this.SkillPower = (LCon.Power * Damage) / 100;
+     
         this.sAttr = SkillAttr.Buff;
     }
 
     IEnumerator BuffRoutine()
     {
-        yield return new WaitForSeconds(this.ActTime);                                                                                                                              
+        LCon.Power += (int)this.SkillPower;
+        yield return new WaitForSeconds(this.ActTime);
+        LCon.Power -= (int)this.SkillPower;
     }
 
 }

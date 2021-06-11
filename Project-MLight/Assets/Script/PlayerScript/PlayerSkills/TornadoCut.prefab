@@ -226,7 +226,7 @@ MonoBehaviour:
   MpCost: 10
   CoolTime: 6
   ActTime: 0
-  SkillPower: 0
+  SkillPower: 300
   LCon: {fileID: 0}
   sAttr: 1
   SkillRangePrefab: {fileID: 166723256}
@@ -234,4 +234,4 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 512
-  fRange: 6
+  fRange: 10

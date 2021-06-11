@@ -95,15 +95,13 @@ public class PlayerController : LivingEntity
         }
     }
 
-    public void SkillUpdate(int sId, float stime)
+    public void SkillUpdate(int sId)
     {
-
         pState = PlayerState.Skill;
-        if (target != null)
-        {
-            anim.SetTrigger("isSkill");
-            anim.SetInteger("Skill", sId);
-        }
+      
+        anim.SetTrigger("isSkill");
+        anim.SetInteger("Skill", sId);
+        
     }
 
    
@@ -137,7 +135,12 @@ public class PlayerController : LivingEntity
     IEnumerator DamageUpdate(LivingEntity enemyTarget)
     {       
         yield return new WaitForSeconds(0.7f);
-        enemyTarget.OnDamage(pAttack);
+      
+        if(pmanager.isCollision)
+        {
+            enemyTarget.OnDamage(pAttack);
+        }
+       
     }
 
     void DropUpdate()

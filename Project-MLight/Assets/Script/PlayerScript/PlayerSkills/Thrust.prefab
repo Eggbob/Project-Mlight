@@ -51,7 +51,7 @@ MonoBehaviour:
   SkillExp: 0
   MaxSkillExp: 0
   MpCost: 10
-  CoolTime: 8
+  CoolTime: 5
   ActTime: 2
   SkillPower: 0
   LCon: {fileID: 0}

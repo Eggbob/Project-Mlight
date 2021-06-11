@@ -32,6 +32,7 @@ public class TornadoCut : Skill
     IEnumerator DamageRoutine (Collider[] _colliders)
     {
         SkilLRange.SetActive(true);
+        yield return new WaitForSeconds(1f);
         foreach (Collider col in _colliders)
         {
             LivingEntity enemytarget = col.GetComponent<LivingEntity>();

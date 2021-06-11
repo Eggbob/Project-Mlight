@@ -11,6 +11,10 @@ public static class ButtonPressed
     {
         button.onClick.AddListener(delegate () { OnClick(param);  });
     }
+    public static void AddEventListner<T>(this Button button, T param, T param2, Action<T, T> OnClick)
+    {
+        button.onClick.AddListener(delegate () { OnClick(param, param2); });
+    }
 }
 
 public class SkillBookManager : MonoBehaviour
@@ -19,12 +23,16 @@ public class SkillBookManager : MonoBehaviour
     public GameObject ActiveskillList; //액티브 스킬 리스트
     public GameObject PassiveSkillList; // 패시브 스킬 리스트
     public GameObject SkillPage; // 상세 스킬 페이지
+    public List<Button> SkillButtons; //플레이어 스킬 버튼 리스트
+    private int ClickedBtn = 0; //현재 클릭된
+
     PlayerSkillController psCon; //플레이어 스킬 컨트롤러
     
 
     private void Start()
     {
         psCon = PlayerSkillController.instance;
+        
         SkillButtonInit();
     }
 
@@ -34,7 +42,7 @@ public class SkillBookManager : MonoBehaviour
 
         for(int i = 1; i< psCon.PlayerSkills.Count; i++)
         {
-            switch (psCon.PlayerSkills[i].gameObject.tag)
+            switch (psCon.PlayerSkills[i].gameObject.tag) //스킬 목록 초기화
             {
                 case "ActiveSkill":
                     sButton = Instantiate(sButtonTemp, ActiveskillList.transform);
@@ -54,6 +62,11 @@ public class SkillBookManager : MonoBehaviour
             }
 
             
+        }
+
+        for(int i = 0; i< SkillButtons.Count; i++) //스킬 창에 있는 퀵슬롯 리스트 초기화
+        {
+            SkillButtons[i].AddEventListner(i, ShowQuickSlot); // 퀵슬로 버튼 클릭시 실행할 함수
         }
 
         PassiveSkillList.SetActive(false);
@@ -81,11 +94,26 @@ public class SkillBookManager : MonoBehaviour
 
     private void ShowSkillpage(int i)
     {
+        ClickedBtn = i;
         SkillPage.transform.GetChild(0).GetComponent<Text>().text = psCon.PlayerSkills[i].SkillName;
         SkillPage.transform.GetChild(1).GetComponent<Text>().text = "MP 소모량 : " + psCon.PlayerSkills[i].MpCost.ToString();
         SkillPage.transform.GetChild(2).GetComponent<Text>().text = "재사용 대기시간 : " + psCon.PlayerSkills[i].CoolTime.ToString();
         SkillPage.transform.GetChild(3).GetComponent<Text>().text = psCon.PlayerSkills[i].Description;
 
         SkillPage.SetActive(true);
+    } //스킬 페이지 보여주기
+
+    private void ShowQuickSlot(int btnCount) //퀵슬롯에 장착된 스킬 보여주기
+    {
+        if(PassiveSkillList.activeSelf)
+        { return; }
+
+        else if(ClickedBtn != 0)
+        {
+            Image sImage = SkillButtons[btnCount].transform.GetChild(0).GetComponent<Image>();
+            sImage.sprite = psCon.PlayerSkills[ClickedBtn].Icon;
+            sImage.enabled = true;
+            psCon.SkillChange(ClickedBtn, btnCount);
+        }
     }
 }
