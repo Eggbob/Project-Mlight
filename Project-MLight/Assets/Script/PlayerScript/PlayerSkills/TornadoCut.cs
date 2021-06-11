@@ -6,6 +6,7 @@ public class TornadoCut : Skill
 {
     public GameObject SkillRangePrefab;
     private GameObject SkilLRange;
+    public GameObject Effect;
     public int Damage;
     public LayerMask targetLayer; // 공격 대상 레이어
     public float fRange; // 수색범위
@@ -33,6 +34,7 @@ public class TornadoCut : Skill
     {
         SkilLRange.SetActive(true);
         yield return new WaitForSeconds(1f);
+        Instantiate(Effect, this.transform.position, Quaternion.identity);
         foreach (Collider col in _colliders)
         {
             LivingEntity enemytarget = col.GetComponent<LivingEntity>();

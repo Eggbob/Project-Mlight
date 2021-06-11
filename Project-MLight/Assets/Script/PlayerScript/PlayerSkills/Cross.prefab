@@ -57,3 +57,4 @@ MonoBehaviour:
   LCon: {fileID: 0}
   sAttr: 1
   Damage: 110
+  Effect: {fileID: 1819066416490906, guid: f71e64e1ba018eb419bd5e9e3ca8a65c, type: 3}

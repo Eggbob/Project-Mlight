@@ -11,7 +11,6 @@ public class GobeController1 : LivingEntity
     [Header("기본속성")]
     public GobeState gstate = GobeState.None;
     public float MoveSpeed = 1f; // 이동속도
-    public LivingEntity target;
     public Vector3 targetPos;
     public LayerMask targetLayer; // 공격 대상 레이어
     public float AttackRange; // 공격범위
@@ -73,7 +72,7 @@ public class GobeController1 : LivingEntity
     {
         get
         {
-            if (target != null && !target.dead)
+            if (target != null)
             {
                 return true;
             }
@@ -181,7 +180,7 @@ public class GobeController1 : LivingEntity
 
             if (livingEntity != null && !livingEntity.dead) //찾은 리빙엔티티가 죽지않고 null값이 아닐때
             {
-                target = livingEntity;
+                target = colliderMin.gameObject;
                
                 targetPos = target.transform.position;
                 gstate = GobeState.Move;
@@ -350,14 +349,14 @@ public class GobeController1 : LivingEntity
             isCollision = false;
     }
 
-    private void OnDrawGizmos() // 범위 그리기
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.transform.position, fRange);
+    //private void OnDrawGizmos() // 범위 그리기
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(this.transform.position, fRange);
 
-        Handles.color = isCollision ? red : blue;
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, AttackRange);
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, AttackRange);
+    //    Handles.color = isCollision ? red : blue;
+    //    Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, AttackRange);
+    //    Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, AttackRange);
 
-    }
+    //}
 }

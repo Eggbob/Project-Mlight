@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEditor;
 using UnityEngine.UI;
 
 
@@ -426,7 +424,7 @@ public class GobeHunterController : LivingEntity
     }
 
 
-    IEnumerator Die() // 사망상태일시
+    new IEnumerator Die() // 사망상태일시
     {
 
         anim.SetTrigger("Die"); // 트리거 활성화
@@ -434,6 +432,7 @@ public class GobeHunterController : LivingEntity
 
 
         nav.enabled = false; // 네비 비활성화
+        target.GetComponent<LivingEntity>().GetExp(50);
 
         Collider[] enemyColliders = GetComponents<Collider>();
 
@@ -484,14 +483,6 @@ public class GobeHunterController : LivingEntity
         }
         else
             isCollision = false;
-    }
-
-    private void OnDrawGizmos() // 범위 그리기
-    {
-        Handles.color = isCollision ? red : blue;
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, AttackRange);
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, AttackRange);
-
     }
 
 }

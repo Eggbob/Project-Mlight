@@ -4,8 +4,5 @@ using UnityEngine;
 
 public class HPUp : Skill
 {
-    private void ActiveAction()
-    {
-
-    }
+    
 }

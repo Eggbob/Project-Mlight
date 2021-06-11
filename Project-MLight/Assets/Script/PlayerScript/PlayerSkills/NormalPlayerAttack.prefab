@@ -52,6 +52,6 @@ MonoBehaviour:
   MpCost: 0
   CoolTime: 0
   ActTime: 0
-  SkillPower: 2.51
+  SkillPower: 20
   LCon: {fileID: 0}
   sAttr: 1

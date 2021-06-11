@@ -8,6 +8,7 @@ public class PlayerController : LivingEntity
     private Status status;
     [SerializeField]
     private PlayerMoveController pmanager;
+    public GameObject levelUp;
     public Animator anim; //애니메이터 컴포넌트
     public static PlayerController instance; //싱글톤을 위한 instance
     public Skill pAttack;
@@ -144,14 +145,17 @@ public class PlayerController : LivingEntity
     }
 
     void DropUpdate()
-    {      
+    {
+        target = pmanager.target;
         StartCoroutine("DropRoutine");      
     }
 
     IEnumerator DropRoutine()
-    {
-        yield return new WaitForSeconds(1f);
+    {              
+        
+        yield return new WaitForSeconds(2f);
         isInter = false;
+        target.GetComponent<Object>().Drop();
         pState = PlayerState.Idle;
     }
 
@@ -170,8 +174,14 @@ public class PlayerController : LivingEntity
  
     }
 
-   
+
+    public override void LvUp(int totalexp)
+    {
+        GameObject pre = Instantiate(levelUp, this.transform.position, Quaternion.identity);
+        Destroy(pre, 1f);
+
+        base.LvUp(totalexp);
+    }
 
 
-  
 }

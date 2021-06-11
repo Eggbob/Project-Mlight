@@ -5,6 +5,7 @@ using UnityEngine;
 public class Cross : Skill
 {
     public int Damage;
+    public GameObject Effect;
 
     public override void ActiveAction()
     {
@@ -24,6 +25,7 @@ public class Cross : Skill
     IEnumerator DamageRoutine(Rigidbody tRigid)
     {
         LivingEntity enemytarget = LCon.target.GetComponent<LivingEntity>();
+      
         yield return new WaitForSeconds(1f);
         enemytarget.OnDamage(this);
         yield return new WaitForSeconds(0.9f);

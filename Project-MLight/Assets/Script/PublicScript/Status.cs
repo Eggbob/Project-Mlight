@@ -23,9 +23,9 @@ public class Status : MonoBehaviour
     [SerializeField]
     protected int _int; // 지능
     [SerializeField]
-    protected int _ag; // 민첩
-    [SerializeField]
     protected int _def; // 방어도
+    [SerializeField]
+    protected int _statPoint; //스탯 포인트
 
 
     public int Level { get { return _level; } set { _level = value; } }
@@ -37,13 +37,13 @@ public class Status : MonoBehaviour
     public int MaxMp {  get { return _maxMP; } set { _maxMP = value; } }
     public int Power { get { return _power; } set { _power = value; } }
     public int Int { get { return _int; } set { _int = value; } }
-    public int AG {  get { return _ag; } set { _ag = value; } }
     public int DEF { get { return _def; } set { _def = value; } }
+    public int StatPoint { get { return _statPoint;  } set { _statPoint = value; } }
     public bool dead { get; protected set; } // 사망 상태
 
    
     //초기상태 설정
-    public void statusInit(int pHp =100, int pMp = 100, int pPower = 10, int pInt = 10, int pAg = 10, int pDef = 10 )
+    public void statusInit(int pHp =100, int pMp = 100, int pPower = 10, int pInt = 10, int pDef = 10 )
     {
         _level = 1;
         _maxExp = 0;
@@ -54,16 +54,29 @@ public class Status : MonoBehaviour
         _mp = _maxMP;
         _power = pPower;
         _int = pInt;
-        _ag = pAg;
         _def = pDef;
+        _statPoint = 0;
     }
 
-    public void LvUp()
+    public virtual void LvUp(int totalexp)
     {
-        _level++;
-        int leftexp = _exp - _maxExp;
-        _maxExp += 1000;
+        Level++;
+        int leftexp = totalexp - _maxExp;
+        _maxExp += 100;
         _exp = leftexp;
-        
+        _statPoint += 3;
     }
+
+    public  void GetExp(int mount)
+    {
+        if(mount + Exp >= MaxExp)
+        {
+            LvUp(mount + Exp);
+        }
+        else
+        {
+            Exp += mount;
+        }
+    }
+
 }

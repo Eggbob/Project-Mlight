@@ -438,14 +438,11 @@ public class GobeController : LivingEntity
     new IEnumerator Die() // 사망상태일시
     {
 
-      
-
         anim.SetTrigger("Die"); // 트리거 활성화
         gstate = GobeState.Die;
-
-
         nav.enabled = false; // 네비 비활성화
 
+        target.GetComponent<LivingEntity>().GetExp(50);
         Collider[] enemyColliders = GetComponents<Collider>();
 
         // 콜라이더 다끄기
@@ -497,11 +494,11 @@ public class GobeController : LivingEntity
             isCollision = false;
     }
 
-    private void OnDrawGizmos() // 범위 그리기
-    {
-        Handles.color = isCollision ? red : blue;
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, AttackRange);
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, AttackRange);
+    //private void OnDrawGizmos() // 범위 그리기
+    //{
+    //    Handles.color = isCollision ? red : blue;
+    //    Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, AttackRange);
+    //    Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, AttackRange);
 
-    }
+    //}
 }

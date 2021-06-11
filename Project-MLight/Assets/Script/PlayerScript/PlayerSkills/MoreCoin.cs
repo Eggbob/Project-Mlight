@@ -4,8 +4,5 @@ using UnityEngine;
 
 public class MoreCoin : Skill
 {
-    private void ActiveAction()
-    {
-
-    }
+   
 }
