@@ -152,36 +152,69 @@ public class GobeHunterController : LivingEntity
 
             PatrolCheck(); //정찰할 지점 정하기
 
-            ghstate = GobeHState.Patrol;  // 정찰상태로 변환
-
         }
     }
 
     void PatrolCheck() // 순찰할 지점 지정
     {
 
-        patrolPos = new Vector3(transform.position.x + Random.Range(-10f, 20f),
-                                   transform.position.y + 1000f,
-                                   transform.position.z + Random.Range(-10f, 20f));
+        patrolPos = new Vector3(transform.position.x + Random.Range(-30f, 30f),
+                                   transform.position.y + 10f,
+                                   transform.position.z + Random.Range(-30f, 30f));
 
         Ray ray = new Ray(patrolPos, Vector3.down);
         RaycastHit raycastHit = new RaycastHit();
 
         if (Physics.Raycast(ray, out raycastHit, Mathf.Infinity) == true)
         {
-            patrolPos.y = raycastHit.point.y;
+            if (raycastHit.collider.CompareTag("Props"))
+            {
+                PatrolCheck();
+            }
+            else
+            {
+                chaseTime = Random.Range(6f, 12f);
+
+                patrolPos.y = raycastHit.point.y;
+
+                ghstate = GobeHState.Patrol;  // 정찰상태로 변환
+            }
+
         }
     }
 
     void PatrolUpdate()// 순찰 지점까지 이동시에 
     {
-       
+        RaycastHit raycastHit = new RaycastHit();
+
         timer += Time.deltaTime; //추적 시간 갱신
 
-        if (Vector3.Distance(this.transform.position, patrolPos) <= AttackRange) // 순찰지점까지 도착하면
+        if (Vector3.Distance(this.transform.position, patrolPos) <= 2f) // 순찰지점까지 도착하면
         {
+            target = null; //타겟을 없애기
             ghstate = GobeHState.Wait;
             timer = 0;
+        }
+
+
+        if (Physics.Raycast(transform.position, transform.forward, out raycastHit, 2f))
+        {
+            if (raycastHit.collider.CompareTag("Props"))
+            {
+                target = null; //타겟을 없애기
+                ghstate = GobeHState.Wait;
+                timer = 0;
+                return;
+            }
+        }
+
+        if (timer >= chaseTime) //추적 시간이 8초를 넘겼을시
+        {
+
+            target = null; //타겟을 없애기
+            ghstate = GobeHState.Idle;
+            timer = 0;
+            return;
         }
 
         nav.isStopped = false;
@@ -192,28 +225,27 @@ public class GobeHunterController : LivingEntity
         this.transform.LookAt(lookAtPosition);
 
 
-        if (timer >= chaseTime) //추적 시간이 8초를 넘겼을시
-        {
-       
-            target = null; //타겟을 없애기
-            ghstate = GobeHState.Idle;
-            timer = 0;
-            return;
-        }
 
     }
 
     void WaitUpdate() // 대기 동작
     {
-        float waitTime = Random.Range(0.01f, 1f);
+        float waitTime = Random.Range(2f, 5f);
+        timer += Time.deltaTime;
+        //anim.SetFloat("waitTime", waitTime);
 
-        anim.SetFloat("waitTime", waitTime);
+        //if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f &&
+        //    anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        //{
+        //    ghstate = GobeHState.Idle;
+        //    anim.SetFloat("waitTime", 1f);
+        //    return;
+        //}
 
-        if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f &&
-            anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        if (timer >= waitTime)
         {
             ghstate = GobeHState.Idle;
-            anim.SetFloat("waitTime", 1f);
+            timer = 0;
             return;
         }
 

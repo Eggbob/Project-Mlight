@@ -661,7 +661,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Thrust
+  m_Name: UpSlash
   m_Speed: 1.5
   m_CycleOffset: 0
   m_Transitions:
@@ -675,8 +675,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 7155990aa6675cb41989ee51463d38a9,
-    type: 3}
+  m_Motion: {fileID: 7400000, guid: 5ebfd8d2eb727284896759c4bb3bc2dd, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

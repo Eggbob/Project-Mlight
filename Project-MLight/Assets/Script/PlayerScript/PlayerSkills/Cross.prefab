@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 4873aa989d5fcd546b28025805f15ee8, type: 3}
-  SkillName: Grand Slash
+  SkillName: Cross
   Description: "\uBB3C\uB9AC \uACF5\uACA9\uB825\uC5D0 \uCD94\uAC00 \uACF5\uACA9\uB825\uC744
     \uB354\uD574 \uC801\uC5D0\uAC8C \uD53C\uD574\uB97C \uC785\uD799\uB2C8\uB2E4"
   Skillid: 1
@@ -57,4 +57,4 @@ MonoBehaviour:
   LCon: {fileID: 0}
   sAttr: 1
   Damage: 110
-  Effect: {fileID: 1819066416490906, guid: f71e64e1ba018eb419bd5e9e3ca8a65c, type: 3}
+  Effect: {fileID: 7321414569882959522, guid: 3dbb404d33542ee4a964702e8742b7be, type: 3}

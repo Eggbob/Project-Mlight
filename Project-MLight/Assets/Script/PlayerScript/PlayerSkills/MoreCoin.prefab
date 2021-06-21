@@ -48,6 +48,10 @@ MonoBehaviour:
   Description: "\uC7AC\uD654\uC758 \uD68D\uB4DD\uB7C9\uC774 \uB298\uC5B4\uB0A9\uB2C8\uB2E4"
   Skillid: 6
   SkillExp: 130
+  MaxSkillExp: 0
   MpCost: 0
-  coolTime: 0
-  sType: 1
+  CoolTime: 0
+  ActTime: 0
+  SkillPower: 0
+  LCon: {fileID: 0}
+  sAttr: 0

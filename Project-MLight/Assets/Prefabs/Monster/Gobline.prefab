@@ -795,7 +795,7 @@ MonoBehaviour:
     type: 3}
   AttackRange: 7.8
   hpBar: {fileID: 3259135054923330814}
-  chaseTime: 8
+  chaseTime: 6
   timer: 0
   angleRange: 360
 --- !u!114 &6914609066910891088

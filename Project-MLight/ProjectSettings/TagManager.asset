@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - ActiveSkill
   - PassiveSkill
+  - Props
   layers:
   - Default
   - TransparentFX

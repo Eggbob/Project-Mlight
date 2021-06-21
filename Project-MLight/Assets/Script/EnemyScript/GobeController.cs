@@ -154,8 +154,6 @@ public class GobeController : LivingEntity
             nav.isStopped = true; //네비 멈추기        
                                
             PatrolCheck(); //정찰할 지점 정하기
-
-            gstate = GobeState.Patrol;  // 정찰상태로 변환
              
         }
     }
@@ -165,28 +163,67 @@ public class GobeController : LivingEntity
     void PatrolCheck() // 순찰할 지점 지정
     {     
    
-        patrolPos = new Vector3(transform.position.x + Random.Range(-10f, 20f),
-                                   transform.position.y + 1000f,
-                                   transform.position.z + Random.Range(-10f, 20f));
+        patrolPos = new Vector3(transform.position.x + Random.Range(-30f, 30f),
+                                   transform.position.y + 10f,
+                                   transform.position.z + Random.Range(-30f, 30f));
 
         Ray ray = new Ray(patrolPos, Vector3.down);
         RaycastHit raycastHit = new RaycastHit();
 
         if (Physics.Raycast(ray, out raycastHit, Mathf.Infinity) == true)
         {
-            patrolPos.y = raycastHit.point.y;           
+            if(raycastHit.collider.CompareTag("Props"))
+            {
+                PatrolCheck();
+            }
+            else
+            {
+                Debug.DrawRay(ray.origin, ray.direction * 10f, Color.red, 5f);
+
+                chaseTime = Random.Range(6f, 12f);
+
+                patrolPos.y = raycastHit.point.y;
+
+                gstate = GobeState.Patrol;  // 정찰상태로 변환
+            }
+           
         }
     }
 
     void PatrolUpdate()// 순찰 지점까지 이동시에 
-    {
+    {      
+        RaycastHit raycastHit = new RaycastHit();
 
         timer += Time.deltaTime; //추적 시간 갱신
 
-        if (Vector3.Distance(this.transform.position, patrolPos) <= AttackRange) // 순찰지점까지 도착하면
+        if (Vector3.Distance(this.transform.position, patrolPos) <= 2f) // 순찰지점까지 도착하면
         {
+            target = null; //타겟을 없애기
             gstate = GobeState.Wait;
             timer = 0;
+            return; 
+        }
+
+       
+
+        if (Physics.Raycast(transform.position, transform.forward , out raycastHit, 2f))
+        {
+            if (raycastHit.collider.CompareTag("Props"))
+            {
+                target = null; //타겟을 없애기
+                gstate = GobeState.Wait;
+                timer = 0;
+                return;
+            }        
+        }
+
+
+        if (timer >= chaseTime) //순찰 시간이 일정 시간 이상이 되었을경우
+        {
+            target = null; //타겟을 없애기
+            gstate = GobeState.Wait;
+            timer = 0;
+            return;
         }
 
         nav.isStopped = false; 
@@ -195,31 +232,30 @@ public class GobeController : LivingEntity
 
         lookAtPosition = new Vector3(patrolPos.x, this.transform.position.y, patrolPos.z); //이동시 바라볼 방향체크
         this.transform.LookAt(lookAtPosition); // 이동할 지점 바라보기
-
-
-        if (timer >= chaseTime) //순찰 시간이 일정 시간 이상이 되었을경우
-        {           
-            target = null; //타겟을 없애기
-            gstate = GobeState.Idle;
-            timer = 0;
-            return;
-        }
-
+        Debug.DrawRay(transform.position, transform.forward * 2f, Color.blue);
     }
 
     void WaitUpdate() // 대기 동작
     {
-        float waitTime = Random.Range(0.01f, 1f);
+        float waitTime = Random.Range(2f, 5f);
+        timer += Time.deltaTime;
+       //anim.SetFloat("waitTime", waitTime);
 
-        anim.SetFloat("waitTime", waitTime);
-
-        if( anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && 
+        /*if( anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && 
             anim.GetCurrentAnimatorStateInfo(0).IsName("Idle01"))
         {
             gstate = GobeState.Idle;
             anim.SetFloat("waitTime", 1f);
             return;
+        }*/
+
+        if(timer >= waitTime)
+        {
+            gstate = GobeState.Idle;
+            timer = 0;
+            return;
         }
+
 
         nav.isStopped = true;
         nav.velocity = Vector3.zero;
@@ -231,7 +267,7 @@ public class GobeController : LivingEntity
 
         if (hasTarget)
         {
-
+            chaseTime = 6f;
             timer += Time.deltaTime; //추적 시간 갱신         
             targetPos = target.transform.position;
            
@@ -279,20 +315,26 @@ public class GobeController : LivingEntity
 
     IEnumerator AttackUpdate() // 공격시
     {
+        lookAtPosition = new Vector3(targetPos.x, this.transform.position.y, targetPos.z); //공격시 바라볼 방향
+        nav.isStopped = true;
+        nav.velocity = Vector3.zero;
+        rigid.velocity = Vector3.zero;
+        transform.LookAt(lookAtPosition);
 
+     
+        //else // 공격범위 내에 들어가면
+        //{
+        //    lookAtPosition = new Vector3(targetPos.x, this.transform.position.y, targetPos.z); //공격시 바라볼 방향
+        //    nav.isStopped = true;
+        //    nav.velocity = Vector3.zero;
+        //    rigid.velocity = Vector3.zero;
+        //    transform.LookAt(lookAtPosition);
+        //}
+        yield return new WaitForSeconds(1f);
         if (!isCollision) //공격범위보다 멀면
         {
             gstate = GobeState.Chase; // 추적상태로 변환            
         }
-        else // 공격범위 내에 들어가면
-        {
-            lookAtPosition = new Vector3(targetPos.x, this.transform.position.y, targetPos.z); //공격시 바라볼 방향
-            nav.isStopped = true;
-            nav.velocity = Vector3.zero;
-            rigid.velocity = Vector3.zero;
-            transform.LookAt(lookAtPosition);
-        }
-        yield return new WaitForSeconds(0.5f);
     }
 
 

@@ -12,6 +12,7 @@ public class PlayerController : LivingEntity
     public Animator anim; //애니메이터 컴포넌트
     public static PlayerController instance; //싱글톤을 위한 instance
     public Skill pAttack;
+    public MeleeWeaponTrail trail;
 
     public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }
     public PlayerState pState; //플레이어 상태 변수
@@ -116,6 +117,7 @@ public class PlayerController : LivingEntity
     {
         LivingEntity enemytarget = target.GetComponent<LivingEntity>();
 
+        trail.Emit = true;
         if (enemytarget != null)
         {            
             if (enemytarget.dead)
@@ -139,9 +141,10 @@ public class PlayerController : LivingEntity
       
         if(pmanager.isCollision)
         {
-            enemyTarget.OnDamage(pAttack);
+            pAttack.ActiveAction();
+           
         }
-       
+        trail.Emit = false;
     }
 
     void DropUpdate()

@@ -25,8 +25,12 @@ public class Cross : Skill
     IEnumerator DamageRoutine(Rigidbody tRigid)
     {
         LivingEntity enemytarget = LCon.target.GetComponent<LivingEntity>();
-      
-        yield return new WaitForSeconds(1f);
+        Vector3 ePos = LCon.transform.position;
+        ePos.y += 2f;
+        yield return new WaitForSeconds(0.5f);
+        Instantiate(Effect, ePos, this.transform.rotation);
+
+        yield return new WaitForSeconds(0.5f);
         enemytarget.OnDamage(this);
         yield return new WaitForSeconds(0.9f);
         tRigid.velocity = Vector3.zero;

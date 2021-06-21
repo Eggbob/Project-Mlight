@@ -45,14 +45,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: beb4181ef568e0f4fa18f06a2b4210d2, type: 3}
   SkillName: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-  Description: "300\uCD08 \uB3D9\uC548 \uC790\uC2E0\uC758 \uACF5\uACA9\uB825\uC774
+  Description: "30\uCD08 \uB3D9\uC548 \uC790\uC2E0\uC758 \uACF5\uACA9\uB825\uC774
     30\uB9CC\uD07C \uC0C1\uC2B9\uD569\uB2C8\uB2E4"
   Skillid: 4
   SkillExp: 0
   MaxSkillExp: 0
   MpCost: 10
   CoolTime: 3
-  ActTime: 300
+  ActTime: 30
   SkillPower: 30
   LCon: {fileID: 0}
   sAttr: 3
+  EffectPrefab: {fileID: 1936098086150093012, guid: 0abd33e6554a7724d92378a3d50f0206,
+    type: 3}
