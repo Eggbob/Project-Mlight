@@ -8,13 +8,17 @@ using UnityEngine.EventSystems;
 public class InvenUIManager : MonoBehaviour
 {
     [SerializeField] private RectTransform contentArea; //슬롯이 위치할 영역
+    [SerializeField] private Button sortBtn; //정렬 버튼
+    [SerializeField] private Slider weightSlider; //무게 슬라이더
+    [SerializeField] private Text weightTxt; //무게 텍스트
 
     [Space]
     [SerializeField] private bool _showTooltip = true; //툴팁 활성화 여부
     [SerializeField] private bool _showHighlight = true; //하이라이트 이미지 활성화 여부
     [SerializeField] private bool _showRemovingPopup = true; //팝업창 활성화 여부
     [SerializeField] private InvenToolTipManager tooltip; //툴팁
-
+    [SerializeField] private InvenPopUpUIManager popUp;
+    [SerializeField] private InvenEquipToolTipManager eTooltip; //장비 툴팁
 
     private ItemSlotUI[] slotUiList;
 
@@ -23,12 +27,12 @@ public class InvenUIManager : MonoBehaviour
     private List<RaycastResult> rrList;
 
     /// <summary> 연결된 인벤토리 </summary>
+    [SerializeField]
     private Inventory inventory;
 
     private ItemSlotUI prevClickSlot; // 이전 클릭한 슬롯
     private ItemSlotUI beginClickSlot; //현재 클릭한  슬롯
-    private Transform beginDragIconTransform; // 해당 슬롯의 아이콘 트랜스폼
-
+ 
     private int beginDragSlotSiblingIndex;
 
     /// <summary> 인벤토리 UI 내 아이템 필터링 옵션 </summary>
@@ -47,12 +51,7 @@ public class InvenUIManager : MonoBehaviour
 
     private void Start()
     {
-        slotUiList = contentArea.GetComponentsInChildren<ItemSlotUI>();
-
-        for(int i = 0; i< slotUiList.Length; i++)
-        {
-            slotUiList[i].name = $"Item Slot [{i}]";
-        }
+        
     }
 
     private void Update()
@@ -72,6 +71,21 @@ public class InvenUIManager : MonoBehaviour
 
         ped = new PointerEventData(EventSystem.current);
         rrList = new List<RaycastResult>(10);
+
+        //무게 설정
+        weightSlider.value = 0;
+        inventory.currentWeight = 0;
+        weightTxt.text =  inventory.currentWeight + " / " + inventory.MaxWeight;
+
+        //정렬 버튼 이벤트 등록
+        sortBtn.onClick.AddListener(() => inventory.SortAll());
+
+        slotUiList = contentArea.GetComponentsInChildren<ItemSlotUI>();
+
+        for (int i = 0; i < slotUiList.Length; i++)
+        {
+            slotUiList[i].name = $"Item Slot [{i}]";
+        }
     }
 
     private bool IsOverUI()
@@ -153,13 +167,10 @@ public class InvenUIManager : MonoBehaviour
 
                 //참조 제거
                 beginClickSlot = null;
-                beginDragIconTransform = null;
+        
             }
        }
     }
-
-
-
 
 
     /// <summary> 접근 가능한 슬롯 범위 설정 </summary>
@@ -204,16 +215,75 @@ public class InvenUIManager : MonoBehaviour
         slotUiList[index].SetItemAmount(1);
     }
 
+    //특정 슬롯 상태 업데이트
+    public void UpdatSlotState(int index, ItemData itemData)
+    {
+        bool isUpdated = true;
+
+        if(itemData != null)
+        {
+            switch(currentFilterOption)
+            {
+                case FilterOption.Equipment:
+                    isUpdated = (itemData is EquipItemData);
+                    break;
+
+                case FilterOption.Portion:
+                    isUpdated = (itemData is PortionItemData);
+                    break;
+            }
+        }
+
+        slotUiList[index].SetItemAccessibleState(isUpdated);
+    }
+
+    //모든 슬롯 상태 업데이트
+    public void UpdateAllSlots()
+    {
+        int capacity = inventory.Capacity;
+
+        for(int i = 0; i<capacity; i++)
+        {
+            ItemData data = inventory.GetItemData(i);
+            UpdatSlotState(i, data);
+        }
+    }
+    //무게 업데이트
+    public void UpdateWeight()
+    {
+        weightTxt.text = inventory.currentWeight + " / " + inventory.MaxWeight;
+        weightSlider.value = (float)inventory.currentWeight / (float)inventory.MaxWeight;
+    }
+
     //툴팁 보여주기
     private void ShowToolTip(int index)
     {
-        tooltip.SetItemInfo(inventory.GetItemData(index),()=> inventory.Use(index), ()=> TryRemoveItem(index),
-            inventory.GetCurrentAmount(index));
+        ItemData data = inventory.GetItemData(index);
+
+        if(data is CountableItemData) //셀수 있는 아이템이면
+        {
+            int currentAmount = inventory.GetCurrentAmount(index);
+
+            tooltip.SetItemInfo(data, () => inventory.Use(index), () => ShowConfirm(index, currentAmount),
+                currentAmount);
+        }
+        else if(data is EquipItemData)//착용 아이템이면
+        {
+            eTooltip.SetItemInfo(data, () => inventory.Equip(index), () => ShowConfirm(index, 1));
+        }
+      
     }
 
-    private void TryRemoveItem(int index)
+    //확인창 보여주기
+    private void ShowConfirm(int index, int currentAmount)
     {
-        inventory.Remove(index);
+        popUp.ShowConfirmUI(cnt => TryRemoveItem(index, cnt), currentAmount);
+    }
+
+    //아이템 제거
+    private void TryRemoveItem(int index, int count)
+    {
+        inventory.Remove(index, count);
     }
 
 #if UNITY_EDITOR

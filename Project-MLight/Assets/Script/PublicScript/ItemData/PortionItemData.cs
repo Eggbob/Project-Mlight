@@ -7,7 +7,11 @@ public class PortionItemData : CountableItemData
 {
     // 회복량
     public float Value => _value;
+    public float CoolTime => _coolTime;
+
     [SerializeField] private float _value;
+    [SerializeField] private float _coolTime;
+
     public override Item CreateItem()
     {
         return new PortionItem(this);

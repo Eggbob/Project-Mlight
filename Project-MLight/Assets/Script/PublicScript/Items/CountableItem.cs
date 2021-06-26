@@ -50,6 +50,17 @@ public abstract class CountableItem : Item
         Amount -= amount;
         return Clone(amount);
     }
-
+    
+    //아이템 지우기
+    public void RemoveItem(int amount)
+    {
+        if (amount > MaxAmount) //만약 제거할 양이 총 수량보다 많다면
+        {
+            Debug.Log("수량이 맞지 않습니다");
+            return;
+        }
+            
+         Amount -= amount;    
+    }
     protected abstract CountableItem Clone(int amount);
 }

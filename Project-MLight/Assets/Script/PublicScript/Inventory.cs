@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,24 +8,56 @@ public class Inventory : MonoBehaviour
     //아이템 수용 한도
    public int Capacity { get; private set; }
 
+
+    //장비 착용창
+    [SerializeField]
+    private EquipManager eManager;
+
     //초기 수용한도
     [SerializeField, Range(8, 64)]
-    private int _initalCapacity = 32;
+    private int initalCapacity = 32;
 
     //최대 수용 한도
     [SerializeField, Range(8, 64)]
-    private int _maxCapacity = 64;
+    private int maxCapacity = 64;
+
+    //최대 수용가능한 무게
+    [SerializeField]
+    private int maxWeight;
+
+    public int MaxWeight => maxWeight;
+
+    //현재 무게
+    public int currentWeight { get;  set; }
 
     [SerializeField]
-    private InvenUIManager _inventoryUI; //인벤토리 UI
+    private InvenUIManager inventoryUI; //인벤토리 UI
 
     [SerializeField] //아이템 목록
-    private Item[] _items;
+    private Item[] items;
+
+    private readonly static Dictionary<Type, int> sortWeight = new Dictionary<Type, int>
+    {
+        {typeof(PortionItemData), 10000}    
+    };
+
+    private class ItemCorparer : IComparer<Item>
+    {
+        public int Compare(Item a, Item b)
+        {
+            return (a.Data.ID + sortWeight[a.Data.GetType()])
+                - (b.Data.ID + sortWeight[b.Data.GetType()]);
+        }      
+    }
+
+    private static readonly ItemCorparer Icomparer = new ItemCorparer();
+ 
 
     private void Awake()
     {
-        _items = new Item[_maxCapacity];
-        Capacity = _initalCapacity;
+        items = new Item[maxCapacity];
+        Capacity = initalCapacity;
+
     }
 
     private void Start()
@@ -43,7 +76,7 @@ public class Inventory : MonoBehaviour
     {
         for(int i = startIndex; i<Capacity; i++)
         {
-            if (_items[i] == null)
+            if (items[i] == null)
                 return i;
         }
         return -1;
@@ -54,7 +87,7 @@ public class Inventory : MonoBehaviour
     {
         for (int i = startIndex; i < Capacity; i++)
         {
-            var current = _items[i];
+            var current = items[i];
             if (current == null)
                 continue;
 
@@ -69,31 +102,41 @@ public class Inventory : MonoBehaviour
         return -1;
     }
 
+    //모든 슬롯 업데이트
+    private void UpdateAllSlot()
+    {
+        for (int i = 0; i < Capacity; i++)
+        {
+            UpdateSlot(i);
+        }
+    }
+
+
     //모든 슬롯 UI에 접근 가능 여부 업데이트
     public void UpdateAccessibleStatesAll()
     {
-        _inventoryUI.SetAccessibleSlotRange(Capacity);
+        inventoryUI.SetAccessibleSlotRange(Capacity);
     }
 
     //해당 슬롯에 아이템이 있는지 여부
     private bool HasItem(int index)
     {
-        return IsValidIndex(index) && _items[index] != null;
+        return IsValidIndex(index) && items[index] != null;
     }
 
     //해당 슬롯에 있는 아이템이 샐수있는 아이템인지
     public bool IsCountableItem(int index)
     {
-        return HasItem(index) && _items[index] is CountableItem;
+        return HasItem(index) && items[index] is CountableItem;
     }
     
     //현재 아이템 개수 리턴
     public int GetCurrentAmount(int index)
     {
         if (!IsValidIndex(index)) return -1; //잘못된 인덱스
-        if (_items[index] == null) return 0; //해당 슬롯이 비어있으면
+        if (items[index] == null) return 0; //해당 슬롯이 비어있으면
 
-        CountableItem ci = _items[index] as CountableItem;
+        CountableItem ci = items[index] as CountableItem;
         if (ci == null)
             return 1; //셀수 없는 아이템이면
 
@@ -104,9 +147,9 @@ public class Inventory : MonoBehaviour
     public ItemData GetItemData(int index)
     {
         if (!IsValidIndex(index)) return null; //잘못된 인덱스이면
-        if (_items[index] == null) return null;  // 슬롯이 비어있으면
+        if (items[index] == null) return null;  // 슬롯이 비어있으면
 
-        return _items[index].Data;
+        return items[index].Data;
 
     }
 
@@ -114,9 +157,9 @@ public class Inventory : MonoBehaviour
     public string GetItemName(int index)
     {
         if (!IsValidIndex(index)) return ""; //잘못된 인덱스이면
-        if (_items[index] == null) return "";  // 슬롯이 비어있으면
+        if (items[index] == null) return "";  // 슬롯이 비어있으면
 
-        return _items[index].Data.Name; 
+        return items[index].Data.Name; 
     }
 
 
@@ -125,25 +168,33 @@ public class Inventory : MonoBehaviour
     {
         if (!IsValidIndex(index)) return;
 
-        Item item = _items[index];
+        Item item = items[index];
 
         if(item != null)//아이템이 슬롯에 존재할 경우
         {
             //아이콘 등록
-            _inventoryUI.SetItemIcon(index, item.Data.IconSprite);
+            inventoryUI.SetItemIcon(index, item.Data.IconSprite);
 
             if(item is CountableItem ci)//셀수있는 아이템일경우
             {
                 if(ci.IsEmpty) //수량이 0일경우 아이템 제거
                 {
-                    _items[index] = null;
+                    items[index] = null;
                     RemoveIcon();
                     return;
                 }
 
                 else //수량 텍스트 표시
                 {
-                    _inventoryUI.SetItemAmountText(index, ci.Amount);
+                    inventoryUI.SetItemAmountText(index, ci.Amount);
+                }
+            }
+            else if(item is EquipmentItem ei)//장비 아이템일경우
+            {
+                if (currentWeight + ei.PropWeight <= MaxWeight)
+                {
+                    currentWeight += ei.PropWeight;
+                    inventoryUI.UpdateWeight();
                 }
             }
 
@@ -154,8 +205,8 @@ public class Inventory : MonoBehaviour
 
             void RemoveIcon()
             {
-                _inventoryUI.RemoveItem(index);
-                _inventoryUI.HideItemAmountText(index);
+                inventoryUI.RemoveItem(index);
+                inventoryUI.HideItemAmountText(index);
             }
         }
     }
@@ -188,7 +239,7 @@ public class Inventory : MonoBehaviour
                     //추가 할수 있는 슬롯을 찾았을 경우
                     else
                     {
-                        CountableItem ci = _items[index] as CountableItem; //아이템 배열가져오기
+                        CountableItem ci = items[index] as CountableItem; //아이템 배열가져오기
                         amount = ci.AddAmountAndGetExcess(amount);// 양 증가시키기 
 
                         UpdateSlot(index);
@@ -212,7 +263,7 @@ public class Inventory : MonoBehaviour
                         ci.SetAmount(amount);
 
                         //슬롯에 추가
-                        _items[index] = ci;
+                        items[index] = ci;
 
                         // 남은 개수 계산
                         amount = (amount > ciData.MaxAmount) ? (amount - ciData.MaxAmount) : 0;
@@ -234,7 +285,7 @@ public class Inventory : MonoBehaviour
                 if(index != -1)
                 {
                     //아이템을 생성해서 슬롯에 추가
-                    _items[index] = itemData.CreateItem();
+                    items[index] = itemData.CreateItem();
                     amount = 0;
 
                     UpdateSlot(index);
@@ -254,7 +305,7 @@ public class Inventory : MonoBehaviour
                 }
 
                 //아이템을 생성하여 슬롯에 추가
-                _items[index] = itemData.CreateItem();
+                items[index] = itemData.CreateItem();
 
                 UpdateSlot(index);
             }
@@ -265,11 +316,25 @@ public class Inventory : MonoBehaviour
     }
 
     //아이템 삭제
-    public void Remove(int index)
+    public void Remove(int index, int count)
     {
         if (!IsValidIndex(index)) return; //인덱스 범위가 정상이 아니라면 
 
-        _items[index] = null; //배열 비우기
+
+        if (items[index] is CountableItem ciData)
+        {
+            ciData.RemoveItem(count);
+        }
+        else
+        {
+            if (items[index] is EquipmentItem eItem)
+            {
+                maxWeight -= eItem.PropWeight; 
+            }          
+
+            items[index] = null; //배열 비우기
+        }
+
         UpdateSlot(index);
     }
 
@@ -277,9 +342,9 @@ public class Inventory : MonoBehaviour
     public void Use(int index)
     {
         if (!IsValidIndex(index)) return;
-        if (_items[index] == null) return;
+        if (items[index] == null) return;
 
-        if(_items[index] is IUsableItem uItem)
+        if(items[index] is IUsableItem uItem)
         {
             if(uItem.Use())
             {
@@ -288,4 +353,58 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    //아이템 착용
+    public void Equip(int index)
+    {
+        if (!IsValidIndex(index)) return;
+        if (items[index] == null) return;
+
+        if(items[index] is WeaponItem wItem) //무기 아이템일시
+        {
+            if(eManager.hasWeapon)
+            {
+                Item changeItem = eManager.WITEM;
+                eManager.SetWeapon(wItem,()=> Add(wItem.Data,1));
+                items[index] = changeItem;
+            }
+            else
+                eManager.SetWeapon(wItem, () => Add(wItem.Data, 1));
+        }
+        else if(items[index] is ArmorItem aItem)//방어구 아이템일시
+        {
+            if (eManager.hasArmor) //이미 착용중인 방어구가 있다면
+            {
+                Item changeItem = eManager.AITEM; //인벤토리에 집어넣을 아이템 가져오기
+                eManager.SetArmor(aItem, () => Add(aItem.Data, 1)); //아이템 장비 시키기
+                items[index] = changeItem; //장비했던 아이템 해재시키기
+            }
+            else
+                eManager.SetArmor(aItem, () => Add(aItem.Data, 1));
+        }
+
+        UpdateSlot(index); 
+    }
+
+    //아이템 정렬
+    public void SortAll()
+    {
+        int i = -1;
+        while (items[++i] != null) ;
+        int j = i;
+
+        while (true)
+        {
+            while (++j < Capacity && items[j] == null) ;
+
+            if (j == Capacity)
+                break;
+
+            items[i] = items[j];
+            items[j] = null;
+            i++;
+        }
+        Array.Sort(items, 0, i, Icomparer);
+
+        UpdateAllSlot();
+    }
 }

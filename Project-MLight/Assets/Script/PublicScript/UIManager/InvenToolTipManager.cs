@@ -17,6 +17,8 @@ public class InvenToolTipManager : MonoBehaviour
     [SerializeField]
     private Text countTxt; //수량 텍스트
     [SerializeField]
+    private Text priceTxt; //아이템 가치 텍스트
+    [SerializeField]
     private Button okBtn; //확인버튼
     [SerializeField]
     private Button dumpBtn; //버리기 버튼
@@ -44,10 +46,13 @@ public class InvenToolTipManager : MonoBehaviour
         toolTipTxt.text = data.Tooltip;
         ItemImg.sprite = data.IconSprite;
         countTxt.text = amount.ToString();
+        priceTxt.text = data.ItemSellPrice.ToString();
 
         //버튼 이벤트 설정
         SetOkBtn(okCallback); 
         SetDumpBtn(dumpCallback);
+
+        this.gameObject.SetActive(true);
     }
 
     private void SetOkBtn(Action action) => OkBtnEvent = action;
