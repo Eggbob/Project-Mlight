@@ -259,7 +259,9 @@ public class Inventory : MonoBehaviour
                     else
                     {
                         //새로운 아이템 생성
-                        CountableItem ci = ciData.CreateItem() as CountableItem;
+                        CountableItem ci = ciData.CreateItem().GetComponent<CountableItem>();
+                        // CountableItem ci = ciData.CreateItem() as CountableItem;
+
                         ci.SetAmount(amount);
 
                         //슬롯에 추가

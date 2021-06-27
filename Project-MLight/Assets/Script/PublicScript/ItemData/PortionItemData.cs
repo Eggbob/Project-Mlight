@@ -14,6 +14,9 @@ public class PortionItemData : CountableItemData
 
     public override Item CreateItem()
     {
-        return new PortionItem(this);
+        PortionItem pItem = new PortionItem(this);
+
+        return Instantiate(pItem);
+      
     }
 }

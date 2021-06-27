@@ -5,15 +5,10 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour
 {
-    
-    public ItemData Data { get; private set; }
+    public ItemData Data;
+    //public ItemData Data { get; private set; }
 
     public Item(ItemData data) => Data = data;
-
-    public ItemData _data;
-
-    private void Start()
-    {
-        Data = _data;
-    }
+ 
+    
 }

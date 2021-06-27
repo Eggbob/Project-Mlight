@@ -190,6 +190,7 @@ public class PlayerMoveController : MonoBehaviour
         oTaregeting = ObjectPool.GetTargeting((int)curtarget);
         Transform waytr = target.GetComponent<Object>().targetingTr;
         oTaregeting.transform.position = waytr.position;//타겟팅 오브젝트 위치 지정
+        oTaregeting.transform.localScale = waytr.localScale;
         oTaregeting.transform.parent = target.transform;
 
         mstate = MoveState.Move;
