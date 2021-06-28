@@ -5,18 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Portion_Item", menuName ="Inventory System/Item Data/Portion", order = 3)]
 public class PortionItemData : CountableItemData
 {
-    // 회복량
-    public float Value => _value;
-    public float CoolTime => _coolTime;
+ 
+    public float Value => value;
+    public float CoolTime => coolTime;
 
-    [SerializeField] private float _value;
-    [SerializeField] private float _coolTime;
+    [SerializeField] private float value;   // 포션 효과량
+    [SerializeField] private float coolTime; //포션 쿨타임
 
     public override Item CreateItem()
     {
-        PortionItem pItem = new PortionItem(this);
-
-        return Instantiate(pItem);
-      
+        return new PortionItem(this);
     }
 }

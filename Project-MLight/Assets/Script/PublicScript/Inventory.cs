@@ -28,7 +28,7 @@ public class Inventory : MonoBehaviour
     public int MaxWeight => maxWeight;
 
     //현재 무게
-    public int currentWeight { get;  set; }
+    public int currentWeight { get; private set; }
 
     [SerializeField]
     private InvenUIManager inventoryUI; //인벤토리 UI
@@ -38,7 +38,9 @@ public class Inventory : MonoBehaviour
 
     private readonly static Dictionary<Type, int> sortWeight = new Dictionary<Type, int>
     {
-        {typeof(PortionItemData), 10000}    
+        {typeof(PortionItemData), 10000},
+        {typeof(WeaponItemData), 20000 },
+        {typeof(ArmorItemData), 30000 }        
     };
 
     private class ItemCorparer : IComparer<Item>
@@ -57,7 +59,7 @@ public class Inventory : MonoBehaviour
     {
         items = new Item[maxCapacity];
         Capacity = initalCapacity;
-
+        currentWeight = 0;
     }
 
     private void Start()
@@ -82,7 +84,7 @@ public class Inventory : MonoBehaviour
         return -1;
     }
 
-    /// <summary> 앞에서부터 개수 여유가 있는 Countable 아이템의 슬롯 인덱스 탐색 </summary>
+    //앞에서부터 더 추가할수 있는 Countable 아이템의 슬롯 인덱스 탐색
     private int FindCountableItemSlotIndex(CountableItemData target, int startIndex = 0)
     {
         for (int i = startIndex; i < Capacity; i++)
@@ -101,6 +103,57 @@ public class Inventory : MonoBehaviour
 
         return -1;
     }
+
+
+    //해당 인덱스의 슬롯 상태및 UI갱신
+    private void UpdateSlot(int index)
+    {
+        if (!IsValidIndex(index)) return; //접근 가능한 인덱스가 아닐시
+
+        Item item = items[index];
+
+        if (item != null)//아이템이 슬롯에 존재할 경우
+        {
+            //아이콘 등록
+            inventoryUI.SetItemIcon(index, item.Data.IconSprite);
+
+            if (item is CountableItem ci)//셀수있는 아이템일경우
+            {
+                if (ci.IsEmpty) //수량이 0일경우 아이템 제거
+                {
+                    items[index] = null;
+                    RemoveIcon();
+                    return;
+                }
+
+                else //수량 텍스트 표시
+                {
+                    inventoryUI.SetItemAmountText(index, ci.Amount);
+                }
+            }
+            else if (item is EquipmentItem ei)//장비 아이템일경우
+            {
+                //장비 무게 업데이트
+                if (currentWeight + ei.PropWeight <= MaxWeight)
+                {
+                    currentWeight += ei.PropWeight;
+                    inventoryUI.UpdateWeight();
+                }
+            }
+
+            else //빈슬롯일경우 아이콘 제거
+            {
+                RemoveIcon();
+            }
+
+            void RemoveIcon()
+            {
+                inventoryUI.RemoveItem(index);
+                inventoryUI.HideItemAmountText(index);
+            }
+        }
+    }
+
 
     //모든 슬롯 업데이트
     private void UpdateAllSlot()
@@ -163,54 +216,6 @@ public class Inventory : MonoBehaviour
     }
 
 
-    //해당 인덱스의 슬롯 상태및 UI갱신
-    public void UpdateSlot(int index)
-    {
-        if (!IsValidIndex(index)) return;
-
-        Item item = items[index];
-
-        if(item != null)//아이템이 슬롯에 존재할 경우
-        {
-            //아이콘 등록
-            inventoryUI.SetItemIcon(index, item.Data.IconSprite);
-
-            if(item is CountableItem ci)//셀수있는 아이템일경우
-            {
-                if(ci.IsEmpty) //수량이 0일경우 아이템 제거
-                {
-                    items[index] = null;
-                    RemoveIcon();
-                    return;
-                }
-
-                else //수량 텍스트 표시
-                {
-                    inventoryUI.SetItemAmountText(index, ci.Amount);
-                }
-            }
-            else if(item is EquipmentItem ei)//장비 아이템일경우
-            {
-                if (currentWeight + ei.PropWeight <= MaxWeight)
-                {
-                    currentWeight += ei.PropWeight;
-                    inventoryUI.UpdateWeight();
-                }
-            }
-
-            else //빈슬롯일경우 아이콘 제거
-            {
-                RemoveIcon();
-            }
-
-            void RemoveIcon()
-            {
-                inventoryUI.RemoveItem(index);
-                inventoryUI.HideItemAmountText(index);
-            }
-        }
-    }
-
 
     //아이템 집어 넣기
     public int Add(ItemData itemData, int amount = 1)
@@ -259,9 +264,7 @@ public class Inventory : MonoBehaviour
                     else
                     {
                         //새로운 아이템 생성
-                        CountableItem ci = ciData.CreateItem().GetComponent<CountableItem>();
-                        // CountableItem ci = ciData.CreateItem() as CountableItem;
-
+                        CountableItem ci = ciData.CreateItem() as CountableItem;
                         ci.SetAmount(amount);
 
                         //슬롯에 추가
@@ -321,20 +324,30 @@ public class Inventory : MonoBehaviour
     public void Remove(int index, int count)
     {
         if (!IsValidIndex(index)) return; //인덱스 범위가 정상이 아니라면 
-
+        if (items[index] == null) return;
 
         if (items[index] is CountableItem ciData)
         {
             ciData.RemoveItem(count);
+
+            if(ciData.IsEmpty)
+            {
+                items[index] = null;
+                inventoryUI.RemoveItem(index);
+            }
+
         }
         else
         {
+            //장비아이템일시 무게 감소
             if (items[index] is EquipmentItem eItem)
             {
-                maxWeight -= eItem.PropWeight; 
+                currentWeight -= eItem.PropWeight;
+                inventoryUI.UpdateWeight();
             }          
 
             items[index] = null; //배열 비우기
+            inventoryUI.RemoveItem(index);
         }
 
         UpdateSlot(index);
@@ -370,7 +383,12 @@ public class Inventory : MonoBehaviour
                 items[index] = changeItem;
             }
             else
+            {
                 eManager.SetWeapon(wItem, () => Add(wItem.Data, 1));
+                items[index] = null;
+                inventoryUI.RemoveItem(index);
+            }
+               
         }
         else if(items[index] is ArmorItem aItem)//방어구 아이템일시
         {
@@ -381,7 +399,11 @@ public class Inventory : MonoBehaviour
                 items[index] = changeItem; //장비했던 아이템 해재시키기
             }
             else
+            {
                 eManager.SetArmor(aItem, () => Add(aItem.Data, 1));
+                items[index] = null;
+                inventoryUI.RemoveItem(index);
+            } 
         }
 
         UpdateSlot(index); 
@@ -408,5 +430,6 @@ public class Inventory : MonoBehaviour
         Array.Sort(items, 0, i, Icomparer);
 
         UpdateAllSlot();
+        inventoryUI.UpdateAllSlots();
     }
 }

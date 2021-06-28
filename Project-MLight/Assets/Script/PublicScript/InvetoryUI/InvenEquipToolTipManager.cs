@@ -65,7 +65,7 @@ public class InvenEquipToolTipManager : MonoBehaviour
             statTxt.text = "공격력 : " + wdata.Damage;
             weightTxt.text = wdata.Weight.ToString();
         }
-        else if(data is AmorItemData adata)
+        else if(data is ArmorItemData adata)
         {
             statTxt.text = "방어력 : " + adata.Defence;
             weightTxt.text = adata.Weight.ToString();
@@ -97,7 +97,7 @@ public class InvenEquipToolTipManager : MonoBehaviour
             statTxt.text = "공격력 : " + wdata.Damage;
             weightTxt.text = wdata.Weight.ToString();
         }
-        else if (item.Data is AmorItemData adata)
+        else if (item.Data is ArmorItemData adata)
         {
             statTxt.text = "방어력 : " + adata.Defence;
             weightTxt.text = adata.Weight.ToString();

@@ -6,21 +6,21 @@ using UnityEngine;
 //장비 아이템
 public abstract class EquipmentItem : Item
 {
-    private int _durability;
-
+    private int propweight;
 
     public EquipItemData eItemData { get; private set; }
 
+    //아이템 무게
     public int PropWeight
     {
-        get => _durability;
+        get => propweight;
         set
         {
             if (value < 0) value = 0;
             if (value > eItemData.Weight)
                 value = eItemData.Weight;
 
-            _durability = value;
+            propweight = value;
         }
             
     }

@@ -5,17 +5,11 @@ using UnityEditor;
 
 public class PlayerController : LivingEntity
 {
- 
-
-   
-    [SerializeField]
-    private Inventory inventory;
     private Status status;
+    [SerializeField]
     private PlayerMoveController pmanager;
-
-
-    public Animator anim { get; private set; } //애니메이터 컴포넌트
     public GameObject levelUp;
+    public Animator anim; //애니메이터 컴포넌트
     public static PlayerController instance; //싱글톤을 위한 instance
     public Skill pAttack;
     public MeleeWeaponTrail trail;
@@ -26,7 +20,7 @@ public class PlayerController : LivingEntity
     private bool isMove; // 움직임 관련 불값
     private bool isInter; // 오브젝트 상호작용 관련 불값
     private bool isAttack; // 공격하는지
-
+    private int sid; //스킬 아이디를 저장할 변수
 
     private void Awake()
     {
@@ -52,8 +46,7 @@ public class PlayerController : LivingEntity
     {
   
     }
-    
-    //애니메이션 상태 업데이트
+
     void CheckAnimations()
     {
         switch (pState)
@@ -83,8 +76,7 @@ public class PlayerController : LivingEntity
                 break;
         }
     }
-    
-    //플레이어 상태 업데이트
+
     void CheckStatus()
     {
         switch (pState)
@@ -98,7 +90,7 @@ public class PlayerController : LivingEntity
             case PlayerState.Skill:
                 break;
             case PlayerState.Drop:
-                DropUpdate();
+              //  DropUpdate();
                 break;
             case PlayerState.Die:
                 break;
@@ -161,17 +153,12 @@ public class PlayerController : LivingEntity
         StartCoroutine("DropRoutine");      
     }
 
-
-    //아이템 습득 루틴
     IEnumerator DropRoutine()
-    {
-        yield return new WaitForSeconds(0.5f);
+    {              
+        
+        yield return new WaitForSeconds(2f);
         isInter = false;
-
-        Object obj = target.GetComponent<Object>();
-        Item dropItem = obj.Drop();
-        inventory.Add(dropItem.Data);
-       
+        target.GetComponent<Object>().Drop();
         pState = PlayerState.Idle;
     }
 

@@ -5,5 +5,5 @@ using UnityEngine;
 
 public class ArmorItem : EquipmentItem
 {
-    public ArmorItem(AmorItemData data) : base(data) { }
+    public ArmorItem(ArmorItemData data) : base(data) { }
 }

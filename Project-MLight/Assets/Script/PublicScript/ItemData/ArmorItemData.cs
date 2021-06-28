@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item_Armor_", menuName = "Inventory System/Item Data/Armor", order = 2)]
-public class AmorItemData : EquipItemData
+public class ArmorItemData : EquipItemData
 {
-    public int Defence => _defence;
+    public int Defence => defence;
 
-    [SerializeField] private int _defence = 1;
+    [SerializeField] private int defence = 1;
     public override Item CreateItem()
     {
-        throw new NotImplementedException();
+        return new ArmorItem(this);
     }
 }

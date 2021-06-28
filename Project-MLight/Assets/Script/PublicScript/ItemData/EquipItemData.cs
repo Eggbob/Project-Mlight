@@ -5,8 +5,9 @@ using UnityEngine;
 
 public abstract class EquipItemData : ItemData
 { 
-    public int Weight => _weight;
+    public int Weight => weight;
 
-    [SerializeField] private int _weight = 100;
+    //장비 무게
+    [SerializeField] private int weight = 10;
 
 }

@@ -5,31 +5,17 @@ using UnityEngine;
 public class Object : MonoBehaviour
 {
     public Transform targetingTr;
-    public Item item;
 
 
-
-    private void Awake()
+    public void Drop()
     {
+        this.gameObject.SetActive(false);
        
     }
 
-    private void Start()
+    IEnumerator DropRoutine()
     {
-     //   Destroy(this.gameObject, 6f);
+        yield return (1f);
+      
     }
-
-    public Item Drop()
-    {
-        //this.gameObject.SetActive(false);
-
-        return item;
-    }
-
-    //아이템 설정
-    public void setData(Item _item)
-    {
-        item = _item;
-    }
-
 }

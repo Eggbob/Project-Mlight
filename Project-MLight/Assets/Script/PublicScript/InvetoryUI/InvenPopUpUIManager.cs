@@ -90,7 +90,7 @@ public class InvenPopUpUIManager : MonoBehaviour
     {
         confirmUI.SetActive(true);
 
-        maxCount = currentAmount - 1;
+        maxCount = currentAmount;
         countTxt.text = "1";
 
         confirmBtn.onClick.AddListener(()=>popUpUI.SetActive(true));

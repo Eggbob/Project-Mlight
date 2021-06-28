@@ -7,9 +7,9 @@ using UnityEngine;
 public class WeaponItemData : EquipItemData
 {
 
-    public int Damage => _damage;
+    public int Damage => damage;
 
-    [SerializeField] private int _damage = 1;
+    [SerializeField] private int damage;
 
     public override Item CreateItem()
     {

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,7 +31,8 @@ public class EquipManager : MonoBehaviour
     private ArmorItem aItem; // 착용중인 방어구
 
     private Action<Item> unEquipEvent;
-    private Action returnEvent;
+    private Action armorReturn;
+    private Action weaponReturn;
     
 
     //기본 장비 이미지 알파값
@@ -59,9 +58,10 @@ public class EquipManager : MonoBehaviour
         weaponBtn.onClick.AddListener(()=>{
             if (!hasWeapon)
                 return;
-            else
-                eManger.SetEquipItemInfo(wItem, unEquipEvent);
+            else                          
+                eManger.SetEquipItemInfo(wItem, unEquipEvent);                             
         });
+        
 
         armorBtn.onClick.AddListener(() =>
         {
@@ -83,6 +83,8 @@ public class EquipManager : MonoBehaviour
             armorImg.sprite = armorNormalImg;
             armorImg.color = normalAlpha;
             aItem = null;
+
+            armorReturn(); //리턴 이벤트 실행
         }
         //아이템이 무기일시
         else if(item is WeaponItem)
@@ -90,10 +92,9 @@ public class EquipManager : MonoBehaviour
             weaponImg.sprite = weaponNormalImg;
             weaponImg.color = normalAlpha;
             wItem = null;
+
+            weaponReturn();
         }
-
-        returnEvent(); //리턴 이벤트 실행
-
 
     }
 
@@ -103,7 +104,7 @@ public class EquipManager : MonoBehaviour
         weaponImg.sprite = _wItem.Data.IconSprite;
         weaponImg.color = Color.white;
         wItem = _wItem;
-        SetReturn(returnCallback);//콜백함수 등록
+        SetWeaponReturn(returnCallback);//콜백함수 등록
     }
 
     //방어구 착용
@@ -112,9 +113,10 @@ public class EquipManager : MonoBehaviour
         armorImg.sprite = _aItem.Data.IconSprite;
         armorImg.color = Color.white;
         aItem = _aItem;
-        SetReturn(returnCallback);
+        SetArmorReturn(returnCallback);
     }
 
-    private void SetReturn(Action action) => returnEvent = action;
+    private void SetArmorReturn(Action action) => armorReturn = action;
+    private void SetWeaponReturn(Action action) => weaponReturn = action;
   
 }
