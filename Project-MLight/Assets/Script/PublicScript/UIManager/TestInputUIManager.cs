@@ -16,6 +16,7 @@ public class TestInputUIManager : MonoBehaviour
     public Button _AddPotion50;
     public Button _AddFeather;
     public Button _AddFeather50;
+    public Button _AddGold;
 
     private void Start()
     {
@@ -23,7 +24,7 @@ public class TestInputUIManager : MonoBehaviour
         {
             for(int i=0; i< _itemDataArray.Length; i++)
             {
-                _inventroy.Add(_itemDataArray[i], 3);
+                _inventroy.Add(_itemDataArray[i], 2);
 
                 if (_itemDataArray[i] is CountableItemData)
                     _inventroy.Add(_itemDataArray[i], 255);
@@ -39,6 +40,6 @@ public class TestInputUIManager : MonoBehaviour
         _AddFeather.onClick.AddListener(() => _inventroy.Add(_itemDataArray[3]));
         _AddFeather50.onClick.AddListener(() => _inventroy.Add(_itemDataArray[3],50));
 
-
+        _AddGold.onClick.AddListener(() => _inventroy.GetGold(1000));
     }
 }

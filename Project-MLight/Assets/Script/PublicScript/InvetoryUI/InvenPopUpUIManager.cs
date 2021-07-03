@@ -92,6 +92,7 @@ public class InvenPopUpUIManager : MonoBehaviour
 
         maxCount = currentAmount;
         countTxt.text = "1";
+        countSlider.value = 1/maxCount;
 
         confirmBtn.onClick.AddListener(()=>popUpUI.SetActive(true));
        

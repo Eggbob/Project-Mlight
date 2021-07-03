@@ -6,8 +6,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     //아이템 수용 한도
-   public int Capacity { get; private set; }
-
+    public int Capacity { get; private set; }
 
     //장비 착용창
     [SerializeField]
@@ -24,11 +23,15 @@ public class Inventory : MonoBehaviour
     //최대 수용가능한 무게
     [SerializeField]
     private int maxWeight;
-
     public int MaxWeight => maxWeight;
 
     //현재 무게
     public int currentWeight { get; private set; }
+
+    //현재 소유중인 금화
+    [SerializeField]
+    private int gold;
+    public int Gold => gold;
 
     [SerializeField]
     private InvenUIManager inventoryUI; //인벤토리 UI
@@ -36,11 +39,15 @@ public class Inventory : MonoBehaviour
     [SerializeField] //아이템 목록
     private Item[] items;
 
+    //아이템이 추가 되었는지?
+    private bool isItemAdded;
+ 
     private readonly static Dictionary<Type, int> sortWeight = new Dictionary<Type, int>
     {
         {typeof(PortionItemData), 10000},
         {typeof(WeaponItemData), 20000 },
-        {typeof(ArmorItemData), 30000 }        
+        {typeof(ArmorItemData), 30000 },
+        {typeof(PropItemData), 40000 }
     };
 
     private class ItemCorparer : IComparer<Item>
@@ -59,6 +66,7 @@ public class Inventory : MonoBehaviour
     {
         items = new Item[maxCapacity];
         Capacity = initalCapacity;
+        isItemAdded = false;
         currentWeight = 0;
     }
 
@@ -134,11 +142,13 @@ public class Inventory : MonoBehaviour
             else if (item is EquipmentItem ei)//장비 아이템일경우
             {
                 //장비 무게 업데이트
-                if (currentWeight + ei.PropWeight <= MaxWeight)
+                if (isItemAdded && currentWeight + ei.PropWeight <= MaxWeight)
                 {
                     currentWeight += ei.PropWeight;
                     inventoryUI.UpdateWeight();
                 }
+                inventoryUI.SetItemAmountText(index, 1);
+                isItemAdded = false;
             }
 
             else //빈슬롯일경우 아이콘 제거
@@ -148,9 +158,13 @@ public class Inventory : MonoBehaviour
 
             void RemoveIcon()
             {
-                inventoryUI.RemoveItem(index);
-                inventoryUI.HideItemAmountText(index);
+                inventoryUI.RemoveItem(index);               
             }
+        }
+        else
+        {
+            if (inventoryUI.HasIcon(index))
+            { inventoryUI.RemoveItem(index); }
         }
     }
 
@@ -215,8 +229,6 @@ public class Inventory : MonoBehaviour
         return items[index].Data.Name; 
     }
 
-
-
     //아이템 집어 넣기
     public int Add(ItemData itemData, int amount = 1)
     {
@@ -255,7 +267,6 @@ public class Inventory : MonoBehaviour
                 else
                 {
                     index = FindEmptySlotIndex(index + 1);
-
                     //빈슬롯이 없을 경우
                     if(index == -1)
                     {
@@ -293,7 +304,8 @@ public class Inventory : MonoBehaviour
                     items[index] = itemData.CreateItem();
                     amount = 0;
 
-                    UpdateSlot(index);
+                    isItemAdded = true;
+                    UpdateSlot(index);                 
                 }
             }
 
@@ -312,9 +324,11 @@ public class Inventory : MonoBehaviour
                 //아이템을 생성하여 슬롯에 추가
                 items[index] = itemData.CreateItem();
 
+                isItemAdded = true;
                 UpdateSlot(index);
             }
 
+            
         }
 
         return amount;
@@ -431,5 +445,28 @@ public class Inventory : MonoBehaviour
 
         UpdateAllSlot();
         inventoryUI.UpdateAllSlots();
+    }
+
+    //골드 얻기
+    public void GetGold(int amount)
+    {
+        gold += amount;
+        inventoryUI.UpdateGold();
+    }
+
+    //골드 소모
+    public bool GiveGold(int amount)
+    {
+        if(gold - amount >0)
+        {
+            gold -= amount;
+
+            inventoryUI.UpdateGold();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

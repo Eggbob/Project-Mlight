@@ -19,22 +19,22 @@ public class ItemSlotUI : MonoBehaviour
 
     
     public int Index { get; private set; } //슬롯 인덱스
+    public int QuickedIndex { get; private set; } //퀵슬롯에 지정된 인덱스
 
     public bool HasItem => iconImg.sprite != null; //슬롯이 아이템을 보유하고 있는지 유무
 
     public bool IsAccesible => isAccessibleSlot && isAccessibleItem; //접근 가능한 슬롯인지 여부
 
-    private InvenUIManager inventroyUI;
-
+    public bool IsQuicked { get; private set; } //퀵슬롯에 저장이 되었는지
+  
     private GameObject iconGo;
     private GameObject textImgGo;
     private GameObject textGo;
     private GameObject higlightGo;
 
-    private Image slotImg; //슬롯이미지
-
     private bool isAccessibleSlot = true; // 슬롯 접근가능 여부
     private bool isAccessibleItem = true; // 아이템 접근 가능 여부
+    
 
 
     private void ShowIcon() => iconGo.SetActive(true);//아이콘 활성화
@@ -48,7 +48,6 @@ public class ItemSlotUI : MonoBehaviour
 
     public void SetSlotIndex(int index) => Index = index; // 슬롯 인덱스 설정
 
-
     private void Awake()
     {
         Init();
@@ -61,7 +60,6 @@ public class ItemSlotUI : MonoBehaviour
 
     private void Init() //초기설정
     {
-        inventroyUI = GetComponentInParent<InvenUIManager>();
 
         // Game Objects
         iconGo = iconImg.gameObject;
@@ -69,11 +67,23 @@ public class ItemSlotUI : MonoBehaviour
         higlightGo = highlightImg;
         textImgGo = amountImg;
 
-        // Images
-        slotImg = GetComponent<Image>();
+        
     }
 
+    //퀵슬롯 인덱스 지정
+    public void SetQuickSlotIndex(int index = 99)
+    {
+        if(index >5)
+        {          
+            IsQuicked = false;
+        }
+        else
+        {
+            IsQuicked = true;
+        }
 
+        QuickedIndex = index;
+    }
 
     //슬롯의 활성화 비활성화 여부 설정
     public void SetSlotAccessibleState(bool value)
@@ -159,8 +169,8 @@ public class ItemSlotUI : MonoBehaviour
         if (!this.IsAccesible) return;
 
         if (show)
-            highlightImg.SetActive(true);
+            higlightGo.SetActive(true);
         else
-            highlightImg.SetActive(false);
+            higlightGo.SetActive(false);
     }
 }
