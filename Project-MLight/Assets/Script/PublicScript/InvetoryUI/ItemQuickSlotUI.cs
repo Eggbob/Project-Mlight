@@ -38,6 +38,8 @@ public class ItemQuickSlotUI : MonoBehaviour
     [Tooltip("퀵슬롯 버튼")]
     [SerializeField] private Button quickBtn;
 
+    
+
     private GameObject imgGo;
     private GameObject amountImgGo;
     private GameObject amountTxtGo;
@@ -46,6 +48,9 @@ public class ItemQuickSlotUI : MonoBehaviour
     private GameObject qImgGo;
     private GameObject qAmountTxtGo;
     private GameObject qAmountImgGo;
+
+    private CoolDown coolDown;
+    private float coolTime;
 
     //아이템 사용 액션
     private event Action ItemUse;
@@ -102,7 +107,7 @@ public class ItemQuickSlotUI : MonoBehaviour
         quickBtn.onClick.AddListener(()=> UseItem());
         removeBtn.onClick.AddListener(() => RemoveItem());
 
-
+        coolDown = quickBtn.gameObject.GetComponent<CoolDown>();
     }
 
     //아이템 사용
@@ -110,6 +115,9 @@ public class ItemQuickSlotUI : MonoBehaviour
     {
         UpdateItemAmount();
         ItemUse();
+
+
+        coolDown.UseSpell(coolTime);
     }
 
 
@@ -126,7 +134,7 @@ public class ItemQuickSlotUI : MonoBehaviour
     }
 
     //아이템 등록
-    public void SetItem(ItemData item, int amount, Action action, Func<int> action2)
+    public void SetItem(PortionItemData item, int amount, Action action, Func<int> action2)
     { 
        if(item != null)
        {
@@ -134,6 +142,8 @@ public class ItemQuickSlotUI : MonoBehaviour
             amountTxt.text = amount.ToString();
             quickImg.sprite = item.IconSprite;
             quickAmountTxt.text = amount.ToString();
+            coolTime = item.CoolTime;
+
 
             ShowImg();
             ShowAmount();

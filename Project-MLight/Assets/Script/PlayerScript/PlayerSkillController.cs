@@ -45,7 +45,7 @@ public class PlayerSkillController : MonoBehaviour
         for (int i=0; i<SkillButtons.Count; i++) //온클릭 리스너 등록
         {
             int num = int.Parse(SkillButtons[i].gameObject.name.Substring(SkillButtons[i].gameObject.name.IndexOf("_") + 1));
-            SkillCoolDown coolTime = SkillButtons[i].gameObject.GetComponent<SkillCoolDown>();
+            CoolDown coolTime = SkillButtons[i].gameObject.GetComponent<CoolDown>();
             SkillButtons[i].onClick.AddListener(()=> SkillAction(num, coolTime));
         }
 
@@ -61,7 +61,7 @@ public class PlayerSkillController : MonoBehaviour
         //QuickSkill.Add(PlayerSkills[1]);
     }
 
-    public void SkillAction(int SlotNum, SkillCoolDown coolTime)  //스킬 사용시 호출
+    public void SkillAction(int SlotNum, CoolDown coolTime)  //스킬 사용시 호출
     {
         if (QuickSkill[SlotNum] == null)
         { return; }

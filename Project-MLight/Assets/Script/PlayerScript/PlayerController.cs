@@ -158,7 +158,7 @@ public class PlayerController : LivingEntity
         
         yield return new WaitForSeconds(2f);
         isInter = false;
-        target.GetComponent<Object>().Drop();
+       // target.GetComponent<Object>().Drop();
         pState = PlayerState.Idle;
     }
 

@@ -16,10 +16,10 @@ MonoBehaviour:
   _name: "\uCD08\uAE09 MP\uD68C\uBCF5 \uBB3C\uC57D"
   _tooltip: "MP\uB97C 50\uB9CC\uD07C \uD68C\uBCF5\uD558\uB294 \uBB3C\uC57D\uC785\uB2C8\uB2E4"
   _iconSprite: {fileID: 21300000, guid: 74f3ff7910cd94f41af53cfb1413fa03, type: 3}
-  _dropItemPrefab: {fileID: 1000013317980782, guid: 2cf6690298568294cb6b655c0a3aeb87,
+  _dropItemPrefab: {fileID: 7139482685747842047, guid: d481e52a703ccdd418ad77bf911031ac,
     type: 3}
   _itemPrice: 20
   _itemSellPrice: 10
   _maxAmount: 99
-  _value: 50
-  _coolTime: 3
+  value: 0
+  coolTime: 0

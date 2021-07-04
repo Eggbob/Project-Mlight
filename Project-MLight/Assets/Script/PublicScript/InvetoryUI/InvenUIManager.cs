@@ -94,15 +94,15 @@ public class InvenUIManager : MonoBehaviour
     {
         QuickSlots = quickArea.GetComponentsInChildren<ItemQuickSlotUI>();
 
-        QuickSlots[0].SetSlotIndex(0);
-        QuickSlots[0].SetSlotEvent(()=>SetQuickSlot(0));
 
-        //for (int i = 0; i <= 2; i++)
-        //{
-        //    QuickSlots[i].SetSlotIndex(i);
-        //    QuickSlots[i].SetSlotEvent(()=>SetQuickSlot(i));
 
-        //}
+        for (int i = 0; i < QuickSlots.Length; i++)
+        {
+            int index = i;
+            QuickSlots[index].SetSlotIndex(index);
+            QuickSlots[index].SetSlotEvent(() => SetQuickSlot(index));
+
+        }
     }
 
     //레이캐스트시 첫 번째 UI에서 컴포넌트를 찾아 리턴
@@ -349,16 +349,17 @@ public class InvenUIManager : MonoBehaviour
 
         ItemData data = inventory.GetItemData(index);
 
-        if (data is PortionItemData) //포션 아이템이면
+        if (data is PortionItemData pi) //포션 아이템이면
         {
             int currentAmount = inventory.GetCurrentAmount(index);
+           
+
 
             prevClickSlot.SetQuickSlotIndex(qIndex); //아이템이 퀵슬롯에 장착되었는지 업데이트
-            QuickSlots[qIndex].SetItem(data, currentAmount, () => inventory.Use(index), () => inventory.GetCurrentAmount(index));
+            QuickSlots[qIndex].SetItem(pi, currentAmount, () => inventory.Use(index), () => inventory.GetCurrentAmount(index));
 
         }
-       
-
+      
     }
 
 #if UNITY_EDITOR

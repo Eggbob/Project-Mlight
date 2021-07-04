@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class SkillCoolDown : MonoBehaviour
+public class CoolDown : MonoBehaviour
 {
 
     [SerializeField]
