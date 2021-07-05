@@ -9,13 +9,16 @@ public class PlayerController : LivingEntity
     [SerializeField]
     private PlayerMoveController pmanager;
     public GameObject levelUp;
-    public Animator anim; //애니메이터 컴포넌트
+    public Animator anim { get; private set; } //애니메이터 컴포넌트
     public static PlayerController instance; //싱글톤을 위한 instance
     public Skill pAttack;
     public MeleeWeaponTrail trail;
 
     public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }
     public PlayerState pState; //플레이어 상태 변수
+
+    [SerializeField]
+    private Inventory inventory;
 
     private bool isMove; // 움직임 관련 불값
     private bool isInter; // 오브젝트 상호작용 관련 불값
@@ -156,9 +159,23 @@ public class PlayerController : LivingEntity
     IEnumerator DropRoutine()
     {              
         
-        yield return new WaitForSeconds(2f);
+        
+        Object obj = target.GetComponent<Object>();
+
+        if (obj is ItemPickUp ipick)
+        {
+
+            (ItemData item, int amount) = ipick.Drop();
+            inventory.Add(item, amount);
+            target = null;
+        }
+        else
+        {
+
+        }
         isInter = false;
-       // target.GetComponent<Object>().Drop();
+        yield return new WaitForSeconds(0.3f);
+        // target.GetComponent<Object>().Drop();
         pState = PlayerState.Idle;
     }
 

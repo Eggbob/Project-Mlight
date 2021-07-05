@@ -3665,10 +3665,10 @@ MonoBehaviour:
   target: {fileID: 0}
   pmanager: {fileID: 0}
   levelUp: {fileID: 198276, guid: 1720f2c1867206149a7c64de30295781, type: 3}
-  anim: {fileID: 0}
   pAttack: {fileID: 0}
   trail: {fileID: 4736535556072681252}
   pState: 0
+  inventory: {fileID: 1986306533}
 --- !u!95 &317747613
 Animator:
   serializedVersion: 3
@@ -26470,6 +26470,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1963825885}
+  - component: {fileID: 1963825886}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -26493,6 +26494,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1963825886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963825884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0091cfedcb2023945820d600a0fff651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1969837774
 GameObject:
   m_ObjectHideFlags: 0
@@ -27388,6 +27401,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2944329817428818036, guid: 20f9b2d6371e6124bbe4e48d2c69947f,
+        type: 3}
+      propertyPath: amount
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 2944329817428818037, guid: 20f9b2d6371e6124bbe4e48d2c69947f,
         type: 3}
