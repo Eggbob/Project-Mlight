@@ -157,26 +157,31 @@ public class PlayerController : LivingEntity
     }
 
     IEnumerator DropRoutine()
-    {              
-        
-        
-        Object obj = target.GetComponent<Object>();
-
-        if (obj is ItemPickUp ipick)
-        {
-
-            (ItemData item, int amount) = ipick.Drop();
-            inventory.Add(item, amount);
-            target = null;
-        }
-        else
-        {
-
-        }
-        isInter = false;
+    {
         yield return new WaitForSeconds(0.3f);
-        // target.GetComponent<Object>().Drop();
-        pState = PlayerState.Idle;
+
+        if (isInter)
+        {
+            Object obj = target.GetComponent<Object>();
+
+            if (obj is ItemPickUp ipick)
+            {
+
+                (ItemData item, int amount) = ipick.Drop();
+
+                inventory.Add(item, amount);
+                target = null;
+            }
+            else
+            {
+
+            }
+            isInter = false;
+           
+
+            pState = PlayerState.Idle;
+        }
+      
     }
 
     public override void OnDamage(Skill skill)

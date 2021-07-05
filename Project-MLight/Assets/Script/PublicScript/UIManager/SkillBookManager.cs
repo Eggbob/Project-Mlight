@@ -26,6 +26,9 @@ public class SkillBookManager : MonoBehaviour
     public List<Button> SkillButtons; //플레이어 스킬 버튼 리스트
     private int ClickedBtn = 0; //현재 클릭된
 
+    [SerializeField]
+    private Inventory inventory;
+
     PlayerSkillController psCon; //플레이어 스킬 컨트롤러
     
 

@@ -9448,6 +9448,7 @@ GameObject:
   - component: {fileID: 4250583471689989815}
   - component: {fileID: 434745091832160138}
   - component: {fileID: 8993778563036013890}
+  - component: {fileID: 2948728291213959355}
   m_Layer: 10
   m_Name: CandlePrefab
   m_TagString: Untagged
@@ -9533,6 +9534,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetingTr: {fileID: 3191483261996511724}
   item: {fileID: 11400000, guid: a50897f979308f648a0d189d238164ec, type: 2}
+  amount: 0
+--- !u!135 &2948728291213959355
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8993778563036013893}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.11
+  m_Center: {x: 0, y: 0.08326144, z: 0.000000018626451}
 --- !u!1001 &7243777329402136391
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4811,6 +4811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetingTr: {fileID: 6922786735205679189}
   item: {fileID: 11400000, guid: 0b76f0f149f419449a659f460c5594a7, type: 2}
+  amount: 10
 --- !u!1 &2944329817917416847
 GameObject:
   m_ObjectHideFlags: 0

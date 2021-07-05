@@ -326,9 +326,7 @@ public class Inventory : MonoBehaviour
 
                 isItemAdded = true;
                 UpdateSlot(index);
-            }
-
-            
+            }         
         }
 
         return amount;
@@ -469,4 +467,27 @@ public class Inventory : MonoBehaviour
             return false;
         }
     }
+
+
+    public int CountSkillBook()
+    {
+          
+        int amount = 0;
+
+        for(int i = 0; i<Capacity; i++)
+        {
+            var current = items[i];
+            if (current == null)
+                continue;
+
+            if(current.Data.Name.Equals("SkillBook") && current is CountableItem ci)
+            {
+                amount += ci.Amount;
+            }
+
+        }
+
+        return amount;
+    }
+
 }

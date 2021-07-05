@@ -10,6 +10,7 @@ public abstract class Skill: MonoBehaviour
     public string SkillName; //스킬 이름
     public string Description; //스킬 설명
     public int Skillid; //스킬 아이디
+    public int SkillLevel; //스킬 레벨
     public float SkillExp = 0; //스킬 경험치
     public float MaxSkillExp; //스킬 총 경험치
     public int MpCost; //마나 사용량

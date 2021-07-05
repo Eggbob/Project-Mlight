@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1732128f4a8a48c4c84bf0f2ff00bbcf, type: 3}
+  m_Name: ExpPotion
+  m_EditorClassIdentifier: 
+  _id: 9
+  _name: "\uD558\uAE09\uACBD\uD5D8\uCE58\uC758\uBE44\uC57D"
+  _tooltip: "\uACBD\uD5D8\uCE58 \uD68D\uB4DD\uB7C9\uC774 30% \uC99D\uAC00\uD569\uB2C8\uB2E4 
+    \uD6A8\uACFC\uB294 10\uBD84\uAC04 \uC720\uC9C0\uB429\uB2C8\uB2E4."
+  _iconSprite: {fileID: 21300000, guid: cd57493d4a17891448f4110fab0eece2, type: 3}
+  _dropItemPrefab: {fileID: 0}
+  _itemPrice: 1000
+  _itemSellPrice: 100
+  _maxAmount: 99
+  value: 30
+  coolTime: 1
