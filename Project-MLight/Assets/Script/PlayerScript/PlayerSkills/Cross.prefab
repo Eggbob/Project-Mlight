@@ -48,8 +48,9 @@ MonoBehaviour:
   Description: "\uBB3C\uB9AC \uACF5\uACA9\uB825\uC5D0 \uCD94\uAC00 \uACF5\uACA9\uB825\uC744
     \uB354\uD574 \uC801\uC5D0\uAC8C \uD53C\uD574\uB97C \uC785\uD799\uB2C8\uB2E4"
   Skillid: 1
-  SkillExp: 50
-  MaxSkillExp: 0
+  SkillLevel: 1
+  SkillExp: 0
+  MaxSkillExp: 200
   MpCost: 10
   CoolTime: 5
   ActTime: 1

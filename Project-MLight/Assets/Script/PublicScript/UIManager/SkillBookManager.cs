@@ -22,12 +22,17 @@ public class SkillBookManager : MonoBehaviour
     public GameObject sButtonTemp; //스킬 버튼 템플릿
     public GameObject ActiveskillList; //액티브 스킬 리스트
     public GameObject PassiveSkillList; // 패시브 스킬 리스트
-    public GameObject SkillPage; // 상세 스킬 페이지
+ 
     public List<Button> SkillButtons; //플레이어 스킬 버튼 리스트
     private int ClickedBtn = 0; //현재 클릭된
 
+
+    [SerializeField]
+    public SkillDetailPage SkillPage; // 상세 스킬 페이지
     [SerializeField]
     private Inventory inventory;
+
+
 
     PlayerSkillController psCon; //플레이어 스킬 컨트롤러
     
@@ -97,13 +102,17 @@ public class SkillBookManager : MonoBehaviour
 
     private void ShowSkillpage(int i)
     {
-        ClickedBtn = i;
-        SkillPage.transform.GetChild(0).GetComponent<Text>().text = psCon.PlayerSkills[i].SkillName;
-        SkillPage.transform.GetChild(1).GetComponent<Text>().text = "MP 소모량 : " + psCon.PlayerSkills[i].MpCost.ToString();
-        SkillPage.transform.GetChild(2).GetComponent<Text>().text = "재사용 대기시간 : " + psCon.PlayerSkills[i].CoolTime.ToString();
-        SkillPage.transform.GetChild(3).GetComponent<Text>().text = psCon.PlayerSkills[i].Description;
+        (int count, int index) = inventory.CountSkillBook();
 
-        SkillPage.SetActive(true);
+        SkillPage.ShowSkillPage(psCon.PlayerSkills[i], count, cnt=> inventory.Remove(index, cnt));
+
+        ClickedBtn = i;
+        //SkillPage.transform.GetChild(0).GetComponent<Text>().text = psCon.PlayerSkills[i].SkillName;
+        //SkillPage.transform.GetChild(1).GetComponent<Text>().text = "MP 소모량 : " + psCon.PlayerSkills[i].MpCost.ToString();
+        //SkillPage.transform.GetChild(2).GetComponent<Text>().text = "재사용 대기시간 : " + psCon.PlayerSkills[i].CoolTime.ToString();
+        //SkillPage.transform.GetChild(3).GetComponent<Text>().text = psCon.PlayerSkills[i].Description;
+
+        SkillPage.gameObject.SetActive(true);
     } //스킬 페이지 보여주기
 
     private void ShowQuickSlot(int btnCount) //퀵슬롯에 장착된 스킬 보여주기

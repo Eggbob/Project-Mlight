@@ -47,8 +47,9 @@ MonoBehaviour:
   SkillName: "\uC77C\uBC18\uACF5\uACA9"
   Description: "\uD50C\uB808\uC774\uC5B4\uC758 \uC77C\uBC18\uACF5\uACA9"
   Skillid: 0
+  SkillLevel: 0
   SkillExp: 0
-  MaxSkillExp: 0
+  MaxSkillExp: 200
   MpCost: 0
   CoolTime: 0
   ActTime: 0

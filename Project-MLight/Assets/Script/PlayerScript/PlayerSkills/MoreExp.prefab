@@ -47,8 +47,9 @@ MonoBehaviour:
   SkillName: MoreExp
   Description: "\uACBD\uD5D8\uCE58 \uD68D\uB4DD\uB7C9\uC774 \uB298\uC5B4\uB0A9\uB2C8\uB2E4"
   Skillid: 7
+  SkillLevel: 0
   SkillExp: 0
-  MaxSkillExp: 0
+  MaxSkillExp: 200
   MpCost: 0
   CoolTime: 0
   ActTime: 0

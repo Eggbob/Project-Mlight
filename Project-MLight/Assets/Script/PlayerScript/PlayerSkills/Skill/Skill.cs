@@ -10,9 +10,9 @@ public abstract class Skill: MonoBehaviour
     public string SkillName; //스킬 이름
     public string Description; //스킬 설명
     public int Skillid; //스킬 아이디
-    public int SkillLevel; //스킬 레벨
+    public int SkillLevel = 1; //스킬 레벨
     public float SkillExp = 0; //스킬 경험치
-    public float MaxSkillExp; //스킬 총 경험치
+    public float MaxSkillExp =200; //스킬 총 경험치
     public int MpCost; //마나 사용량
     public float CoolTime; // 재사용 대기시간
     public float ActTime; //스킬 지속시간
@@ -52,6 +52,24 @@ public abstract class Skill: MonoBehaviour
     }
 
 
+   public void GetExp(float _exp)
+   {
+        SkillExp =+ _exp * 100;
+        while (SkillExp > MaxSkillExp)
+        {
+            SkillLevelUp();
+        }
+   }
+
+   protected void SkillLevelUp()
+   {
+       float remainSkillExp = SkillExp - MaxSkillExp;
+       SkillExp = remainSkillExp;
+
+       SkillLevel++;
+       MaxSkillExp *= 2;
+
+   }
 
 
   

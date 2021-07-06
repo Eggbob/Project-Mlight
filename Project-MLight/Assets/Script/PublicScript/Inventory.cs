@@ -469,10 +469,11 @@ public class Inventory : MonoBehaviour
     }
 
 
-    public int CountSkillBook()
+    public (int count, int index) CountSkillBook()
     {
           
         int amount = 0;
+        int index = 0;
 
         for(int i = 0; i<Capacity; i++)
         {
@@ -480,14 +481,15 @@ public class Inventory : MonoBehaviour
             if (current == null)
                 continue;
 
-            if(current.Data.Name.Equals("SkillBook") && current is CountableItem ci)
+            if(current.Data.Name.Equals("스킬북") && current is CountableItem ci)
             {
                 amount += ci.Amount;
+                index = i;
             }
 
         }
 
-        return amount;
+        return (index, amount);
     }
 
 }
