@@ -37,6 +37,12 @@ public class SkillDetailPage : MonoBehaviour
     private Action<int> OkBtnEvent;
     private Skill selectedSkill;
 
+
+    private void Start()
+    {
+        Init();
+    }
+
     private void Init()
     {
 
@@ -52,6 +58,8 @@ public class SkillDetailPage : MonoBehaviour
 
                 sBookTxt.text = nextCount.ToString();
             }
+
+
         });
 
         //플러스 버튼
@@ -65,6 +73,7 @@ public class SkillDetailPage : MonoBehaviour
                     nextCount = maxCount;
                 sBookTxt.text = nextCount.ToString();
             }
+           
         });
 
         //OK버튼 
@@ -80,33 +89,36 @@ public class SkillDetailPage : MonoBehaviour
 
     }
 
-
+    //스킬 상세창 보여주기
     public void ShowSkillPage(Skill skill,int skillBook, Action<int> okCallback)
     {
         sNameTxt.text = skill.SkillName;
-        sExpTxt.text = SkillMaster(skill.SkillExp);
+        sExpTxt.text = skill.SkillLevel + "Lv " + SkillMaster(skill.SkillLevel);
         expSlider.value = skill.SkillExp / skill.MaxSkillExp;
         sliderTxt.text = Mathf.Round(skill.SkillExp / skill.MaxSkillExp * 100).ToString() + "%";
         mpCosTxt.text = "MP 소모량 : " + skill.CoolTime;
         sCoolTimeTxt.text = "재사용 대기시간 : " + skill.CoolTime;
         sDescTxt.text = skill.Description;
+        sBookTxt.text = 0.ToString();
         sBookAmountTxt.text = skillBook.ToString();
 
+        maxCount = skillBook;
+        selectedSkill = skill;
 
         SetOkBtnEvent(okCallback);
     }
 
-    private string SkillMaster(float exp)//스킬 숙련도 나타내기
+    private string SkillMaster(int level)//스킬 숙련도 나타내기
     {
-        if (exp >= 0 && exp < 100)
+        if (level >= 0 && level < 10)
         {
             return "초급";
         }
-        else if (exp >= 100 && exp < 200)
+        else if (level >= 10 && level < 20)
         {
             return "중급";
         }
-        else if (exp >= 200 && exp < 300)
+        else if (level >= 20 && level < 30)
         {
             return "고급";
         }

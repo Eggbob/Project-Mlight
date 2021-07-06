@@ -11,7 +11,7 @@ public class PlayerController : LivingEntity
     public GameObject levelUp;
     public Animator anim { get; private set; } //애니메이터 컴포넌트
     public static PlayerController instance; //싱글톤을 위한 instance
-    public Skill pAttack;
+    public ActiveSkill pAttack;
     public MeleeWeaponTrail trail;
 
     public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }

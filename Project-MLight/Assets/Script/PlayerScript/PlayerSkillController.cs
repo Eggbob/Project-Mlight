@@ -54,7 +54,7 @@ public class PlayerSkillController : MonoBehaviour
             PlayerSkills[i].Init(pCon);
         }
 
-        pCon.pAttack = PlayerSkills[0];
+        pCon.pAttack = PlayerSkills[0] as ActiveSkill;
         //QuickSkill.Add(PlayerSkills[6]);
         //QuickSkill.Add(PlayerSkills[2]);
         //QuickSkill.Add(PlayerSkills[3]);
@@ -66,46 +66,50 @@ public class PlayerSkillController : MonoBehaviour
         if (QuickSkill[SlotNum] == null)
         { return; }
 
-
-        switch (QuickSkill[SlotNum].sAttr)
+        if(QuickSkill[SlotNum] is ActiveSkill aSkill)
         {
-            case Skill.SkillAttr.Buff:
-                if (pCon.Mp < QuickSkill[SlotNum].MpCost)
-                {
-                    Debug.Log("마나가 부족합니다");
-                    return;
-                }
-                else
-                {
-                    pCon.Mp -= QuickSkill[SlotNum].MpCost; //마나감소
-                    pCon.SkillUpdate(QuickSkill[SlotNum].Skillid); //스킬 모션 실행                      
-                    QuickSkill[SlotNum].ActiveAction(); //스킬 실행
-                    coolTime.UseSpell(QuickSkill[SlotNum].CoolTime); //쿨타임 설정
-                }
-                break;
-            default:
-                if ( pCon.target == null)
-                {
-                    Debug.Log("대상이 없습니다");
-                }
-                else if(pCon.target.layer != 9)
-                {
-                    Debug.Log("잘못된 대상입니다");
-                }
-                else if (pCon.Mp < QuickSkill[SlotNum].MpCost)
-                {
-                    Debug.Log("마나가 부족합니다");
-                    return;
-                }
-                else
-                {
-                    pCon.Mp -= QuickSkill[SlotNum].MpCost; //마나감소
-                    pCon.SkillUpdate(QuickSkill[SlotNum].Skillid); //스킬 모션 실행                      
-                    QuickSkill[SlotNum].ActiveAction(); //스킬 실행
-                    coolTime.UseSpell(QuickSkill[SlotNum].CoolTime); //쿨타임 설정
-                }
-                break;
-        }     
+            switch (aSkill.SAttr)
+            {
+                case ActiveSkill.SkillAttr.Buff:
+                    if (pCon.Mp < QuickSkill[SlotNum].MpCost)
+                    {
+                        Debug.Log("마나가 부족합니다");
+                        return;
+                    }
+                    else
+                    {
+                        pCon.Mp -= QuickSkill[SlotNum].MpCost; //마나감소
+                        pCon.SkillUpdate(QuickSkill[SlotNum].Skillid); //스킬 모션 실행                      
+                        aSkill.ActiveAction(); //스킬 실행
+                        coolTime.UseSpell(QuickSkill[SlotNum].CoolTime); //쿨타임 설정
+                    }
+                    break;
+                default:
+                    if (pCon.target == null)
+                    {
+                        Debug.Log("대상이 없습니다");
+                    }
+                    else if (pCon.target.layer != 9)
+                    {
+                        Debug.Log("잘못된 대상입니다");
+                    }
+                    else if (pCon.Mp < QuickSkill[SlotNum].MpCost)
+                    {
+                        Debug.Log("마나가 부족합니다");
+                        return;
+                    }
+                    else
+                    {
+                        pCon.Mp -= QuickSkill[SlotNum].MpCost; //마나감소
+                        pCon.SkillUpdate(QuickSkill[SlotNum].Skillid); //스킬 모션 실행                      
+                        aSkill.ActiveAction(); //스킬 실행
+                        coolTime.UseSpell(QuickSkill[SlotNum].CoolTime); //쿨타임 설정
+                    }
+                    break;
+            }
+        }
+
+       
     }
 
     public void SkillChange(int SlotNum, int Qbtn) // 스킬 슬롯 변경시

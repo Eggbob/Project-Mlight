@@ -489,7 +489,7 @@ public class Inventory : MonoBehaviour
 
         }
 
-        return (index, amount);
+        return (amount, index);
     }
 
 }

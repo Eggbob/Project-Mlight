@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TornadoCut : Skill
+public class TornadoCut : ActiveSkill
 {
     public GameObject SkillRangePrefab;
     private GameObject SkilLRange;
@@ -24,7 +24,7 @@ public class TornadoCut : Skill
     public override void Init(LivingEntity _LCon)
     {
         LCon = _LCon;
-        this.SkillPower = (LCon.Power * Damage) / 100;
+        _skillPower = (LCon.Power * Damage) / 100;
         this.sAttr = SkillAttr.Melee;
         SkilLRange = Instantiate(SkillRangePrefab, LCon.gameObject.transform);
         SkilLRange.SetActive(false);

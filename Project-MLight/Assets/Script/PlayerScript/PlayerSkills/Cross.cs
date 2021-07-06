@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cross : Skill
+public class Cross : ActiveSkill
 {
     public int Damage;
     public GameObject Effect;
@@ -17,7 +17,7 @@ public class Cross : Skill
     public override void Init(LivingEntity _LCon)
     {
         LCon = _LCon;
-        this.SkillPower = (LCon.Power * Damage) / 100;
+        _skillPower = (LCon.Power * Damage) / 100;
         this.sAttr = SkillAttr.Melee;
   
     }

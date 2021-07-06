@@ -6,7 +6,7 @@ public class GobeAttack : Skill
 {  
     void Start()
     {
-        this.SkillPower = LCon.Power;
+        _skillPower = LCon.Power;
     }
 
 }

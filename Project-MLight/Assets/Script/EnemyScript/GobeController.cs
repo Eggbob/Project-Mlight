@@ -401,14 +401,14 @@ public class GobeController : LivingEntity
             Hp = 0;
         }
 
-        else
+        else if(skill is ActiveSkill aSkill)
         {
-            switch(skill.sAttr)
+            switch(aSkill.SAttr)
             {
-                case Skill.SkillAttr.Melee:
+                case ActiveSkill.SkillAttr.Melee:
                     StartCoroutine(NormalDamageRoutine());//일반 공격일시
                     break;
-                case Skill.SkillAttr.Stun:
+                case ActiveSkill.SkillAttr.Stun:
                     StartCoroutine(StunRoutine(9f));
                     break;
             }

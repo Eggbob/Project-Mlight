@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slash : Skill
+public class Slash : ActiveSkill
 {
     public int nuckBackForce;
     public int Damage;
@@ -19,7 +19,7 @@ public class Slash : Skill
     public override void Init(LivingEntity _LCon)
     {
         LCon = _LCon;
-        this.SkillPower = LCon.Power * (1 + (Damage / 100));
+        _skillPower = LCon.Power * (1 + (Damage / 100));
         this.sAttr = SkillAttr.Stun;
         nuckBackForce = 5;
     }

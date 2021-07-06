@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StrengthUp : Skill
+public class StrengthUp : ActiveSkill
 {
     public GameObject EffectPrefab;
     GameObject effect;

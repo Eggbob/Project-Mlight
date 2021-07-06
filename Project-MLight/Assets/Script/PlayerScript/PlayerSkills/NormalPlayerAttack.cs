@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalPlayerAttack : Skill
+public class NormalPlayerAttack : ActiveSkill
 {
     public override void Init(LivingEntity _LCon)
     {
@@ -14,7 +14,7 @@ public class NormalPlayerAttack : Skill
     public override void ActiveAction()
     {
         LivingEntity enemytarget = LCon.target.GetComponent<LivingEntity>();
-        this.SkillPower = LCon.Power;
+        _skillPower = LCon.Power;
         enemytarget.OnDamage(this);
     }
 }
