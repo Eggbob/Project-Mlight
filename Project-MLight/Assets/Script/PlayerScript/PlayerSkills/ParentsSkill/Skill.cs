@@ -11,6 +11,7 @@ public abstract class Skill: MonoBehaviour
     protected Sprite _icon; // 스킬 아이콘
     [SerializeField]
     protected string _skillName; //스킬 이름
+    [Multiline]
     [SerializeField]
     protected string _description; //스킬 설명
     [SerializeField]
@@ -70,10 +71,10 @@ public abstract class Skill: MonoBehaviour
  
     //}
 
-    public virtual void PassiveAction() // 패시브 스킬일 경우
-    {
+    //public virtual void PassiveAction() // 패시브 스킬일 경우
+    //{
        
-    }
+    //}
 
 
    public void GetExp(float _exp)
@@ -85,16 +86,17 @@ public abstract class Skill: MonoBehaviour
         }
    }
 
-   protected void SkillLevelUp()
-   {
-       float remainSkillExp = SkillExp - MaxSkillExp;
-        _skillExp = remainSkillExp;
+   //protected void SkillLevelUp()
+   //{
+   //    float remainSkillExp = SkillExp - MaxSkillExp;
+   //     _skillExp = remainSkillExp;
 
-       _skillLevel++;
-       _maxSkillExp *= 2;
+   //    _skillLevel++;
+   //    _maxSkillExp *= 2;
 
-   }
+   //}
 
-
+    protected abstract void SkillLevelUp();
+   
   
 }

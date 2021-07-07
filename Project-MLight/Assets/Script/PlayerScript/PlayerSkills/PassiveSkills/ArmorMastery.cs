@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoreCoin : Skill
+public class ArmorMastery : PassiveSkill
 {
    
 }

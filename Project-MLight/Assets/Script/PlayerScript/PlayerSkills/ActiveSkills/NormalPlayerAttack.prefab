@@ -43,16 +43,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72e0009f2fa198841932a406fd81dcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 0}
-  SkillName: "\uC77C\uBC18\uACF5\uACA9"
-  Description: "\uD50C\uB808\uC774\uC5B4\uC758 \uC77C\uBC18\uACF5\uACA9"
-  Skillid: 0
-  SkillLevel: 0
-  SkillExp: 0
-  MaxSkillExp: 200
-  MpCost: 0
-  CoolTime: 0
-  ActTime: 0
-  SkillPower: 20
+  _icon: {fileID: 21300000, guid: d54a9728519c5d54bbe09aff5bd95284, type: 3}
+  _skillName: "\uD1B5\uC0C1\uACF5\uACA9"
+  _description: "\uD50C\uB808\uC774\uC5B4\uC758 \uC77C\uBC18 \uACF5\uACA9\uC785\uB2C8\uB2E4"
+  _skillId: 0
+  _skillLevel: 1
+  _skillExp: 0
+  _maxSkillExp: 0
+  _mpCost: 0
+  _coolTime: 0
+  _actTime: 0
+  _skillPower: 0
   LCon: {fileID: 0}
-  sAttr: 1

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3081950166607245172
+--- !u!1 &7007283552257055800
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3081950166607245173}
-  - component: {fileID: 3088636830100889259}
+  - component: {fileID: 7007283552257055801}
+  - component: {fileID: 9070482112255216441}
   m_Layer: 0
-  m_Name: StrengthUp
-  m_TagString: ActiveSkill
+  m_Name: HPUp
+  m_TagString: PassiveSkill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3081950166607245173
+--- !u!4 &7007283552257055801
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3081950166607245172}
+  m_GameObject: {fileID: 7007283552257055800}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,30 +31,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3088636830100889259
+--- !u!114 &9070482112255216441
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3081950166607245172}
+  m_GameObject: {fileID: 7007283552257055800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 849d5576d58977144b9cdcd031d46dca, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fde9e4012eefb945899fa6428a9ecc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: beb4181ef568e0f4fa18f06a2b4210d2, type: 3}
-  SkillName: "\uACF5\uACA9\uB825 \uC99D\uAC00"
-  Description: "30\uCD08 \uB3D9\uC548 \uC790\uC2E0\uC758 \uACF5\uACA9\uB825\uC774
-    30\uB9CC\uD07C \uC0C1\uC2B9\uD569\uB2C8\uB2E4"
-  Skillid: 4
-  SkillExp: 0
-  MaxSkillExp: 0
-  MpCost: 10
-  CoolTime: 3
-  ActTime: 30
-  SkillPower: 30
+  _icon: {fileID: 21300000, guid: 2f86ca97b40068f439c0b74cf0303f79, type: 3}
+  _skillName: "\uC0DD\uBA85\uB825 \uAC15\uD654"
+  _description: "\uCD5C\uB300 HP\uAC00 x \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  _skillId: 6
+  _skillLevel: 1
+  _skillExp: 0
+  _maxSkillExp: 200
+  _mpCost: 0
+  _coolTime: 0
+  _actTime: 0
+  _skillPower: 0
   LCon: {fileID: 0}
-  sAttr: 3
-  EffectPrefab: {fileID: 1936098086150093012, guid: 0abd33e6554a7724d92378a3d50f0206,
-    type: 3}

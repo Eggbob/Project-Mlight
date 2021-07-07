@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Thrust : ActiveSkill
+public class Slash : ActiveSkill
 {
-    public int nuckBackForce;
-    public int Damage;
-
+    [SerializeField]
+    private int nuckBackForce;
+    [SerializeField]
+    private int Damage;
+    public GameObject Effect;
 
     public override void ActiveAction()
     {
@@ -27,6 +29,7 @@ public class Thrust : ActiveSkill
     IEnumerator DamageRoutine(Rigidbody tRigid)
     {
         LivingEntity enemytarget = LCon.target.GetComponent<LivingEntity>();
+        Instantiate(Effect, this.transform.position, this.transform.rotation);
         yield return new WaitForSeconds(1f);
         enemytarget.OnDamage(this);
         tRigid.AddForce(LCon.target.transform.forward * nuckBackForce * -1, ForceMode.Impulse);
@@ -34,6 +37,15 @@ public class Thrust : ActiveSkill
         tRigid.velocity = Vector3.zero;
     }
 
-   
+    protected override void SkillLevelUp()
+    {
+        float remainSkillExp = SkillExp - MaxSkillExp;
+        _skillExp = remainSkillExp;
 
+        Damage += 10;
+
+        _skillPower = LCon.Power * (1 + (Damage / 100));
+        _skillLevel++;
+        _maxSkillExp *= 2;
+    }
 }

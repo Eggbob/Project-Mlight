@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GobeAttack : Skill
-{  
-    void Start()
+public class PassiveSkill : Skill
+{
+    public virtual void PassiveAction() // 패시브 스킬일 경우
     {
-        _skillPower = LCon.Power;
+
     }
 
     protected override void SkillLevelUp()
     {
         throw new System.NotImplementedException();
     }
-
 }

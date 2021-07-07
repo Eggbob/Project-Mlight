@@ -7,7 +7,8 @@ public class TornadoCut : ActiveSkill
     public GameObject SkillRangePrefab;
     private GameObject SkilLRange;
     public GameObject Effect;
-    public int Damage;
+    [SerializeField]
+    private int Damage;
     public LayerMask targetLayer; // 공격 대상 레이어
     public float fRange; // 수색범위
 
@@ -44,6 +45,16 @@ public class TornadoCut : ActiveSkill
         SkilLRange.SetActive(false);
     }
 
+    protected override void SkillLevelUp()
+    {
+        float remainSkillExp = SkillExp - MaxSkillExp;
+        _skillExp = remainSkillExp;
 
+        Damage += 10;
+
+        _skillPower = (LCon.Power * Damage) / 100;
+        _skillLevel++;
+        _maxSkillExp *= 2;
+    }
 
 }

@@ -217,18 +217,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e932c96c281214183fd5c42d99618b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 0c136515f7aa49e43ba0840df48c1f4d, type: 3}
-  SkillName: TornadoCut
-  Description: "\uBB3C\uB9AC\uACF5\uACA9\uB825\uC758 %\uBC94\uC704 \uB9CC\uD07C \uACF5\uACA9"
-  Skillid: 3
-  SkillExp: 200
-  MaxSkillExp: 0
-  MpCost: 10
-  CoolTime: 6
-  ActTime: 0
-  SkillPower: 300
+  _icon: {fileID: 21300000, guid: 0c136515f7aa49e43ba0840df48c1f4d, type: 3}
+  _skillName: "\uD68C\uC624\uB9AC \uBC30\uAE30"
+  _description: "\uBC94\uC704 \uB0B4\uC758 \uBAA8\uB4E0 \uC801\uC744\uC5D0\uAC8C
+    \uBB3C\uB9AC \uACF5\uACA9\uB825 %\uB9CC\uD07C \uACF5\uACA9"
+  _skillId: 4
+  _skillLevel: 1
+  _skillExp: 0
+  _maxSkillExp: 200
+  _mpCost: 20
+  _coolTime: 10
+  _actTime: 1
+  _skillPower: 0
   LCon: {fileID: 0}
-  sAttr: 1
   SkillRangePrefab: {fileID: 166723256}
   Effect: {fileID: 1648509489993130, guid: 8a0c2ade089d4c44fbdf861f7bcd7be6, type: 3}
   Damage: 20

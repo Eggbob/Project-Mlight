@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Cross : ActiveSkill
 {
-    public int Damage;
+    [SerializeField]
+    private int Damage;
     public GameObject Effect;
 
     public override void ActiveAction()
@@ -35,4 +36,17 @@ public class Cross : ActiveSkill
         yield return new WaitForSeconds(0.9f);
         tRigid.velocity = Vector3.zero;
     }
+
+    protected override void SkillLevelUp()
+    {
+        float remainSkillExp = SkillExp - MaxSkillExp;
+        _skillExp = remainSkillExp;
+
+        Damage += 10;
+
+        _skillPower = (LCon.Power * Damage) / 100;
+        _skillLevel++;
+        _maxSkillExp *= 2;
+    }
+
 }

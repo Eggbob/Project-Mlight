@@ -3704,11 +3704,11 @@ MonoBehaviour:
   - {fileID: 7850305912734856096, guid: a9a044205c125f741a3f6ca985b92b38, type: 3}
   - {fileID: 1519484536072424026, guid: 2befc831657cf294881976660fdc6aca, type: 3}
   - {fileID: 8335746211890553702, guid: 3597802be23ed9e48bc5caf58b784690, type: 3}
+  - {fileID: 3081950166607245172, guid: a1e04ffbd2abf5841a1b184e92774310, type: 3}
   - {fileID: 2609311933814826279, guid: 7060c2a3627ecc047aeca22da15adeb4, type: 3}
   - {fileID: 7007283552257055800, guid: 690495fb503ee9e4c9cc31c551753b8b, type: 3}
-  - {fileID: 4772320170255042938, guid: b07e62087df2e2f4b8a0537cf913e57a, type: 3}
-  - {fileID: 3081950166607245172, guid: a1e04ffbd2abf5841a1b184e92774310, type: 3}
-  - {fileID: 4774559085604284234, guid: dad39dc228d09f1458dd97e5da345b6d, type: 3}
+  - {fileID: 8673592009809827754, guid: 573c676fe744d8348aa88778f2afc1d0, type: 3}
+  - {fileID: 8717367679354810408, guid: 3f91b795ffa5cbf48bb6fb5dbe9f6939, type: 3}
   PlayerSkills: []
   SkillButtons:
   - {fileID: 1855199647}
@@ -13383,7 +13383,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -18.797974, y: -15.5}
+  m_AnchoredPosition: {x: -18.797852, y: -15.5}
   m_SizeDelta: {x: 122.404205, y: 23.811363}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1008315908
@@ -34321,3 +34321,72 @@ Transform:
   m_Father: {fileID: 6229006255530051179}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -5.1150002, y: -177.10701, z: -80.934006}
+--- !u!1001 &8673592009211929926
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8673592009809827752, guid: 573c676fe744d8348aa88778f2afc1d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8673592009809827752, guid: 573c676fe744d8348aa88778f2afc1d0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8673592009809827752, guid: 573c676fe744d8348aa88778f2afc1d0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8673592009809827752, guid: 573c676fe744d8348aa88778f2afc1d0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8673592009809827752, guid: 573c676fe744d8348aa88778f2afc1d0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8673592009809827752, guid: 573c676fe744d8348aa88778f2afc1d0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8673592009809827752, guid: 573c676fe744d8348aa88778f2afc1d0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8673592009809827752, guid: 573c676fe744d8348aa88778f2afc1d0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8673592009809827752, guid: 573c676fe744d8348aa88778f2afc1d0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8673592009809827752, guid: 573c676fe744d8348aa88778f2afc1d0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8673592009809827752, guid: 573c676fe744d8348aa88778f2afc1d0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8673592009809827754, guid: 573c676fe744d8348aa88778f2afc1d0,
+        type: 3}
+      propertyPath: m_Name
+      value: MpUp
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 573c676fe744d8348aa88778f2afc1d0, type: 3}

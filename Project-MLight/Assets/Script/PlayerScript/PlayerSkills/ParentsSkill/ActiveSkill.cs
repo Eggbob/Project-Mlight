@@ -17,4 +17,10 @@ public class ActiveSkill : Skill
     protected SkillAttr sAttr; //스킬 속성 변수
 
     public SkillAttr SAttr => sAttr;
+
+
+    protected override void SkillLevelUp()
+    {
+        throw new System.NotImplementedException();
+    }
 }

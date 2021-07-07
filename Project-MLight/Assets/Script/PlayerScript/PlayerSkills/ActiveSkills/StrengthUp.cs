@@ -26,13 +26,21 @@ public class StrengthUp : ActiveSkill
 
     IEnumerator BuffRoutine()
     {
-
-
         LCon.Power += (int)this.SkillPower;
-        Debug.Log(LCon.Power);
+   
         yield return new WaitForSeconds(this.ActTime);
         LCon.Power -= (int)this.SkillPower;
       
+    }
+
+    protected override void SkillLevelUp()
+    {
+        float remainSkillExp = SkillExp - MaxSkillExp;
+        _skillExp = remainSkillExp;
+
+        _skillPower += 10;
+        _skillLevel++;
+        _maxSkillExp *= 2;
     }
 
 }
