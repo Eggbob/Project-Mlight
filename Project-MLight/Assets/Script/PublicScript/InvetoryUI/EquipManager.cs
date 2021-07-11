@@ -15,8 +15,7 @@ public class EquipManager : MonoBehaviour
 
     [SerializeField]
     private InvenEquipToolTipManager eManger; //장비 툴팁
-
-    
+  
 
     public Sprite weaponNormalImg; //무기 기본이미지
     public Sprite armorNormalImg; //방어구 기본이미지

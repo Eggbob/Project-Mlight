@@ -43,11 +43,11 @@ public class Status : MonoBehaviour
 
    
     //초기상태 설정
-    public void statusInit(int pHp =100, int pMp = 100, int pPower = 10, int pInt = 10, int pDef = 10 )
+    public virtual void statusInit(int pHp =100, int pMp = 100, int pPower = 10, int pInt = 10, int pDef = 10 )
     {
         _level = 1;
-        _maxExp = 0;
-        _exp = _maxExp;
+        _maxExp = 200;
+        _exp = 0;
         _maxHP = pHp;
         _hp = _maxHP;
         _maxMP = pMp;
@@ -58,25 +58,25 @@ public class Status : MonoBehaviour
         _statPoint = 0;
     }
 
-    public virtual void LvUp(int totalexp)
-    {
-        Level++;
-        int leftexp = totalexp - _maxExp;
-        _maxExp += 100;
-        _exp = leftexp;
-        _statPoint += 3;
-    }
+    //public virtual void LvUp(int totalexp)
+    //{
+    //    Level++;
+    //    int leftexp = totalexp - _maxExp;
+    //    _maxExp += 100;
+    //    _exp = leftexp;
+    //    _statPoint += 3;
+    //}
 
-    public  void GetExp(int mount)
-    {
-        if(mount + Exp >= MaxExp)
-        {
-            LvUp(mount + Exp);
-        }
-        else
-        {
-            Exp += mount;
-        }
-    }
+    //public void GetExp(int mount)
+    //{
+    //    if(mount + Exp >= MaxExp)
+    //    {
+    //        LvUp(mount + Exp);
+    //    }
+    //    else
+    //    {
+    //        Exp += mount;
+    //    }
+    //}
 
 }

@@ -11,6 +11,10 @@ public class PassiveSkill : Skill
 
     protected override void SkillLevelUp()
     {
-        throw new System.NotImplementedException();
+        float remainSkillExp = SkillExp - MaxSkillExp;
+        _skillExp = remainSkillExp;
+        _skillLevel++;
+        _maxSkillExp *= 2;
+
     }
 }

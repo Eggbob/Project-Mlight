@@ -8,23 +8,33 @@ public class ExpManager : MonoBehaviour
     public Slider ExpBar;
     public Text ExpTxt;
 
-    PlayerController pCon;
+
+    
+    private PlayerController pCon;
 
     void Start()
     {
         pCon = PlayerController.instance;
+//        pCon.ExpGet += ExpUpdate;
+
+        ExpUpdate(0);
     }
 
    
     void Update()
     {
-        ExpUpdate();
+      
     }
 
-    void ExpUpdate()
+    void ExpUpdate(int defaultAmount)
     {
-        ExpBar.value = (float)pCon.Exp / (float)pCon.MaxExp;
-        ExpTxt.text = pCon.Exp + "%"; 
+        float value = (float)pCon.Exp / (float)pCon.MaxExp;
+        int expValue = Mathf.RoundToInt(((float)pCon.Exp / (float)pCon.MaxExp) * 100);
+        ExpBar.value = value;
+        ExpTxt.text = expValue.ToString() + "%";
+
     }
+
+
 
 }

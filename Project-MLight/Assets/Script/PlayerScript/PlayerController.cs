@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class PlayerController : LivingEntity
 {
-    private Status status;
+   
     [SerializeField]
     private PlayerMoveController pmanager;
     public GameObject levelUp;
@@ -19,15 +19,16 @@ public class PlayerController : LivingEntity
 
     [SerializeField]
     private Inventory inventory;
+    public Inventory Inven => inventory;
 
     private bool isMove; // 움직임 관련 불값
     private bool isInter; // 오브젝트 상호작용 관련 불값
     private bool isAttack; // 공격하는지
-    private int sid; //스킬 아이디를 저장할 변수
+  
 
     private void Awake()
     {
-        status = this.GetComponent<Status>();
+    
         pmanager = this.GetComponent<PlayerMoveController>();
         anim = this.GetComponent<Animator>();
         pState = PlayerState.Idle;
@@ -41,16 +42,24 @@ public class PlayerController : LivingEntity
             if (instance != this)
                 Destroy(gameObject);
         }
+
+        statusInit();
+
         DontDestroyOnLoad(gameObject);
     }
 
-
-    private void Start()
+   
+    private void Update()
     {
-  
+        target = pmanager.target;
+        CheckAnimations();
+        anim.SetBool("isRun", isMove);
+        anim.SetBool("isAttack", isAttack);
+        anim.SetBool("isInter", isInter);
     }
 
-    void CheckAnimations()
+    //애니메이션 재생
+    private void CheckAnimations()
     {
         switch (pState)
         {
@@ -80,7 +89,7 @@ public class PlayerController : LivingEntity
         }
     }
 
-    void CheckStatus()
+    private void CheckStatus()
     {
         switch (pState)
         {
@@ -109,12 +118,6 @@ public class PlayerController : LivingEntity
         
     }
 
-   
-    void AttackUpdate()
-    {
-        
-    }
-
 
     void AttackCheck()
     {
@@ -138,7 +141,7 @@ public class PlayerController : LivingEntity
     }
     
 
-    IEnumerator DamageUpdate(LivingEntity enemyTarget)
+    private IEnumerator DamageUpdate(LivingEntity enemyTarget)
     {       
         yield return new WaitForSeconds(0.7f);
       
@@ -150,13 +153,13 @@ public class PlayerController : LivingEntity
         trail.Emit = false;
     }
 
-    void DropUpdate()
+    private void DropUpdate()
     {
         target = pmanager.target;
         StartCoroutine("DropRoutine");      
     }
 
-    IEnumerator DropRoutine()
+    private IEnumerator DropRoutine()
     {
         yield return new WaitForSeconds(0.3f);
 
@@ -189,23 +192,18 @@ public class PlayerController : LivingEntity
         base.OnDamage(skill);
     }
 
-    private void Update()
+
+    public override void statusInit(int pHp = 100, int pMp = 100, int pPower = 60, int pInt = 30, int pDef = 30)
     {
-        target = pmanager.target;
-        CheckAnimations();
-        anim.SetBool("isRun",isMove);
-        anim.SetBool("isAttack", isAttack);
-        anim.SetBool("isInter", isInter);
- 
+        base.statusInit(pHp, pMp, pPower, pInt, pDef);
     }
 
-
-    public override void LvUp(int totalexp)
+    protected override void LvUp()
     {
         GameObject pre = Instantiate(levelUp, this.transform.position, Quaternion.identity);
         Destroy(pre, 1f);
 
-        base.LvUp(totalexp);
+        base.LvUp();
     }
 
 

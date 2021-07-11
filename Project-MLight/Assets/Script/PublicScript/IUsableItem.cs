@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IUsableItem 
 {
-    bool Use();
+    bool Use(LivingEntity Lcon);
 }

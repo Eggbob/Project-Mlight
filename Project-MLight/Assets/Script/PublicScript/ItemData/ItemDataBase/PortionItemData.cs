@@ -11,6 +11,8 @@ public class PortionItemData : CountableItemData
 
     [SerializeField] private float value;   // 포션 효과량
     [SerializeField] private float coolTime; //포션 쿨타임
+   
+
 
     public override Item CreateItem()
     {

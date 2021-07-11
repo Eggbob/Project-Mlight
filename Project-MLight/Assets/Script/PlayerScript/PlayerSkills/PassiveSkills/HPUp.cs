@@ -6,7 +6,8 @@ public class HPUp : PassiveSkill
 {
     public override void PassiveAction()
     {
-        LCon.Hp += (int)_skillPower;
+        LCon.MaxHp += 100;
+        LCon.Hp = LCon.MaxHp;
     }
 
     public override void Init(LivingEntity _LCon)
@@ -18,13 +19,12 @@ public class HPUp : PassiveSkill
 
     protected override void SkillLevelUp()
     {
-        float remainSkillExp = SkillExp - MaxSkillExp;
-        _skillExp = remainSkillExp;
+       
 
         _skillPower += 100;
 
-        _skillLevel++;
-        _maxSkillExp *= 2;
+        base.SkillLevelUp();
+
 
         PassiveAction();
     }

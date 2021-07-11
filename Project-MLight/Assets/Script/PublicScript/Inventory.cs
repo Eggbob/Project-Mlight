@@ -8,6 +8,10 @@ public class Inventory : MonoBehaviour
     //아이템 수용 한도
     public int Capacity { get; private set; }
 
+
+    [SerializeField]
+    private LivingEntity player;
+
     //장비 착용창
     [SerializeField]
     private EquipManager eManager;
@@ -373,7 +377,7 @@ public class Inventory : MonoBehaviour
 
         if(items[index] is IUsableItem uItem)
         {
-            if(uItem.Use())
+            if(uItem.Use(player))
             {
                 UpdateSlot(index);
             }
@@ -492,4 +496,9 @@ public class Inventory : MonoBehaviour
         return (amount, index);
     }
 
+
+    public void SetMaxWeight(int _weight)
+    {
+        this.maxWeight += _weight;
+    }
 }

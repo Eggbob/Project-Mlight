@@ -6,7 +6,8 @@ public class MpUp : PassiveSkill
 {
     public override void PassiveAction()
     {
-        LCon.Mp += (int)_skillPower;
+        LCon.MaxMp += 100;
+        LCon.Mp = LCon.MaxMp;
     }
 
     public override void Init(LivingEntity _LCon)

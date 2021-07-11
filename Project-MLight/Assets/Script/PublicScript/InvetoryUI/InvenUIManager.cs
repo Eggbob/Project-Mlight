@@ -186,7 +186,7 @@ public class InvenUIManager : MonoBehaviour
     //슬롯에 아이템 아이콘 등록
     public void SetItemIcon(int index, Sprite icon)
     {
-        EditorLog($"Set Item Icon : Slot [{index}]");
+       // EditorLog($"Set Item Icon : Slot [{index}]");
 
         slotUiList[index].SetItem(icon);
     }
@@ -194,7 +194,7 @@ public class InvenUIManager : MonoBehaviour
     //해당 슬롯의 아이템 개수 텍스트 지정 
     public void SetItemAmountText(int index, int amount)
     {
-        EditorLog($"Set Item Amount Text : Slot [{index}], Amount [{amount}]");
+        //EditorLog($"Set Item Amount Text : Slot [{index}], Amount [{amount}]");
 
         // amount가 1 이하일 경우 텍스트 미표시
         slotUiList[index].SetItemAmount(amount);
@@ -215,7 +215,7 @@ public class InvenUIManager : MonoBehaviour
     // 해당 슬롯의 아이템 개수 텍스트 지정 
     public void HideItemAmountText(int index)
     {
-        EditorLog($"Hide Item Amount Text : Slot [{index}]");
+       // EditorLog($"Hide Item Amount Text : Slot [{index}]");
 
         slotUiList[index].SetItemAmount(1);
     }
@@ -223,7 +223,7 @@ public class InvenUIManager : MonoBehaviour
     // 슬롯에서 아이템 아이콘 제거, 개수 텍스트 숨기기
     public void RemoveItem(int index)
     {
-        EditorLog($"Remove Item : Slot [{index}]");
+        //EditorLog($"Remove Item : Slot [{index}]");
 
         slotUiList[index].RemoveItem();
         HideItemAmountText(index);
@@ -362,15 +362,15 @@ public class InvenUIManager : MonoBehaviour
       
     }
 
-#if UNITY_EDITOR
-    [Header("Editor Options")]
-    [SerializeField] private bool _showDebug = true;
-#endif
+//#if UNITY_EDITOR
+//    [Header("Editor Options")]
+//    [SerializeField] private bool _showDebug = true;
+//#endif
 
-    [System.Diagnostics.Conditional("UNITY_EDITOR")]
-    private void EditorLog(object message)
-    {
-        if (!_showDebug) return;
-        UnityEngine.Debug.Log($"[InventoryUI] {message}");
-    }
+//    [System.Diagnostics.Conditional("UNITY_EDITOR")]
+//    private void EditorLog(object message)
+//    {
+//        if (!_showDebug) return;
+//        UnityEngine.Debug.Log($"[InventoryUI] {message}");
+//    }
 }

@@ -7,7 +7,7 @@ public class PortionItem : CountableItem,  IUsableItem
 {
     public PortionItem(PortionItemData data, int amount = 1) : base(data, amount) { }
 
-    public bool Use()
+    public virtual bool Use(LivingEntity Lcon)
     {
         Amount--;
 
