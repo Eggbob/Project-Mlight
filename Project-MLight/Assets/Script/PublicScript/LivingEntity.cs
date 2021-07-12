@@ -7,7 +7,7 @@ public class LivingEntity : Status
 {
     public GameObject target;
     //public delegate void GetExp(int amount);
-    public Action<int> ExpGet;
+    public Action ExpGet;
 
     public override void statusInit(int pHp = 100, int pMp = 100, int pPower = 10, int pInt = 10, int pDef = 10)
     {
@@ -42,16 +42,19 @@ public class LivingEntity : Status
     }
 
     //경험치 획득 
-    public void ExpGetRoutine(int mount)
-    {    
-        _exp += mount;
+    public void ExpGetRoutine(float mount)
+    {
+        mount *= BonusExp;
 
+        _exp += (int)mount;
+
+        Debug.Log(mount);
       
         while (Exp >= MaxExp)
         {
             LvUp();
         }
 
-        ExpGet(mount);
+        ExpGet();
     }
 }

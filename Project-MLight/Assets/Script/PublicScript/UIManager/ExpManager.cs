@@ -15,9 +15,9 @@ public class ExpManager : MonoBehaviour
     void Start()
     {
         pCon = PlayerController.instance;
-//        pCon.ExpGet += ExpUpdate;
+        pCon.ExpGet += ExpUpdate;
 
-        ExpUpdate(0);
+        ExpUpdate();
     }
 
    
@@ -26,7 +26,7 @@ public class ExpManager : MonoBehaviour
       
     }
 
-    void ExpUpdate(int defaultAmount)
+    void ExpUpdate()
     {
         float value = (float)pCon.Exp / (float)pCon.MaxExp;
         int expValue = Mathf.RoundToInt(((float)pCon.Exp / (float)pCon.MaxExp) * 100);

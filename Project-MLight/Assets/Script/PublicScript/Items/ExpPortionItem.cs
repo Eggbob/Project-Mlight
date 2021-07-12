@@ -19,7 +19,6 @@ public class ExpPortionItem : PortionItem
 
         Thread thread = new Thread(() => PortionRoutine());
         thread.Start();
-
        
         base.Use(Lcon);
         return true;
@@ -30,22 +29,13 @@ public class ExpPortionItem : PortionItem
       
         edata = Data as ExpPortionItemData;
 
-        Lcon.ExpGet += ExpUpgrade;
+        Lcon.SetBonusExp(edata.Value);
 
-        float timer = 0;
+   
+        Thread.Sleep((int)edata.ApperTime);
 
-        Debug.Log(edata.ApperTime);
-        while (timer  >= edata.ApperTime)
-        {
-            timer += Time.deltaTime;
+        Lcon.SetBonusExp( -edata.Value );
 
-            
-        }
-        Debug.Log(timer);
-        //Thread.Sleep((int)edata.ApperTime);
-
-        Lcon.ExpGet -= ExpUpgrade;
-        Debug.Log("Out");
     }
 
     private void ExpUpgrade(int _exp)
@@ -55,16 +45,18 @@ public class ExpPortionItem : PortionItem
         {
             int Exp = _exp / (int)edata.Value * 100;
 
+            isApplied = true;
+
             Lcon.ExpGetRoutine(Exp);
 
-            isApplied = true;
+            return;
         }
         else
         {
             isApplied = false;
+            return;
         }
-     
-
+    
     }
 
     protected override CountableItem Clone(int amount)

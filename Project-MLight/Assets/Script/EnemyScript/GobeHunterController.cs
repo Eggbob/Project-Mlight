@@ -464,7 +464,7 @@ public class GobeHunterController : LivingEntity
 
 
         nav.enabled = false; // 네비 비활성화
-        target.GetComponent<LivingEntity>().ExpGet(50);
+        target.GetComponent<LivingEntity>().ExpGetRoutine(50);
 
         Collider[] enemyColliders = GetComponents<Collider>();
 

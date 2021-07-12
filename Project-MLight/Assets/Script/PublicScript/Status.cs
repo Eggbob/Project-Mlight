@@ -28,6 +28,13 @@ public class Status : MonoBehaviour
     protected int _statPoint; //스탯 포인트
 
 
+    public float BonusPower { get; private set; } = 1;
+    public float BonusInt { get; private set; } = 1;
+    public float BonusDef { get; private set; } = 1;
+    public float BonusHp { get; private set; } = 1;
+    public float BonusMp { get; private set; } = 1;
+    public float BonusExp { get; private set; } = 1;
+
     public int Level { get { return _level; } set { _level = value; } }
     public int Exp { get { return _exp; } set { _exp = value; } }
     public int MaxExp {  get { return _maxExp; } set { _maxExp = value; } }
@@ -57,6 +64,13 @@ public class Status : MonoBehaviour
         _def = pDef;
         _statPoint = 0;
     }
+
+    public void SetBonusPower(float _power){ BonusPower = _power; }
+    public void SetBonusInt(float _Int){ BonusInt = _Int; }
+    public void SetBonusDef(float _def){ BonusDef = _def; }
+    public void SetBonusHp(float _hp){ BonusHp = _hp; }
+    public void SetBonusMp(float _mp){ BonusMp = _mp; }
+    public void SetBonusExp(float _exp){ BonusExp += _exp/100 ; }
 
     //public virtual void LvUp(int totalexp)
     //{

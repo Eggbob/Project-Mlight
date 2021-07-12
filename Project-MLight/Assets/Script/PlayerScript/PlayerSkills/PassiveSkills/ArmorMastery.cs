@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class ArmorMastery : PassiveSkill
 {
-    private new PlayerController LCon;
+  
 
     [SerializeField]
     protected int plusWeight;
 
     public override void PassiveAction()
     {
-        LCon.Inven.SetMaxWeight(20);
-        LCon.DEF += 12;
+        PlayerController PCon = LCon as PlayerController;
+
+        PCon.Inven.SetMaxWeight(20);
+        PCon.DEF += 12;
      
     }
 
     public override void Init(LivingEntity _LCon)
-    {
-        LCon = _LCon as PlayerController; 
-
+    {       
         PassiveAction();
     }
 
