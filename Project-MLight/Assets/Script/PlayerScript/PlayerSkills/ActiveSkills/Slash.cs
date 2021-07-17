@@ -6,8 +6,7 @@ public class Slash : ActiveSkill
 {
     [SerializeField]
     private int nuckBackForce;
-    [SerializeField]
-    private int Damage;
+ 
     public GameObject Effect;
 
     public override void ActiveAction()

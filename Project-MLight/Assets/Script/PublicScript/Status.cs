@@ -28,7 +28,7 @@ public class Status : MonoBehaviour
     protected int _statPoint; //스탯 포인트
 
 
-    public float BonusPower { get; private set; } = 1;
+    public int BonusPower { get; private set; } = 1;
     public float BonusInt { get; private set; } = 1;
     public float BonusDef { get; private set; } = 1;
     public float BonusHp { get; private set; } = 1;
@@ -65,7 +65,7 @@ public class Status : MonoBehaviour
         _statPoint = 0;
     }
 
-    public void SetBonusPower(float _power){ BonusPower = _power; }
+    public void SetBonusPower(int _power){ BonusPower += _power; }
     public void SetBonusInt(float _Int){ BonusInt = _Int; }
     public void SetBonusDef(float _def){ BonusDef = _def; }
     public void SetBonusHp(float _hp){ BonusHp = _hp; }

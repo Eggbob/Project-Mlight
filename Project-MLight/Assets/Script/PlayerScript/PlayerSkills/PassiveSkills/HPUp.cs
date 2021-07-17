@@ -19,8 +19,7 @@ public class HPUp : PassiveSkill
 
     protected override void SkillLevelUp()
     {
-       
-
+     
         _skillPower += 100;
 
         base.SkillLevelUp();

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ActiveSkill : Skill
 {
+
+    protected float Damage;
+
    public virtual void ActiveAction()
     {
 

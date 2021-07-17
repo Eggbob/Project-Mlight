@@ -6,12 +6,13 @@ using UnityEngine;
 public class LivingEntity : Status
 {
     public GameObject target;
-    //public delegate void GetExp(int amount);
+  
     public Action ExpGet;
+
+    public BuffManager buffManager;
 
     public override void statusInit(int pHp = 100, int pMp = 100, int pPower = 10, int pInt = 10, int pDef = 10)
     {
-       // ExpGet += ExpGetRoutine;
 
         base.statusInit(pHp, pMp, pPower, pInt, pDef);
     }

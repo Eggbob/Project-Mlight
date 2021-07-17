@@ -5,46 +5,155 @@ using UnityEngine.UI;
 
 public class BuffManager : MonoBehaviour
 {
-    public static BuffManager instance;
-
-    public List<BuffSystem> onBuff = new List<BuffSystem>();
-
-    public GameObject buffPrefab;
-
-    public float BuffChange(string type, float origin)
+    //버프 타입
+    public enum BuffType
     {
-        if (onBuff.Count > 0)
+        None,
+        Atk,
+        Move,
+        Exp,
+        Done
+    }
+
+    //현재 적용중인 버프
+    [SerializeField]
+    private Buff[] onBuff = new Buff[(int)BuffType.Done];
+
+    //플레이어 컨트롤러
+    private LivingEntity pCon;
+
+    //생성할 버프 프리팹
+    [SerializeField]
+    private GameObject buffSlotPrefab;
+
+    [SerializeField]
+    private RectTransform BuffGroup;
+
+    [Header("생성할 버프 이미지")]
+    [SerializeField]
+    private Sprite atkIcon;
+    [SerializeField]
+    private Sprite moveIcon;
+    [SerializeField]
+    private Sprite expIcon;
+
+
+    //버프 생성
+    public void CreateBuff(BuffType type,  float duration, float value)
+    {
+       int index = FindAdditionalBuff(type);
+
+        if(index != -1) //추가 가능한 버프가 있다면
         {
-            float temp = 0;
-            for (int i = 0; i < onBuff.Count; i++)
-            {
-                if (onBuff[i].type.Equals(type))
-                {
-                    temp += origin * onBuff[i].percentage;
-                }
-            }
-            return origin + temp; ;
+            onBuff[index].AddDuration(duration);
+            return;
         }
         else
         {
-            return origin;
+            index = FindEmptyBuffIndex();
+            SetBuff(type, duration, value, index);
+         
+            return;
         }
     }
 
-    public void ChooseBuff(string type)
+    //버프 적용
+    private void ApplyBuff(int index)
     {
-        switch (type)
+        switch(onBuff[index].BuffType)
         {
-            case "Atk":
-                BuffChange(type, 1);
+            case BuffType.Atk:            
+                pCon.SetBonusPower((int)onBuff[index].Value); 
+                break;
+            case BuffType.Exp:
+                pCon.SetBonusExp(onBuff[index].Value);
+                break;
+            case BuffType.Move:
+                break;
+            default:
                 break;
         }
     }
 
-    public void CreateBuff(string type, float per, float du, Sprite icon)
+    //버프 해제 시키기
+    public void RemoveBuff(int index)
     {
-        GameObject go = Instantiate(buffPrefab, transform);
-        go.GetComponent<BuffSystem>().Init(type, per, du);
-        go.GetComponent<Image>().sprite = icon;
+        switch (onBuff[index].BuffType)
+        {
+            case BuffType.Atk:             
+                pCon.SetBonusPower((int)-onBuff[index].Value);
+                break;
+            case BuffType.Exp:
+                pCon.SetBonusExp(-onBuff[index].Value);
+                break;
+            case BuffType.Move:
+                break;
+            default:
+                break;
+        }
     }
+
+
+    //버프 선택후 집어넣기
+    private void SetBuff(BuffType type,  float duration, float value, int index)
+    {
+        switch(type)
+        {
+            case BuffType.Atk:
+                value = Mathf.RoundToInt(pCon.Power * (value / 100));
+                onBuff[index].Init(type, duration, value, index, atkIcon);              
+                break;
+            case BuffType.Exp:
+                onBuff[index].Init(type, duration, value, index, expIcon);
+                break;
+            case BuffType.Move:
+                break;
+            default:
+                break;           
+        }
+
+        ApplyBuff(index);
+    }
+
+    //시간 추가 가능한 버프 찾기
+    private int FindAdditionalBuff(BuffType type)
+    {
+        for(int i = 0; i< onBuff.Length; i++ )
+        {
+            if (onBuff[i] == null)
+                continue;
+
+            if (onBuff[i].BuffType.Equals(type))
+                return i;
+        }
+
+        return -1;
+    }
+
+    //비어있는 버프 슬롯 찾기
+    private int FindEmptyBuffIndex()
+    {
+        for(int i = 0; i< onBuff.Length; i++)
+        {
+            if (!onBuff[i].gameObject.activeSelf)
+                return i;
+        }
+        return -1;
+    }
+
+    private void Start()
+    {
+        pCon = PlayerController.instance;
+
+        for(int i = 0; i< (int)BuffType.Done; i++)
+        {
+            var obj = Instantiate(buffSlotPrefab);
+            obj.transform.SetParent(BuffGroup);
+            onBuff[i] = obj.GetComponent<Buff>();
+            obj.SetActive(false);
+        }
+       
+    }
+
+    
 }

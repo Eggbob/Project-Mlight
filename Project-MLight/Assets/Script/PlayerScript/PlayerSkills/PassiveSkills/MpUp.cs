@@ -19,13 +19,11 @@ public class MpUp : PassiveSkill
 
     protected override void SkillLevelUp()
     {
-        float remainSkillExp = SkillExp - MaxSkillExp;
-        _skillExp = remainSkillExp;
+
 
         _skillPower += 100;
 
-        _skillLevel++;
-        _maxSkillExp *= 2;
+        base.SkillLevelUp();
 
         PassiveAction();
     }

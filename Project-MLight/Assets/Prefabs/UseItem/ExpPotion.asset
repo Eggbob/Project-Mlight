@@ -24,4 +24,4 @@ MonoBehaviour:
   _maxAmount: 99
   value: 30
   coolTime: 1
-  appearTime: 3000
+  appearTime: 3

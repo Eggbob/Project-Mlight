@@ -7,7 +7,6 @@ public class ExpPortionItem : PortionItem
 {
     private LivingEntity Lcon;
     private ExpPortionItemData edata;
-    private bool isApplied;
 
     public ExpPortionItem(ExpPortionItemData data, int amount = 1) : base(data, amount) { }
 
@@ -15,12 +14,15 @@ public class ExpPortionItem : PortionItem
     {
 
         Lcon = _Lcon;
-        isApplied = false;
 
-        Thread thread = new Thread(() => PortionRoutine());
-        thread.Start();
+        edata = Data as ExpPortionItemData;
+
+        Lcon.buffManager.CreateBuff(BuffManager.BuffType.Exp, edata.ApperTime, edata.Value);
+
+       // Thread thread = new Thread(() => PortionRoutine());
+        //thread.Start();
        
-        base.Use(Lcon);
+        base.Use(_Lcon);
         return true;
     }
 
@@ -38,26 +40,7 @@ public class ExpPortionItem : PortionItem
 
     }
 
-    private void ExpUpgrade(int _exp)
-    {
 
-        if(!isApplied)
-        {
-            int Exp = _exp / (int)edata.Value * 100;
-
-            isApplied = true;
-
-            Lcon.ExpGetRoutine(Exp);
-
-            return;
-        }
-        else
-        {
-            isApplied = false;
-            return;
-        }
-    
-    }
 
     protected override CountableItem Clone(int amount)
     {

@@ -56,7 +56,7 @@ public abstract class Skill: MonoBehaviour
 
     private  void Awake()
     {
-       
+        LCon = PlayerController.instance;
     }
 
 

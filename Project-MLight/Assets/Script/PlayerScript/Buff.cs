@@ -6,34 +6,47 @@ using UnityEngine.UI;
 
 public class Buff : MonoBehaviour
 {
-   public enum BuffType
-   {
-        None,
-        Atk,
-        Move,
-        Exp,
-        Done
-   }
 
-    private BuffType type; //버프 타입
+    private BuffManager.BuffType buffType; //버프 타입 변수
     private float duration; //지속시간
     private float currentTime; //현재 시간
+    private float value; //버프 적용값
+    private int index; //버프 인덱스
     private Image buffImg; //버프 이미지
+    
     private WaitForSeconds seconds = new WaitForSeconds(0.1f);
+
+    public BuffManager.BuffType BuffType => buffType;
+    public float Value => value;
+    public int Index => index;
 
     private void Awake()
     {
         buffImg = GetComponent<Image>();
     }
 
-    public void Init(BuffType bType, float dur, float curTime)
+    //초기화 함수
+    public void Init(BuffManager.BuffType bType, float _duration, float _value, int _index, Sprite icon)
     {
-        type = bType;
-        duration = dur;
-        currentTime = curTime;
+        buffType = bType;
+        duration = _duration;
+        currentTime = _duration;
+        buffImg.sprite = icon;
+        value = _value;
+        index = _index;
+        buffImg.fillAmount = 1;
+        this.gameObject.SetActive(true);
         Excute();
     }
 
+    //지속시간 증가
+    public void AddDuration(float addTime)
+    {
+        currentTime += addTime;
+        duration += addTime;
+    }
+
+    //버프 실행
     private void Excute()
     {
         StartCoroutine(ActiveBuff());
@@ -42,7 +55,7 @@ public class Buff : MonoBehaviour
     IEnumerator ActiveBuff()
     {
         while(currentTime > 0)
-        {
+        {          
             currentTime -= 0.1f;
             buffImg.fillAmount = currentTime / duration;
             yield return seconds;
@@ -51,12 +64,15 @@ public class Buff : MonoBehaviour
         buffImg.fillAmount = 0;
         currentTime = 0;
 
+        
+
         DeActiveBuff();
     }
 
     private void DeActiveBuff()
     {
-        Destroy(this.gameObject);
-
+        this.gameObject.SetActive(false);
+        buffType = BuffManager.BuffType.None;
+        SendMessageUpwards("RemoveBuff", Index, SendMessageOptions.DontRequireReceiver);
     }
 }

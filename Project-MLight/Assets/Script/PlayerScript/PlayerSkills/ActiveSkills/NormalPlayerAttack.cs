@@ -14,7 +14,7 @@ public class NormalPlayerAttack : ActiveSkill
     public override void ActiveAction()
     {
         LivingEntity enemytarget = LCon.target.GetComponent<LivingEntity>();
-        _skillPower = LCon.Power;
+        _skillPower = LCon.Power + LCon.BonusPower;
         enemytarget.OnDamage(this);
     }
 }

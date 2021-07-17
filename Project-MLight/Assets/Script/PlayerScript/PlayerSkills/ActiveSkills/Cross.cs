@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Cross : ActiveSkill
 {
-    [SerializeField]
-    private int Damage;
+ 
     public GameObject Effect;
 
     public override void ActiveAction()

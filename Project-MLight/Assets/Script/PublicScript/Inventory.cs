@@ -58,8 +58,31 @@ public class Inventory : MonoBehaviour
     {
         public int Compare(Item a, Item b)
         {
-            return (a.Data.ID + sortWeight[a.Data.GetType()])
-                - (b.Data.ID + sortWeight[b.Data.GetType()]);
+            var aDummy = a.Data;
+            var bDummy = b.Data;
+
+            if (!sortWeight.ContainsKey(a.Data.GetType()))
+            {
+                if(a is PortionItem)
+                {
+                    PortionItemData pdata = ScriptableObject.CreateInstance<PortionItemData>(); //new PortionItemData();
+
+                    aDummy = pdata;                
+                }
+            }
+
+            if (!sortWeight.ContainsKey(b.Data.GetType()))
+            {
+                if (b is PortionItem)
+                {
+                    PortionItemData pdata = ScriptableObject.CreateInstance<PortionItemData>();
+                    bDummy = pdata;
+                }
+            }
+
+            return ((a.Data.ID + sortWeight[aDummy.GetType()])
+                   - (b.Data.ID + sortWeight[bDummy.GetType()]));
+
         }      
     }
 

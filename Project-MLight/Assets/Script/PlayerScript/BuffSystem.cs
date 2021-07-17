@@ -31,8 +31,8 @@ public class BuffSystem : MonoBehaviour
 
     public void Excute()
     {
-        BuffManager.instance.onBuff.Add(this);
-        BuffManager.instance.ChooseBuff(type);
+        BuffManager1.instance.onBuff.Add(this);
+        BuffManager1.instance.ChooseBuff(type);
 
         StartCoroutine(Activation());
     }
@@ -54,8 +54,8 @@ public class BuffSystem : MonoBehaviour
 
     public void DeActivation()
     {
-        BuffManager.instance.onBuff.Remove(this);
-        BuffManager.instance.ChooseBuff(type);
+        BuffManager1.instance.onBuff.Remove(this);
+        BuffManager1.instance.ChooseBuff(type);
 
         Destroy(gameObject);
     }

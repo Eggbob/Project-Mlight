@@ -7,8 +7,7 @@ public class TornadoCut : ActiveSkill
     public GameObject SkillRangePrefab;
     private GameObject SkilLRange;
     public GameObject Effect;
-    [SerializeField]
-    private int Damage;
+ 
     public LayerMask targetLayer; // 공격 대상 레이어
     public float fRange; // 수색범위
 
