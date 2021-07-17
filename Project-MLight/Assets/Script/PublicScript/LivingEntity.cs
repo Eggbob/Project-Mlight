@@ -27,6 +27,30 @@ public class LivingEntity : Status
       }
     }
 
+    public virtual void RestoreHealth(int amount)
+    {
+        if(amount + this.Hp > this.MaxHp)
+        {
+            this.Hp = this.MaxHp;
+        }
+        else
+        {
+            this.Hp += amount;
+        }
+    }
+
+    public virtual void RestoreMana(int amount)
+    {
+        if (amount + this.Mp > this.MaxMp)
+        {
+            this.Mp = this.MaxMp;
+        }
+        else
+        {
+            this.Mp += amount;
+        }
+    }
+
     public virtual void Die()
     {
         dead = true;
