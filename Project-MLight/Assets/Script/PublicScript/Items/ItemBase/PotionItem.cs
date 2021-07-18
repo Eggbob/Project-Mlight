@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PortionItem : CountableItem,  IUsableItem
+public class PotionItem : CountableItem,  IUsableItem
 {
-    public PortionItem(PortionItemData data, int amount = 1) : base(data, amount) { }
+    protected LivingEntity Lcon;
+
+
+    public PotionItem(PotionItemData data, int amount = 1) : base(data, amount) { }
 
     public virtual bool Use(LivingEntity Lcon)
     {
@@ -16,6 +19,6 @@ public class PortionItem : CountableItem,  IUsableItem
 
     protected override CountableItem Clone(int amount)
     {
-        return new PortionItem(CountableData as PortionItemData, amount);
+        return new PotionItem(CountableData as PotionItemData, amount);
     }
 }

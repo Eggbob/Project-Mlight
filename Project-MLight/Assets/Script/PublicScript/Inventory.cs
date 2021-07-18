@@ -48,7 +48,7 @@ public class Inventory : MonoBehaviour
  
     private readonly static Dictionary<Type, int> sortWeight = new Dictionary<Type, int>
     {
-        {typeof(PortionItemData), 10000},
+        {typeof(PotionItemData), 10000},
         {typeof(WeaponItemData), 20000 },
         {typeof(ArmorItemData), 30000 },
         {typeof(PropItemData), 40000 }
@@ -63,9 +63,9 @@ public class Inventory : MonoBehaviour
 
             if (!sortWeight.ContainsKey(a.Data.GetType()))
             {
-                if(a is PortionItem)
+                if(a is PotionItem)
                 {
-                    PortionItemData pdata = ScriptableObject.CreateInstance<PortionItemData>(); //new PortionItemData();
+                    PotionItemData pdata = ScriptableObject.CreateInstance<PotionItemData>(); //new PortionItemData();
 
                     aDummy = pdata;                
                 }
@@ -73,9 +73,9 @@ public class Inventory : MonoBehaviour
 
             if (!sortWeight.ContainsKey(b.Data.GetType()))
             {
-                if (b is PortionItem)
+                if (b is PotionItem)
                 {
-                    PortionItemData pdata = ScriptableObject.CreateInstance<PortionItemData>();
+                    PotionItemData pdata = ScriptableObject.CreateInstance<PotionItemData>();
                     bDummy = pdata;
                 }
             }

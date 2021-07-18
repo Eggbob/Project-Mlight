@@ -31,11 +31,12 @@ public class Buff : MonoBehaviour
         buffType = bType;
         duration = _duration;
         currentTime = _duration;
-        buffImg.sprite = icon;
         value = _value;
         index = _index;
-        buffImg.fillAmount = 1;
+        buffImg.sprite = icon;
+
         this.gameObject.SetActive(true);
+
         Excute();
     }
 
@@ -71,8 +72,7 @@ public class Buff : MonoBehaviour
 
     private void DeActiveBuff()
     {
-        this.gameObject.SetActive(false);
-        buffType = BuffManager.BuffType.None;
-        SendMessageUpwards("RemoveBuff", Index, SendMessageOptions.DontRequireReceiver);
+        Destroy(this.gameObject);
+
     }
 }

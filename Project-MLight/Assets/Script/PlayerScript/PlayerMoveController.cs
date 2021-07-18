@@ -61,7 +61,7 @@ public class PlayerMoveController : MonoBehaviour
     }
 
 
-    void Update()
+    private void Update()
     {
         if (hasTarget)
         {
@@ -84,7 +84,7 @@ public class PlayerMoveController : MonoBehaviour
         Move(); //움직이기     
     }
 
-    void CheckTouch() // 터치한 대상 분석
+    private void CheckTouch() // 터치한 대상 분석
     {
         prevtarget = curtarget; //이전 대상을 prevtarget에 넣어주기
         curtarget = (TargetLayer)hit.collider.gameObject.layer; // targetlayer 에 터치한 대상의 레이어 지정
@@ -116,7 +116,7 @@ public class PlayerMoveController : MonoBehaviour
         }
     }
 
-    void ReturnTargeting() // 타겟팅 오브젝트 반환
+    private void ReturnTargeting() // 타겟팅 오브젝트 반환
     {
         switch(prevtarget)
         {
@@ -132,7 +132,7 @@ public class PlayerMoveController : MonoBehaviour
     }
 
 
-    IEnumerator TerrianUpdate() //지형 클릭시 호출
+    private IEnumerator TerrianUpdate() //지형 클릭시 호출
     {
         var waypoint = ObjectPool.GetWayPoint(); //웨이포인트 가져오기
         Vector3 waytr = hit.point; //웨이포인트 생성할 위치 생성
@@ -158,7 +158,7 @@ public class PlayerMoveController : MonoBehaviour
         
     }
 
-    IEnumerator EnemyUpdate() // 적 클릭시 호출
+    private IEnumerator EnemyUpdate() // 적 클릭시 호출
     {
 
         eTargeting = ObjectPool.GetTargeting((int)curtarget); // 타겟팅 오브젝트 가져오기
@@ -184,7 +184,7 @@ public class PlayerMoveController : MonoBehaviour
 
     }
 
-    IEnumerator ObjectUpdate() //오브젝트 클릭시
+    private IEnumerator ObjectUpdate() //오브젝트 클릭시
     {
 
         oTaregeting = ObjectPool.GetTargeting((int)curtarget);
@@ -206,7 +206,7 @@ public class PlayerMoveController : MonoBehaviour
         //}
     }
 
-    void SetDestination(Vector3 dest) //목적지 설정
+    private void SetDestination(Vector3 dest) //목적지 설정
     {
         nav.SetDestination(dest); //네비게이션 목적지 설정
         destination = dest; // 목적지 변수에 저장
@@ -279,7 +279,7 @@ public class PlayerMoveController : MonoBehaviour
         }
     }
 
-    void navStart() //네비 움직이기
+    private void navStart() //네비 움직이기
     {
 
         Vector3 lookPos = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
@@ -289,14 +289,14 @@ public class PlayerMoveController : MonoBehaviour
         nav.isStopped = false; //네비 다시 실행
     }
 
-    void navStop() //네비 멈추기
+    private void navStop() //네비 멈추기
     {
         nav.isStopped = true;         // 네비게이션 멈추기     
         nav.velocity = Vector3.zero;   // 네비게이션 속도 0으로 지정               
         rigid.velocity = Vector3.zero;   
     }
 
-    void sectorCheck() // 부챗꼴 범위 충돌
+    private void sectorCheck() // 부챗꼴 범위 충돌
     {
         dotValue = Mathf.Cos(Mathf.Deg2Rad * (angleRange / 2));
         direction = target.transform.position - transform.position;
@@ -311,6 +311,11 @@ public class PlayerMoveController : MonoBehaviour
         }
         else
             isCollision = false;
+    }
+
+    public void SetSpeed(float speed)
+    {
+        nav.speed += speed;
     }
 
 

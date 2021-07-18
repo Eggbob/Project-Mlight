@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1732128f4a8a48c4c84bf0f2ff00bbcf, type: 3}
-  m_Name: MidMpPotion
+  m_Script: {fileID: 11500000, guid: 2ca646bb129d1614e9753b742e6fbbfb, type: 3}
+  m_Name: MidManaPotion
   m_EditorClassIdentifier: 
   _id: 4
-  _name: "\uC911\uAE09MP\uD68C\uBCF5\uBB3C\uC57D"
+  _name: "\uC911\uAE09 MP \uD68C\uBCF5\uD3EC\uC158"
   _tooltip: "MP\uB97C 100\uB9CC\uD07C \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4"
   _iconSprite: {fileID: 21300000, guid: f25acdfafd81edc4cba58781c28990ad, type: 3}
   _dropItemPrefab: {fileID: 4598834539447427652, guid: e0799742db272bd45af7b60ae1538739,

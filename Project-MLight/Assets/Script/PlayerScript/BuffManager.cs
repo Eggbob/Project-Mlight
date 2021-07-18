@@ -20,7 +20,7 @@ public class BuffManager : MonoBehaviour
     private Buff[] onBuff = new Buff[(int)BuffType.Done];
 
     //플레이어 컨트롤러
-    private LivingEntity pCon;
+    private LivingEntity LCon;
 
     //생성할 버프 프리팹
     [SerializeField]
@@ -63,12 +63,14 @@ public class BuffManager : MonoBehaviour
         switch(onBuff[index].BuffType)
         {
             case BuffType.Atk:            
-                pCon.SetBonusPower((int)onBuff[index].Value); 
+                LCon.SetBonusPower((int)onBuff[index].Value); 
                 break;
             case BuffType.Exp:
-                pCon.SetBonusExp(onBuff[index].Value);
+                LCon.SetBonusExp(onBuff[index].Value);
                 break;
             case BuffType.Move:
+                PlayerController pCon = LCon as PlayerController;
+                pCon.pmanager.SetSpeed(onBuff[index].Value);
                 break;
             default:
                 break;
@@ -81,12 +83,14 @@ public class BuffManager : MonoBehaviour
         switch (onBuff[index].BuffType)
         {
             case BuffType.Atk:             
-                pCon.SetBonusPower((int)-onBuff[index].Value);
+                LCon.SetBonusPower((int)-onBuff[index].Value);
                 break;
             case BuffType.Exp:
-                pCon.SetBonusExp(-onBuff[index].Value);
+                LCon.SetBonusExp(-onBuff[index].Value);
                 break;
             case BuffType.Move:
+                PlayerController pCon = LCon as PlayerController;
+                pCon.pmanager.SetSpeed(-onBuff[index].Value);
                 break;
             default:
                 break;
@@ -100,13 +104,14 @@ public class BuffManager : MonoBehaviour
         switch(type)
         {
             case BuffType.Atk:
-                value = Mathf.RoundToInt(pCon.Power * (value / 100));
+                value = Mathf.RoundToInt(LCon.Power * (value / 100));
                 onBuff[index].Init(type, duration, value, index, atkIcon);              
                 break;
             case BuffType.Exp:
                 onBuff[index].Init(type, duration, value, index, expIcon);
                 break;
             case BuffType.Move:
+                onBuff[index].Init(type, duration, value, index, moveIcon);
                 break;
             default:
                 break;           
@@ -143,7 +148,7 @@ public class BuffManager : MonoBehaviour
 
     private void Start()
     {
-        pCon = PlayerController.instance;
+        LCon = PlayerController.instance;
 
         for(int i = 0; i< (int)BuffType.Done; i++)
         {

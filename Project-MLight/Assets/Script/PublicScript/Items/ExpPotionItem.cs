@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class ExpPortionItem : PortionItem
+public class ExpPotionItem : PotionItem
 {
-    private LivingEntity Lcon;
-    private ExpPortionItemData edata;
+   
+    private ExpPotionItemData edata;
 
-    public ExpPortionItem(ExpPortionItemData data, int amount = 1) : base(data, amount) { }
+    public ExpPotionItem(ExpPotionItemData data, int amount = 1) : base(data, amount) { }
 
     public override bool Use(LivingEntity _Lcon)
     {
 
         Lcon = _Lcon;
 
-        edata = Data as ExpPortionItemData;
+        edata = Data as ExpPotionItemData;
 
         Lcon.buffManager.CreateBuff(BuffManager.BuffType.Exp, edata.ApperTime, edata.Value);
-       
-        base.Use(_Lcon);
-        return true;
+
+
+        return base.Use(Lcon); ;
     }
 
     //private void PortionRoutine()
@@ -41,6 +41,6 @@ public class ExpPortionItem : PortionItem
 
     protected override CountableItem Clone(int amount)
     {
-        return new ExpPortionItem(CountableData as ExpPortionItemData, amount);
+        return new ExpPotionItem(CountableData as ExpPotionItemData, amount);
     }
 }

@@ -9,16 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1732128f4a8a48c4c84bf0f2ff00bbcf, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d38c4cc24a384b4c9b4c495506c2abe, type: 3}
   m_Name: MoveSpeedPotion
   m_EditorClassIdentifier: 
   _id: 8
-  _name: "\uD558\uAE09\uC2E0\uC18D\uC758\uBE44\uC57D"
-  _tooltip: "\uC774\uB3D9\uC18D\uB3C4\uAC00 10%\uC0C1\uC2B9\uD569\uB2C8\uB2E4"
-  _iconSprite: {fileID: 21300000, guid: 84c60540f81d53340a67100eddb9bbc1, type: 3}
-  _dropItemPrefab: {fileID: 0}
-  _itemPrice: 30
-  _itemSellPrice: 10
+  _name: "\uD558\uAE09\uC2E0\uC18D\uC758 \uBE44\uC57D"
+  _tooltip: "300\uCD08 \uB3D9\uC548 \uC774\uB3D9\uC18D\uB3C4\uAC00 10% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  _iconSprite: {fileID: 21300000, guid: 0da3d7ad73ab3ec438b8dd01e749b208, type: 3}
+  _dropItemPrefab: {fileID: 7634493492572016450, guid: ec12341f85a5c2a42a7eef337e0c668b,
+    type: 3}
+  _itemPrice: 1000
+  _itemSellPrice: 100
   _maxAmount: 99
   value: 10
   coolTime: 1
+  appearTime: 300

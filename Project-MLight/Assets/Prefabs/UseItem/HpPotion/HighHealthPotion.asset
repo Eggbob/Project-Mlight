@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1732128f4a8a48c4c84bf0f2ff00bbcf, type: 3}
+  m_Script: {fileID: 11500000, guid: afc54800bc8f16e41a0d2d7ec05a0f22, type: 3}
   m_Name: HighHealthPotion
   m_EditorClassIdentifier: 
   _id: 5
-  _name: "\uC0C1\uAE09HP\uD68C\uBCF5\uBB3C\uC57D"
+  _name: "\uC0C1\uAE09 HP \uD68C\uBCF5\uBB3C\uC57D"
   _tooltip: "HP\uB97C 200\uB9CC\uD07C \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4"
   _iconSprite: {fileID: 21300000, guid: 520538baaf1e10c4197cbb202f5a649f, type: 3}
   _dropItemPrefab: {fileID: 6014542181097444302, guid: 02928b132f2ba184a930acc91f8dce4e,

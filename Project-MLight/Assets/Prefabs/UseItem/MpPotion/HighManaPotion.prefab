@@ -42,9 +42,9 @@ GameObject:
   - component: {fileID: 614940381441460000}
   - component: {fileID: 614320208673968902}
   - component: {fileID: 614320208673968903}
-  m_Layer: 0
-  m_Name: HighMpPotion
-  m_TagString: Untagged
+  m_Layer: 10
+  m_Name: HighManaPotion
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetingTr: {fileID: 4633074808064697652}
-  item: {fileID: 11400000, guid: 31c8bfd42745f034f9ab5f3d65c64dab, type: 2}
+  item: {fileID: 11400000, guid: b80c9f7a7c78c794f8dbde78ecf2bd55, type: 2}
   amount: 0
 --- !u!135 &614320208673968903
 SphereCollider:

@@ -134,7 +134,7 @@ public class ItemQuickSlotUI : MonoBehaviour
     }
 
     //아이템 등록
-    public void SetItem(PortionItemData item, int amount, Action action, Func<int> action2)
+    public void SetItem(PotionItemData item, int amount, Action action, Func<int> action2)
     { 
        if(item != null)
        {

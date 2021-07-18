@@ -8,6 +8,6 @@ public class PropItem : CountableItem
 
     protected override CountableItem Clone(int amount)
     {
-        return new PortionItem(CountableData as PortionItemData, amount);
+        return new PotionItem(CountableData as PotionItemData, amount);
     }
 }

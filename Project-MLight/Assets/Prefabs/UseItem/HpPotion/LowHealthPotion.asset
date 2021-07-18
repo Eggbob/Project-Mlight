@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1732128f4a8a48c4c84bf0f2ff00bbcf, type: 3}
-  m_Name: HealthPotion
+  m_Script: {fileID: 11500000, guid: afc54800bc8f16e41a0d2d7ec05a0f22, type: 3}
+  m_Name: LowHealthPotion
   m_EditorClassIdentifier: 
   _id: 1
-  _name: "\uCD08\uAE09 HP\uD68C\uBCF5 \uBB3C\uC57D"
-  _tooltip: "HP\uB97C 50\uB9CC\uD07C \uD68C\uBCF5\uD558\uB294 \uBB3C\uC57D\uC785\uB2C8\uB2E4."
+  _name: "\uCD08\uAE09 HP\uD68C\uBCF5\uBB3C\uC57D"
+  _tooltip: "HP\uB97C 50\uB9CC\uD07C \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4"
   _iconSprite: {fileID: 21300000, guid: 9e4fbebb6cde952428e19243aeb3289f, type: 3}
   _dropItemPrefab: {fileID: 2944329817428818037, guid: 20f9b2d6371e6124bbe4e48d2c69947f,
     type: 3}
   _itemPrice: 20
   _itemSellPrice: 10
   _maxAmount: 99
-  value: 0
-  coolTime: 1
+  value: 50
+  coolTime: 3

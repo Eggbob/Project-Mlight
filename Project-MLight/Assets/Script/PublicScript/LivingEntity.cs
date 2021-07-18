@@ -27,6 +27,8 @@ public class LivingEntity : Status
       }
     }
 
+
+    //체력 회복
     public virtual void RestoreHealth(int amount)
     {
         if(amount + this.Hp > this.MaxHp)
@@ -39,6 +41,7 @@ public class LivingEntity : Status
         }
     }
 
+    //마나 회복
     public virtual void RestoreMana(int amount)
     {
         if (amount + this.Mp > this.MaxMp)
@@ -50,6 +53,7 @@ public class LivingEntity : Status
             this.Mp += amount;
         }
     }
+
 
     public virtual void Die()
     {
@@ -73,8 +77,6 @@ public class LivingEntity : Status
 
         _exp += (int)mount;
 
-        Debug.Log(mount);
-      
         while (Exp >= MaxExp)
         {
             LvUp();

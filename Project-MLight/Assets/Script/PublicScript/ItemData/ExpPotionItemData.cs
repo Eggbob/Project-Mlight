@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Portion_Item", menuName = "Inventory System/Item Data/Portion/ExpPortion", order = 3)]
-public class ExpPortionItemData : PortionItemData
+[CreateAssetMenu(fileName = "Potion_Item", menuName = "Inventory System/Item Data/Potion/ExpPotion", order = 3)]
+public class ExpPotionItemData : PotionItemData
 {
 
     public float ApperTime => appearTime;
@@ -13,6 +13,6 @@ public class ExpPortionItemData : PortionItemData
 
     public override Item CreateItem()
     {
-        return new ExpPortionItem(this);
+        return new ExpPotionItem(this);
     }
 }

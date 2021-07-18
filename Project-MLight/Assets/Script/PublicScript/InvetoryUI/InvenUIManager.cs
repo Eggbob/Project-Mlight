@@ -244,7 +244,7 @@ public class InvenUIManager : MonoBehaviour
                     break;
 
                 case FilterOption.Portion:
-                    isUpdated = (itemData is PortionItemData);
+                    isUpdated = (itemData is PotionItemData);
                     break;                   
             }
         }
@@ -282,7 +282,7 @@ public class InvenUIManager : MonoBehaviour
     {
         ItemData data = inventory.GetItemData(index);
 
-        if(data is PortionItemData) //셀수있는 아이템이면
+        if(data is PotionItemData) //셀수있는 아이템이면
         {
             int currentAmount = inventory.GetCurrentAmount(index);
 
@@ -349,7 +349,7 @@ public class InvenUIManager : MonoBehaviour
 
         ItemData data = inventory.GetItemData(index);
 
-        if (data is PortionItemData pi) //포션 아이템이면
+        if (data is PotionItemData pi) //포션 아이템이면
         {
             int currentAmount = inventory.GetCurrentAmount(index);
            

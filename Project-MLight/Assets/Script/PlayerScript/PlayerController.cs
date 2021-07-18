@@ -6,16 +6,21 @@ using UnityEditor;
 public class PlayerController : LivingEntity
 {
    
-    [SerializeField]
-    private PlayerMoveController pmanager;
-    public GameObject levelUp;
+
+    public PlayerMoveController pmanager { get; private set; }
+    public GameObject levelUpEffect;
     public Animator anim { get; private set; } //애니메이터 컴포넌트
     public static PlayerController instance; //싱글톤을 위한 instance
     public ActiveSkill pAttack;
     public MeleeWeaponTrail trail;
-
+        
     public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }
     public PlayerState pState; //플레이어 상태 변수
+
+
+    [SerializeField]
+    private float moveSpeed;
+    public float MoveSpeed => moveSpeed;
 
     [SerializeField]
     private Inventory inventory;
@@ -159,6 +164,7 @@ public class PlayerController : LivingEntity
         StartCoroutine("DropRoutine");      
     }
 
+    //아이템 습득루틴
     private IEnumerator DropRoutine()
     {
         yield return new WaitForSeconds(0.3f);
@@ -177,7 +183,7 @@ public class PlayerController : LivingEntity
             }
             else
             {
-
+                Debug.Log("습득할수 없는 아이템입니다.");
             }
             isInter = false;
            
@@ -187,6 +193,7 @@ public class PlayerController : LivingEntity
       
     }
 
+    //데미지를 받을시
     public override void OnDamage(Skill skill)
     {
         base.OnDamage(skill);
@@ -198,9 +205,11 @@ public class PlayerController : LivingEntity
         base.statusInit(pHp, pMp, pPower, pInt, pDef);
     }
 
+
+    //레벨업시
     protected override void LvUp()
     {
-        GameObject pre = Instantiate(levelUp, this.transform.position, Quaternion.identity);
+        GameObject pre = Instantiate(levelUpEffect, this.transform.position, Quaternion.identity);
         Destroy(pre, 1f);
 
         base.LvUp();

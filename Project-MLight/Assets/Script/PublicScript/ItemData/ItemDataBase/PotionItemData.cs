@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Portion_Item", menuName ="Inventory System/Item Data/Portion", order = 3)]
-public class PortionItemData : CountableItemData
+[CreateAssetMenu(fileName = "Potion_Item", menuName ="Inventory System/Item Data/Potion", order = 3)]
+public class PotionItemData : CountableItemData
 {
  
     public float Value => value;
@@ -16,6 +16,6 @@ public class PortionItemData : CountableItemData
 
     public override Item CreateItem()
     {
-        return new PortionItem(this);
+        return new PotionItem(this);
     }
 }
