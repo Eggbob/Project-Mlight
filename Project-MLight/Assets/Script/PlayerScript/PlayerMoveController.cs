@@ -11,7 +11,7 @@ public class PlayerMoveController : MonoBehaviour
 
     [SerializeField]
     private Camera mcamera; //메인카메라 컴포넌트
-    [SerializeField]
+  
     public NavMeshAgent nav; // 네비메쉬 컴포넌트
     private PlayerController pCon; // 플레이어 컨트롤러
     private Rigidbody rigid;
@@ -198,12 +198,6 @@ public class PlayerMoveController : MonoBehaviour
         mstate = MoveState.Stop;
         pCon.pState = PlayerController.PlayerState.Drop; //플레이어 상태를 오브젝트 활성화로 변환 
 
-        //if (Vector3.Distance(transform.position, target.transform.position) <= attackRange + 0.5f) // 타겟과 나의 거리가 사거리 이하일 경우
-        //{
-        //    mstate = MoveState.Stop;
-        //    pCon.pState = PlayerController.PlayerState.Drop; //플레이어 상태를 오브젝트 활성화로 변환 
-        //    return;
-        //}
     }
 
     private void SetDestination(Vector3 dest) //목적지 설정
@@ -285,7 +279,9 @@ public class PlayerMoveController : MonoBehaviour
         Vector3 lookPos = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
             - transform.position;
 
-        pCon.anim.transform.forward = lookPos;
+        //pCon.anim.transform.forward = lookPos;
+
+        pCon.transform.forward = lookPos;
         nav.isStopped = false; //네비 다시 실행
     }
 

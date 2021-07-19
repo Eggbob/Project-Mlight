@@ -8,8 +8,9 @@ public class BuffManager : MonoBehaviour
     //버프 타입
     public enum BuffType
     {
-        None,
+        None = 0,
         Atk,
+        AtkSpeed,
         Move,
         Exp,
         Done
@@ -17,7 +18,7 @@ public class BuffManager : MonoBehaviour
 
     //현재 적용중인 버프
     [SerializeField]
-    private Buff[] onBuff = new Buff[(int)BuffType.Done];
+    private List<Buff> onBuff;
 
     //플레이어 컨트롤러
     private LivingEntity LCon;
@@ -36,7 +37,8 @@ public class BuffManager : MonoBehaviour
     private Sprite moveIcon;
     [SerializeField]
     private Sprite expIcon;
-
+    [SerializeField]
+    private Sprite atkSpeedIcon;
 
     //버프 생성
     public void CreateBuff(BuffType type,  float duration, float value)
@@ -72,6 +74,11 @@ public class BuffManager : MonoBehaviour
                 PlayerController pCon = LCon as PlayerController;
                 pCon.pmanager.SetSpeed(onBuff[index].Value);
                 break;
+
+            case BuffType.AtkSpeed:
+                pCon = LCon as PlayerController;
+                pCon.SetAtkSpeed(onBuff[index].Value);
+                break;
             default:
                 break;
         }
@@ -92,6 +99,11 @@ public class BuffManager : MonoBehaviour
                 PlayerController pCon = LCon as PlayerController;
                 pCon.pmanager.SetSpeed(-onBuff[index].Value);
                 break;
+            case BuffType.AtkSpeed:
+                pCon = LCon as PlayerController;
+                pCon.SetAtkSpeed(-onBuff[index].Value);
+                break;
+
             default:
                 break;
         }
@@ -113,6 +125,9 @@ public class BuffManager : MonoBehaviour
             case BuffType.Move:
                 onBuff[index].Init(type, duration, value, index, moveIcon);
                 break;
+            case BuffType.AtkSpeed:
+                onBuff[index].Init(type, duration, value, index, atkSpeedIcon);
+                break;
             default:
                 break;           
         }
@@ -123,7 +138,7 @@ public class BuffManager : MonoBehaviour
     //시간 추가 가능한 버프 찾기
     private int FindAdditionalBuff(BuffType type)
     {
-        for(int i = 0; i< onBuff.Length; i++ )
+        for(int i = 0; i< onBuff.Count; i++ )
         {
             if (onBuff[i] == null)
                 continue;
@@ -138,7 +153,7 @@ public class BuffManager : MonoBehaviour
     //비어있는 버프 슬롯 찾기
     private int FindEmptyBuffIndex()
     {
-        for(int i = 0; i< onBuff.Length; i++)
+        for(int i = 0; i< onBuff.Count; i++)
         {
             if (!onBuff[i].gameObject.activeSelf)
                 return i;
@@ -150,11 +165,11 @@ public class BuffManager : MonoBehaviour
     {
         LCon = PlayerController.instance;
 
-        for(int i = 0; i< (int)BuffType.Done; i++)
+        for(int i = 0; i< (int)BuffType.Done ; i++)
         {
             var obj = Instantiate(buffSlotPrefab);
             obj.transform.SetParent(BuffGroup);
-            onBuff[i] = obj.GetComponent<Buff>();
+            onBuff.Add(obj.GetComponent<Buff>());
             obj.SetActive(false);
         }
        

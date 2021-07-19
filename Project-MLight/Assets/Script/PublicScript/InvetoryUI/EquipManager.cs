@@ -12,10 +12,10 @@ public class EquipManager : MonoBehaviour
     [SerializeField] private Image weaponImg; //무기이미지
     [SerializeField] private Image armorImg; //방어구 이미지
     
-
     [SerializeField]
     private InvenEquipToolTipManager eManger; //장비 툴팁
-  
+
+    private LivingEntity LCon;
 
     public Sprite weaponNormalImg; //무기 기본이미지
     public Sprite armorNormalImg; //방어구 기본이미지
@@ -98,20 +98,29 @@ public class EquipManager : MonoBehaviour
     }
 
     //무기 착용
-    public void SetWeapon(WeaponItem _wItem, Action returnCallback)
+    public void SetWeapon(LivingEntity _LCon,WeaponItem _wItem, Action returnCallback)
     {
-        weaponImg.sprite = _wItem.Data.IconSprite;
+        WeaponItemData wData = _wItem.Data as WeaponItemData;
+
+        LCon = _LCon;
+        weaponImg.sprite = wData.IconSprite;
         weaponImg.color = Color.white;
         wItem = _wItem;
+
+        LCon.SetBonusPower(wData.Damage);
         SetWeaponReturn(returnCallback);//콜백함수 등록
     }
 
     //방어구 착용
-    public void SetArmor(ArmorItem _aItem, Action returnCallback)
+    public void SetArmor(LivingEntity _LCon, ArmorItem _aItem, Action returnCallback)
     {
-        armorImg.sprite = _aItem.Data.IconSprite;
+        ArmorItemData aData = _aItem.Data as ArmorItemData;
+
+        armorImg.sprite = aData.IconSprite;
         armorImg.color = Color.white;
         aItem = _aItem;
+
+        LCon.SetBonusDef(aData.Defence);
         SetArmorReturn(returnCallback);
     }
 

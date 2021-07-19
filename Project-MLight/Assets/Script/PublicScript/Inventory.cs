@@ -54,6 +54,7 @@ public class Inventory : MonoBehaviour
         {typeof(PropItemData), 40000 }
     };
 
+    //가중치 비교
     private class ItemCorparer : IComparer<Item>
     {
         public int Compare(Item a, Item b)
@@ -327,8 +328,15 @@ public class Inventory : MonoBehaviour
 
                 if(index != -1)
                 {
+                    EquipItemData edata = itemData as EquipItemData;
+                    if (currentWeight + edata.Weight <= MaxWeight)
+                    {
+                        Debug.Log("더 이상 아이템을 넣을수 없습니다");
+                        return -1;
+                    }
+
                     //아이템을 생성해서 슬롯에 추가
-                    items[index] = itemData.CreateItem();
+                    items[index] = edata.CreateItem();
                     amount = 0;
 
                     isItemAdded = true;
@@ -340,6 +348,13 @@ public class Inventory : MonoBehaviour
             index = -1;
             for(; amount > 0; amount --)
             {
+                EquipItemData edata = itemData as EquipItemData;
+                if (currentWeight + edata.Weight <= MaxWeight)
+                {
+                    Debug.Log("더 이상 아이템을 넣을수 없습니다");
+                    return -1;
+                }
+
                 index = FindEmptySlotIndex(index + 1);
 
                 // 아이템을 다 넣지 못할경우
@@ -349,7 +364,7 @@ public class Inventory : MonoBehaviour
                 }
 
                 //아이템을 생성하여 슬롯에 추가
-                items[index] = itemData.CreateItem();
+                items[index] = edata.CreateItem();
 
                 isItemAdded = true;
                 UpdateSlot(index);
@@ -418,7 +433,7 @@ public class Inventory : MonoBehaviour
             if(eManager.hasWeapon)
             {
                 Item changeItem = eManager.WITEM;
-                eManager.SetWeapon(wItem,()=> Add(wItem.Data,1));
+                eManager.SetWeapon(player,wItem,()=> Add(wItem.Data,1));
                 items[index] = changeItem;
             }
             else
@@ -495,7 +510,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-
+    //스킬북 갯수 반환
     public (int count, int index) CountSkillBook()
     {
           
@@ -519,7 +534,7 @@ public class Inventory : MonoBehaviour
         return (amount, index);
     }
 
-
+    //최대 무게 설정
     public void SetMaxWeight(int _weight)
     {
         this.maxWeight += _weight;

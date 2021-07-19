@@ -5,8 +5,6 @@ using UnityEditor;
 
 public class PlayerController : LivingEntity
 {
-   
-
     public PlayerMoveController pmanager { get; private set; }
     public GameObject levelUpEffect;
     public Animator anim { get; private set; } //애니메이터 컴포넌트
@@ -17,19 +15,19 @@ public class PlayerController : LivingEntity
     public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }
     public PlayerState pState; //플레이어 상태 변수
 
-
-    [SerializeField]
-    private float moveSpeed;
-    public float MoveSpeed => moveSpeed;
+    public float MoveSpeed => pmanager.nav.speed;
 
     [SerializeField]
     private Inventory inventory;
     public Inventory Inven => inventory;
 
+
+    private float atkSpeed = 1f; //공격 속도
     private bool isMove; // 움직임 관련 불값
     private bool isInter; // 오브젝트 상호작용 관련 불값
     private bool isAttack; // 공격하는지
-  
+
+    public float AtkSpeed => atkSpeed;
 
     private void Awake()
     {
@@ -59,6 +57,7 @@ public class PlayerController : LivingEntity
         target = pmanager.target;
         CheckAnimations();
         anim.SetBool("isRun", isMove);
+        anim.SetFloat("Attack", atkSpeed);
         anim.SetBool("isAttack", isAttack);
         anim.SetBool("isInter", isInter);
     }
@@ -199,6 +198,10 @@ public class PlayerController : LivingEntity
         base.OnDamage(skill);
     }
 
+    public void SetAtkSpeed(float speed)
+    {
+        atkSpeed += speed;
+    }
 
     public override void statusInit(int pHp = 100, int pMp = 100, int pPower = 60, int pInt = 30, int pDef = 30)
     {

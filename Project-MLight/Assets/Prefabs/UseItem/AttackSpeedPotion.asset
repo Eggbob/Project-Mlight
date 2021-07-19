@@ -9,16 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1732128f4a8a48c4c84bf0f2ff00bbcf, type: 3}
-  m_Name: AtkSpeedPotion
+  m_Script: {fileID: 11500000, guid: 9dfb3df7d275b7d4aacc6b39992c5061, type: 3}
+  m_Name: AttackSpeedPotion
   m_EditorClassIdentifier: 
   _id: 7
-  _name: "\uD558\uAE09\uAC00\uC18D\uC758\uBE44\uC57D"
-  _tooltip: "\uACF5\uACA9\uC18D\uB3C4\uAC00 10%\uC0C1\uC2B9\uD569\uB2C8\uB2E4"
-  _iconSprite: {fileID: 21300000, guid: 0da3d7ad73ab3ec438b8dd01e749b208, type: 3}
+  _name: "\uAC00\uC18D\uC758 \uBE44\uC57D"
+  _tooltip: "300\uCD08 \uB3D9\uC548 \uC77C\uBC18\uACF5\uACA9\uC18D\uB3C4\uAC00 50%
+    \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  _iconSprite: {fileID: 21300000, guid: fd10626a10c79644dbde2e6f1b1476b9, type: 3}
   _dropItemPrefab: {fileID: 0}
   _itemPrice: 30
   _itemSellPrice: 10
   _maxAmount: 99
-  value: 10
+  value: 50
   coolTime: 1
+  appearTime: 300
