@@ -28,6 +28,8 @@ public class TornadoCut : ActiveSkill
         this.sAttr = SkillAttr.Melee;
         SkilLRange = Instantiate(SkillRangePrefab, LCon.gameObject.transform);
         SkilLRange.SetActive(false);
+
+        this._description = "범위 내의 모든 적들에게 물리 공격력의 " + this._skillPower + "%만큼 공격을 합니다.";
     }
 
     IEnumerator DamageRoutine (Collider[] _colliders)
@@ -54,6 +56,8 @@ public class TornadoCut : ActiveSkill
         _skillPower = (LCon.Power * Damage) / 100;
         _skillLevel++;
         _maxSkillExp *= 2;
+
+        this._description = "범위 내의 모든 적들에게 물리 공격력의 " + this._skillPower + "%만큼 공격을 합니다.";
     }
 
 }

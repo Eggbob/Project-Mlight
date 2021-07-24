@@ -9588,9 +9588,10 @@ GameObject:
   - component: {fileID: 6324731959629900894}
   - component: {fileID: 6326365365484188353}
   - component: {fileID: 6325391754780931991}
+  - component: {fileID: -8811559196462066287}
   m_Layer: 10
   m_Name: MidHealthPotion
-  m_TagString: Untagged
+  m_TagString: Potion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9620,7 +9621,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6325391754780931990}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -9640,3 +9641,19 @@ MonoBehaviour:
   targetingTr: {fileID: 2235685149174992822}
   item: {fileID: 11400000, guid: 8351c44a776cdfd4086b98e24c81dfb3, type: 2}
   amount: 10
+--- !u!54 &-8811559196462066287
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6325391754780931990}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0

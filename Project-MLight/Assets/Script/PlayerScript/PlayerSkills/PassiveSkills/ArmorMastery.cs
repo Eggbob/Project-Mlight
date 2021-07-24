@@ -19,13 +19,17 @@ public class ArmorMastery : PassiveSkill
     }
 
     public override void Init(LivingEntity _LCon)
-    {       
+    {
+        this.LCon = _LCon;
+
+        this._description = "방어력이 " + _skillPower +"증가합니다. \n"
+            +"-최대 소지 무게가 " + plusWeight + "증가합니다.";
+
         PassiveAction();
     }
 
     protected override void SkillLevelUp()
     {
-
         plusWeight += 20;
         _skillPower += 12;
 

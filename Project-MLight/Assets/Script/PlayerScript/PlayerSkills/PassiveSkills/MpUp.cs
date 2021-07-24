@@ -14,14 +14,14 @@ public class MpUp : PassiveSkill
     {
         LCon = _LCon;
 
+        this._description = "최대 MP가 " + _skillPower + "만큼 증가합니다.";
         PassiveAction();
     }
 
     protected override void SkillLevelUp()
     {
-
-
         _skillPower += 100;
+        this._description = "최대 MP가 " + _skillPower + "만큼 증가합니다.";
 
         base.SkillLevelUp();
 

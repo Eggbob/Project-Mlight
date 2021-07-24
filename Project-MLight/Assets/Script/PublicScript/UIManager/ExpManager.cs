@@ -15,7 +15,7 @@ public class ExpManager : MonoBehaviour
     void Start()
     {
         pCon = PlayerController.instance;
-        pCon.ExpGet += ExpUpdate;
+        pCon.ExpGetAction += ExpUpdate;
 
         ExpUpdate();
     }

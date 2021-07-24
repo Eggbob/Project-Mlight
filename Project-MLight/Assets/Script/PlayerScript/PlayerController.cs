@@ -9,8 +9,9 @@ public class PlayerController : LivingEntity
     public GameObject levelUpEffect;
     public Animator anim { get; private set; } //애니메이터 컴포넌트
     public static PlayerController instance; //싱글톤을 위한 instance
-    public ActiveSkill pAttack;
-    public MeleeWeaponTrail trail;
+    public ActiveSkill pAttack; //플레이어 스킬
+    public MeleeWeaponTrail trail; //무기 궤적
+    public Transform weaponPos;
         
     public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }
     public PlayerState pState; //플레이어 상태 변수
@@ -31,7 +32,7 @@ public class PlayerController : LivingEntity
 
     private void Awake()
     {
-    
+           
         pmanager = this.GetComponent<PlayerMoveController>();
         anim = this.GetComponent<Animator>();
         pState = PlayerState.Idle;
@@ -113,6 +114,7 @@ public class PlayerController : LivingEntity
         }
     }
 
+    //스킬 애니메이션 업데이트
     public void SkillUpdate(int sId)
     {
         pState = PlayerState.Skill;
@@ -122,8 +124,8 @@ public class PlayerController : LivingEntity
         
     }
 
-
-    void AttackCheck()
+    //공격시
+    private void AttackCheck()
     {
         LivingEntity enemytarget = target.GetComponent<LivingEntity>();
 
@@ -139,13 +141,13 @@ public class PlayerController : LivingEntity
             }
             else
             {
-                StartCoroutine(DamageUpdate(enemytarget));
+                StartCoroutine(DamageRoutine(enemytarget));
             }
         }
     }
     
-
-    private IEnumerator DamageUpdate(LivingEntity enemyTarget)
+    //공격 루틴
+    private IEnumerator DamageRoutine(LivingEntity enemyTarget)
     {       
         yield return new WaitForSeconds(0.7f);
       
@@ -157,6 +159,7 @@ public class PlayerController : LivingEntity
         trail.Emit = false;
     }
 
+    //아이템 습득시
     private void DropUpdate()
     {
         target = pmanager.target;
@@ -198,11 +201,13 @@ public class PlayerController : LivingEntity
         base.OnDamage(skill);
     }
 
+    //공격 속도 설정
     public void SetAtkSpeed(float speed)
     {
         atkSpeed += speed;
     }
 
+    //초기 설정
     public override void statusInit(int pHp = 100, int pMp = 100, int pPower = 60, int pInt = 30, int pDef = 30)
     {
         base.statusInit(pHp, pMp, pPower, pInt, pDef);

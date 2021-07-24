@@ -20,9 +20,14 @@ public class Slash : ActiveSkill
     public override void Init(LivingEntity _LCon)
     {
         LCon = _LCon;
+
         _skillPower = LCon.Power * (1 + (Damage / 100));
         this.sAttr = SkillAttr.Stun;
         nuckBackForce = 5;
+
+        this._description = "물리공격력의 " + this._skillPower + "%만큼 단일 공격을 합니다.\n"
+        +"- 대상을 기절시킵니다.";
+
     }
 
     IEnumerator DamageRoutine(Rigidbody tRigid)
@@ -46,5 +51,8 @@ public class Slash : ActiveSkill
         _skillPower = LCon.Power * (1 + (Damage / 100));
         _skillLevel++;
         _maxSkillExp *= 2;
+
+        this._description = "물리공격력의 " + this._skillPower + "%만큼 단일 공격을 합니다.\n"
+    + "- 대상을 기절시킵니다.";
     }
 }

@@ -20,5 +20,5 @@ MonoBehaviour:
   _dropItemPrefab: {fileID: 100002, guid: 271946e0dd7d1de43ad849bc4163c258, type: 3}
   _itemPrice: 9000
   _itemSellPrice: 3000
-  _weight: 20
-  _defence: 970
+  weight: 10
+  defence: 970

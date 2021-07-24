@@ -72,9 +72,10 @@ GameObject:
   - component: {fileID: 5543012770849009114}
   - component: {fileID: 5539714252788722567}
   - component: {fileID: 6621573914945941651}
+  - component: {fileID: 6168071101153766162}
   m_Layer: 10
   m_Name: ExpPotion
-  m_TagString: Untagged
+  m_TagString: Potion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,7 +105,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5539714252788722564}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -124,6 +125,22 @@ MonoBehaviour:
   targetingTr: {fileID: 3659426428465276515}
   item: {fileID: 11400000, guid: 454c812ac6bf0f147885809820a33aa1, type: 2}
   amount: 10
+--- !u!54 &6168071101153766162
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5539714252788722564}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &5539714253405235990
 GameObject:
   m_ObjectHideFlags: 0

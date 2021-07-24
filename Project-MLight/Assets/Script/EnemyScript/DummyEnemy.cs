@@ -20,6 +20,6 @@ public class DummyEnemy : LivingEntity
     public override void OnDamage(Skill skill)
     {
         Debug.Log(skill.SkillPower);
-       // base.OnDamage(skill);
+       //base.OnDamage(skill);
     }
 }

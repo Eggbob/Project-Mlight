@@ -10,6 +10,8 @@ TagManager:
   - ActiveSkill
   - PassiveSkill
   - Props
+  - Potion
+  - Equipment
   layers:
   - Default
   - TransparentFX

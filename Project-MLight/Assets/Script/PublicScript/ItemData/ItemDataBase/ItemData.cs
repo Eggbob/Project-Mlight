@@ -11,6 +11,7 @@ public abstract class ItemData : ScriptableObject
     public Sprite IconSprite => _iconSprite;
     public int ItemPrice => _itemPrice;
     public int ItemSellPrice => _itemSellPrice;
+    public GameObject DropItem => _dropItemPrefab;
 
     [SerializeField] private int _id; //아이템 아이디
     [SerializeField] private string _name; //아이템 이름

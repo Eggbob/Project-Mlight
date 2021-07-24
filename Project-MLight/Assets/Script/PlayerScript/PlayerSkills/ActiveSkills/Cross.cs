@@ -18,6 +18,10 @@ public class Cross : ActiveSkill
     {
         LCon = _LCon;
         _skillPower = (LCon.Power * Damage) / 100;
+
+        this._description = "물리공격력의 " + this._skillPower + "%만큼 단일 공격을 합니다.";
+      
+
         this.sAttr = SkillAttr.Melee;
   
     }
@@ -46,6 +50,8 @@ public class Cross : ActiveSkill
         _skillPower = (LCon.Power * Damage) / 100;
         _skillLevel++;
         _maxSkillExp *= 2;
+
+        this._description = "물리공격력의 " + this._skillPower + "%만큼 단일 공격을 합니다.";
     }
 
 }
