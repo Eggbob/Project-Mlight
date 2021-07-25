@@ -183,7 +183,7 @@ public class PlayerController : LivingEntity
                 inventory.Add(item, amount);
                 target = null;
             }
-            else
+            else 
             {
                 Debug.Log("습득할수 없는 아이템입니다.");
             }

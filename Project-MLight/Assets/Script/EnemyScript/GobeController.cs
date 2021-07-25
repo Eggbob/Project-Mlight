@@ -57,7 +57,7 @@ public class GobeController : LivingEntity
         }
     }
 
-    public void Awake()
+    private void Awake()
     {      
         rigid = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
@@ -320,6 +320,7 @@ public class GobeController : LivingEntity
         transform.LookAt(lookAtPosition);
  
         yield return new WaitForSeconds(1f);
+
         if (!isCollision) //공격범위보다 멀면
         {
             gstate = GobeState.Chase; // 추적상태로 변환            

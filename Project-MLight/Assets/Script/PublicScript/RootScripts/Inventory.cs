@@ -95,9 +95,7 @@ public class Inventory : MonoBehaviour
         items = new Item[maxCapacity];
         Capacity = initalCapacity;
         isItemAdded = false;
-        currentWeight = 0;
-
-     
+        currentWeight = 0;     
     }
 
     private void Start()
@@ -235,7 +233,7 @@ public class Inventory : MonoBehaviour
     }
 
     //해당 슬롯에 접근 가능한지
-    private bool isAccesible(int index)
+    private bool IsAccesible(int index)
     {
         //인덱스 범위가 정상이 아니거나 배열이 비어있다면
         if (!IsValidIndex(index) || items[index] == null)
@@ -245,8 +243,7 @@ public class Inventory : MonoBehaviour
         else
         {
             return true;
-        }
-    
+        }    
     }
 
     //해당 슬롯에 있는 아이템이 샐수있는 아이템인지
@@ -412,7 +409,7 @@ public class Inventory : MonoBehaviour
     public void Remove(int index, int count)
     {
         //접근 가능한 아이템인지
-        if(!isAccesible(index))
+        if(!IsAccesible(index))
         {
             return;
         }
@@ -449,7 +446,7 @@ public class Inventory : MonoBehaviour
     public void Use(int index)
     {
         //접근 가능한 아이템인지
-        if (!isAccesible(index))
+        if (!IsAccesible(index))
         {
             return;
         }
@@ -467,7 +464,7 @@ public class Inventory : MonoBehaviour
     public void Equip(int index)
     { 
         //접근 가능한 아이템인지
-        if (!isAccesible(index))
+        if (!IsAccesible(index))
         {
             return;
         }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
-
+using TMPro;
 
 public class GobeHunterController : LivingEntity
 {
@@ -12,17 +12,22 @@ public class GobeHunterController : LivingEntity
     public GobeHState ghstate = GobeHState.None; // 고블린 상태 체크 변수
     public float MoveSpeed = 1f; // 이동속도
 
-    public Vector3 targetPos; // 타겟의 위치
-    public Vector3 patrolPos;
     public Skill HunterAttack;
     public float AttackRange; // 공격범위
-    private Vector3 prevPosition;
+    public Image hpBar; //hp바
 
+    private Vector3 targetPos; // 타겟의 위치
+    private Vector3 patrolPos; // 순찰할 위치
+    private Vector3 prevPosition; //귀환시 돌아갈 지점
+    private Vector3 lookAtPosition; //캐릭터가 바라볼 위치
     private Animator anim;
     private Rigidbody rigid;
     private NavMeshAgent nav;
-    public Image hpBar; //hp바
 
+    [SerializeField]
+    private TMP_Text nameTxt;
+    [SerializeField]
+    private Transform dTxtPos;
     [SerializeField]
     private float chaseTime = 0f; // 추적할시간
     private float timer = 0;
@@ -35,11 +40,11 @@ public class GobeHunterController : LivingEntity
     float dotValue = 0f;
     Vector3 direction;
 
+    [Header("애니메이션 속성")]
     private bool move; // 움직임 관련 변수
     private bool attack; // 공격 관련 변수
-    Vector3 lookAtPosition; //캐릭터가 바라볼 위치
-
-    private bool hasTarget
+ 
+    private bool hasTarget //타겟을 가지고 있는지
     {
         get
         {
@@ -52,7 +57,7 @@ public class GobeHunterController : LivingEntity
     }
 
 
-    public void Awake()
+    private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
@@ -60,20 +65,33 @@ public class GobeHunterController : LivingEntity
         HunterAttack.LCon = this;
         nav.updateRotation = false;
         nav.speed = MoveSpeed;
+        nameTxt.text = this.name;
     }
 
-    public void OnEnable()
+
+    private void Update()
     {
-        statusInit(); //스테이터스 초기화
-        ghstate = GobeHState.Idle; // 상태를 유휴상태로 변환
-        nav.isStopped = true;
-        hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f); //hp바 초기 상태 설정
+        if (hasTarget && !dead)
+        {
+            sectorCheck();
+            targetPos = target.transform.position; //타겟위치 업데이트
+        }
+
+        CheckState();
+        AnimationState();
+
+        anim.SetBool("isAttack", attack);
+        anim.SetBool("isMove", move);
+        anim.SetBool("hasTarget", hasTarget);
+        anim.SetBool("isDead", dead);
+
+
     }
 
-    void CheckState()
+    //적 상태 체크
+    private void CheckState()
     {
         if (dead) { return; }
-
 
         switch (ghstate)
         {
@@ -108,7 +126,8 @@ public class GobeHunterController : LivingEntity
         }
     }
 
-    void AnimationState()
+    //애니메이션 상태 체크
+    private void AnimationState()
     {
         switch (ghstate)
         {
@@ -135,9 +154,9 @@ public class GobeHunterController : LivingEntity
                 attack = false;
                 break;
         }
-    }
+    } 
 
-    void IdleUpdate() //대기 상태
+    private void IdleUpdate() //대기 상태
     {
 
         if (hasTarget) //타겟이 있으면
@@ -147,15 +166,12 @@ public class GobeHunterController : LivingEntity
 
         else // 타겟이 없으면
         {
-
             nav.isStopped = true; //네비 멈추기        
-
             PatrolCheck(); //정찰할 지점 정하기
-
         }
     }
 
-    void PatrolCheck() // 순찰할 지점 지정
+    private void PatrolCheck() // 순찰할 지점 지정
     {
 
         patrolPos = new Vector3(transform.position.x + Random.Range(-30f, 30f),
@@ -183,7 +199,7 @@ public class GobeHunterController : LivingEntity
         }
     }
 
-    void PatrolUpdate()// 순찰 지점까지 이동시에 
+    private void PatrolUpdate()// 순찰 지점까지 이동시에 
     {
         RaycastHit raycastHit = new RaycastHit();
 
@@ -228,19 +244,10 @@ public class GobeHunterController : LivingEntity
 
     }
 
-    void WaitUpdate() // 대기 동작
+    private void WaitUpdate() // 대기 동작
     {
         float waitTime = Random.Range(2f, 5f);
         timer += Time.deltaTime;
-        //anim.SetFloat("waitTime", waitTime);
-
-        //if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f &&
-        //    anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-        //{
-        //    ghstate = GobeHState.Idle;
-        //    anim.SetFloat("waitTime", 1f);
-        //    return;
-        //}
 
         if (timer >= waitTime)
         {
@@ -253,7 +260,7 @@ public class GobeHunterController : LivingEntity
         nav.velocity = Vector3.zero;
     }
 
-    void ChaseUpdate() // 추적시
+    private void ChaseUpdate() // 추적시
     {
         
 
@@ -290,70 +297,8 @@ public class GobeHunterController : LivingEntity
         transform.LookAt(lookAtPosition);
     }
 
-    void OnSetTarget(GameObject _target) //타겟 지정
+    private void GetBackUpdate() //귀환 상태일때
     {
-        if (hasTarget) //귀환 상태일때는 리턴해주기
-        {
-            return;
-        }
-
-        prevPosition = this.transform.position;
-        target = _target;
-        //타겟을 향해 이동하는 상태로 전환
-        ghstate = GobeHState.Chase;
-    }
-
-
-
-
-    IEnumerator AttackUpdate() // 공격시
-    {
-
-        if (!isCollision) //공격범위보다 멀면
-        {
-            ghstate = GobeHState.Chase; // 추적상태로 변환            
-        }
-        else // 공격범위 내에 들어가면
-        {
-            lookAtPosition = new Vector3(targetPos.x, this.transform.position.y, targetPos.z); //공격시 바라볼 방향
-            nav.isStopped = true;
-            nav.velocity = Vector3.zero;
-            rigid.velocity = Vector3.zero;
-            transform.LookAt(lookAtPosition);
-        }
-        yield return new WaitForSeconds(0.5f);
-    }
-
-    void AttackCheck() //공격 체크
-    {
-        LivingEntity enemytarget = target.GetComponent<LivingEntity>();
-
-        if (enemytarget != null)
-        {
-            if (enemytarget.dead)
-            {
-                ghstate = GobeHState.Idle;
-                //anim.SetBool("isAttack", false);
-                return;
-            }
-            else
-            {
-                StartCoroutine(Damage(enemytarget));
-            }
-        }
-    }
-
-    IEnumerator Damage(LivingEntity enemyTarget)
-    {
-        yield return new WaitForSeconds(0.7f);
-        enemyTarget.OnDamage(HunterAttack);
-
-    }
-
-
-    public void GetBackUpdate() //귀환 상태일때
-    {
-
         if (Vector3.Distance(this.transform.position, prevPosition) <= AttackRange)// 귀환을 완료할시
         {
             ghstate = GobeHState.Wait; //대기 상태로 변환
@@ -366,49 +311,70 @@ public class GobeHunterController : LivingEntity
         nav.isStopped = false;
         nav.SetDestination(prevPosition);
         transform.LookAt(prevPosition);
-
-
     }
 
-
-
-    public override void OnDamage(Skill skill)
+    private void OnSetTarget(GameObject _target) //타겟 지정
     {
-        if (dead) return;
-
-        base.OnDamage(skill);
-
-        if (Hp <= 0 && this.gameObject.activeInHierarchy)
+        if (hasTarget) //귀환 상태일때는 리턴해주기
         {
-            StartCoroutine(Die());
-            Hp = 0;
+            return;
         }
 
-        else if(skill is ActiveSkill aSkill)
+        prevPosition = this.transform.position;
+        target = _target;
+        //타겟을 향해 이동하는 상태로 전환
+        ghstate = GobeHState.Chase;
+    }
+
+    private IEnumerator AttackUpdate() // 공격시
+    {
+        lookAtPosition = new Vector3(targetPos.x, this.transform.position.y, targetPos.z); //공격시 바라볼 방향
+        nav.isStopped = true;
+        nav.velocity = Vector3.zero;
+        rigid.velocity = Vector3.zero;
+        transform.LookAt(lookAtPosition);
+
+        yield return new WaitForSeconds(1f);
+
+        if (!isCollision) //공격범위보다 멀면
         {
-            switch (aSkill.SAttr)
+            ghstate = GobeHState.Chase; // 추적상태로 변환            
+        }
+     
+    }
+
+    private void AttackCheck() //공격 체크
+    {
+        LivingEntity enemytarget = target.GetComponent<LivingEntity>();
+
+        if (enemytarget != null)
+        {
+            if (enemytarget.dead)
             {
-                case ActiveSkill.SkillAttr.Melee:
-                    StartCoroutine(NormalDamageRoutine());//일반 공격일시
-                    break;
-                case ActiveSkill.SkillAttr.Stun:
-                    StartCoroutine(StunRoutine(9f));
-                    break;
+                ghstate = GobeHState.Idle;
+                return;
+            }
+            else
+            {
+                StartCoroutine(Damage(enemytarget));
             }
         }
-        hpBar.rectTransform.localScale = new Vector3((float)Hp / (float)MaxHp, 1f, 1f);
-        //hp바 설정
+    }
 
+    //데미지 전달
+    private IEnumerator Damage(LivingEntity enemyTarget)
+    {
+        yield return new WaitForSeconds(0.7f);
+        enemyTarget.OnDamage(HunterAttack);
 
     }
 
-    IEnumerator NormalDamageRoutine()
+    //일반 데미지를 입을시
+    private IEnumerator NormalDamageRoutine()
     {
 
         if (ghstate != GobeHState.Stun || !anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack"))
         { anim.SetTrigger("isHit"); } // 트리거 실행
-
-
 
         float startTime = Time.time; //시간체크
 
@@ -421,8 +387,8 @@ public class GobeHunterController : LivingEntity
         }
     }
 
-
-    IEnumerator StunRoutine(float nuckTime) //스턴
+    //스턴 데미지를 입을시
+    private IEnumerator StunRoutine(float nuckTime)
     {
         nav.velocity = Vector3.zero;
 
@@ -455,8 +421,7 @@ public class GobeHunterController : LivingEntity
         }
     }
 
-
-    new IEnumerator Die() // 사망상태일시
+    private IEnumerator DieRoutine() // 사망상태일시
     {
 
         anim.SetTrigger("Die"); // 트리거 활성화
@@ -479,27 +444,7 @@ public class GobeHunterController : LivingEntity
 
     }
 
-    private void Update()
-    {
-        if (hasTarget && !dead)
-        {
-            sectorCheck();
-            targetPos = target.transform.position; //타겟위치 업데이트
-        }
-
-        CheckState();
-        AnimationState();
-
-
-        anim.SetBool("isAttack", attack);
-        anim.SetBool("isMove", move);
-        anim.SetBool("hasTarget", hasTarget);
-        anim.SetBool("isDead", dead);
-
-
-    }
-
-    void sectorCheck() // 부챗꼴 범위 충돌
+    private void sectorCheck() // 부챗꼴 범위 충돌
     {
 
         dotValue = Mathf.Cos(Mathf.Deg2Rad * (angleRange / 2));
@@ -515,6 +460,56 @@ public class GobeHunterController : LivingEntity
         }
         else
             isCollision = false;
+    }
+
+    //사망시
+    protected override void Die()
+    {
+        base.Die();
+        StartCoroutine(DieRoutine());
+    }
+
+    //데미지를 입을시
+    public override void OnDamage(Skill skill)
+    {
+        if (dead) return;
+
+        base.OnDamage(skill);
+
+        var dTxt = ObjectPool.GetDTxt();
+        dTxt.SetText((int)skill.SkillPower);
+        dTxt.transform.position = dTxtPos.position;
+
+        //if (Hp <= 0 && this.gameObject.activeInHierarchy)
+        //{
+        //    StartCoroutine(DieRoutine());
+        //    Hp = 0;
+        //}
+
+        if(skill is ActiveSkill aSkill)
+        {
+            switch (aSkill.SAttr)
+            {
+                case ActiveSkill.SkillAttr.Melee:
+                    StartCoroutine(NormalDamageRoutine());//일반 공격일시
+                    break;
+                case ActiveSkill.SkillAttr.Stun:
+                    StartCoroutine(StunRoutine(9f));
+                    break;
+            }
+        }
+        hpBar.rectTransform.localScale = new Vector3((float)Hp / (float)MaxHp, 1f, 1f);
+        //hp바 설정
+
+
+    }
+
+    public void OnEnable()
+    {
+        statusInit(); //스테이터스 초기화
+        ghstate = GobeHState.Idle; // 상태를 유휴상태로 변환
+        nav.isStopped = true;
+        hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f); //hp바 초기 상태 설정
     }
 
 }
