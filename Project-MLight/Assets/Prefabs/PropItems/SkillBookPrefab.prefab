@@ -9562,8 +9562,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53e3c5a65d7438e4fb9b800227cfa88e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetingTr: {fileID: 0}
-  item: {fileID: 0}
+  targetingTr: {fileID: 5737734063522543715}
+  item: {fileID: 11400000, guid: 0ea751c226e0ce9408ecc461e0f9b869, type: 2}
   amount: 0
 --- !u!1001 &535359629258493640
 PrefabInstance:

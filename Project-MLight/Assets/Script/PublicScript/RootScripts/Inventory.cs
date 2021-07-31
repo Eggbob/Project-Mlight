@@ -39,6 +39,7 @@ public class Inventory : MonoBehaviour
 
     [SerializeField]
     private InvenUIManager inventoryUI; //인벤토리 UI
+    public InvenUIManager InvenUI => inventoryUI;
 
     [SerializeField] //아이템 목록
     private Item[] items;
@@ -536,9 +537,9 @@ public class Inventory : MonoBehaviour
     }
 
     //골드 소모
-    public bool GiveGold(int amount)
+    public bool UseGold(int amount)
     {
-        if(gold - amount >0)
+        if(gold - amount >=0)
         {
             gold -= amount;
 

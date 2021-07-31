@@ -7,6 +7,12 @@ public class ItemObjectPool : MonoBehaviour
 {
     public static ItemObjectPool instance;
 
+    [SerializeField]
+    private GameObject coinPrefab; //코인 프리팹
+
+    //코인 큐
+    private Queue<CoinPickUp> coinQueue = new Queue<CoinPickUp>();
+
     //포션 아이템 데이터 리스트
     [SerializeField]
     private Dictionary<int,ItemData> potionItems = new Dictionary<int, ItemData>();
@@ -86,6 +92,8 @@ public class ItemObjectPool : MonoBehaviour
             {
                 CreateNewItemPrefab(propDictionary, index.Value);
             }
+
+            CreateNewCoinPrefab();
         }
 
         //장비 아이템 생성
@@ -112,8 +120,15 @@ public class ItemObjectPool : MonoBehaviour
             var newObj = Instantiate(iData.DropItem, transform);
             newObj.SetActive(false);
             itemDic[iData.ID].Enqueue(newObj);
-        }
-           
+        }         
+    }
+
+    //코인 프리팹 생성
+    private void CreateNewCoinPrefab()
+    {
+        var newObj = Instantiate(coinPrefab, transform).GetComponent<CoinPickUp>();
+        newObj.gameObject.SetActive(false);
+        coinQueue.Enqueue(newObj);
     }
 
     //포션 아이템 가져가기
@@ -179,9 +194,33 @@ public class ItemObjectPool : MonoBehaviour
         }
     }
 
+    //코인 프리팹 가져가기
+    public static CoinPickUp GetCoinItem()
+    {
+        //가져갈 코인 갯수가 존재할시
+        if(instance.coinQueue.Count > 0)
+        {
+            var obj = instance.coinQueue.Dequeue();
+            obj.transform.SetParent(null);
+            obj.gameObject.SetActive(true);
+            return obj;
+        }
+        else
+        {
+            instance.CreateNewCoinPrefab();
+            var obj = instance.coinQueue.Dequeue();
+            obj.transform.SetParent(null);
+            obj.gameObject.SetActive(true);
+            return obj;
+        }    
+    }
+
     //아이템 회수하기
     public static void ReturnItem(GameObject item, int id)
     {
+        item.SetActive(false);
+        item.transform.SetParent(instance.transform);
+
         switch(item.tag)
         {
             case "Props":
@@ -196,6 +235,14 @@ public class ItemObjectPool : MonoBehaviour
                 instance.equipmentDictionary[id].Enqueue(item);
                 break;
         }
+    }
+
+    //코인 회수하기
+    public static void ReturnCoin(CoinPickUp coin)
+    {
+        coin.gameObject.SetActive(false);
+        coin.transform.SetParent(instance.transform);
+        instance.coinQueue.Enqueue(coin);
     }
 
 }

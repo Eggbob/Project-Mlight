@@ -4,8 +4,31 @@ using UnityEngine;
 
 public class LootTable : MonoBehaviour
 {
+    //드랍할 아이템 구조체
+    [System.Serializable] 
+    private struct DropItem
+    {
+        [SerializeField]
+        private ItemData dropData;
+        [SerializeField]
+        private int itemAmount;
+
+        public ItemData DropData => dropData;
+        public int ItemAmount => itemAmount;
+
+        public void Init(ItemData data, int _itemAmount)
+        {
+            dropData = data;
+            itemAmount = _itemAmount;
+        }
+    }
+
     [SerializeField] //드랍할 아이템 리스트
-    private List<ItemData> dropItems = new List<ItemData>();
+    private List<DropItem> dropItems = new List<DropItem>();
+    //private List<ItemData> dropItems = new List<ItemData>();
+
+    [SerializeField]
+    private int goldAmount;
 
     private LivingEntity LCon;
 
@@ -13,40 +36,54 @@ public class LootTable : MonoBehaviour
     {
         LCon = this.GetComponent<LivingEntity>();
         LCon.DieAction += GenerateItems; //구독시키기
-
     }
 
     //드랍할 아이템 초기화
-    public void SetTable(List<ItemData> droplist)      
+    public void SetTable(List<ItemData> droplist, int _goldAmount)      
     {
-        foreach(ItemData dData in droplist)
+        int radomAmount;
+        
+        foreach (ItemData dData in droplist)
         {
-            dropItems.Add(dData);
+            DropItem dropItem = new DropItem();
+            radomAmount = Random.Range(1, 10);
+
+            dropItem.Init(dData, radomAmount);
+
+            dropItems.Add(dropItem);
         }
+
+        goldAmount = _goldAmount;
     }
 
     //아이템 생성
     private void GenerateItems()
     {
-       foreach(ItemData data in dropItems)
-        {
-        
-           if (data is PotionItemData)
-           {
-                var obj = ItemObjectPool.GetPotionItem(data.ID);               
+       foreach(DropItem data in dropItems)
+       {     
+            if (data.DropData is PotionItemData)
+            {
+                var obj = ItemObjectPool.GetPotionItem(data.DropData.ID);               
                 obj.transform.position = this.transform.position;
                 obj.GetComponent<Rigidbody>().velocity =
-                  new Vector3(Random.Range(0f, 5f), Random.Range(0f, 10f), Random.Range(0f, 5f));
+                    new Vector3(Random.Range(0f, 5f), Random.Range(0f, 10f), Random.Range(0f, 5f));
 
             }
-           else if(data is PropItemData)
+            else if(data.DropData is PropItemData)
             {
-                var obj = ItemObjectPool.GetPropItem(data.ID);
+                var obj = ItemObjectPool.GetPropItem(data.DropData.ID);
                 obj.transform.position = this.transform.position;
                 obj.GetComponent<Rigidbody>().velocity = 
                     new Vector3(Random.Range(0f, 5f), Random.Range(0f, 10f), Random.Range(0f, 5f));
             }
-        }
+       }
+
+        var coin = ItemObjectPool.GetCoinItem();
+        coin.GetComponent<CoinPickUp>().Init(goldAmount);
+        coin.transform.position = this.transform.position;
+        coin.GetComponent<Rigidbody>().velocity =
+                    new Vector3(Random.Range(0f, 5f), Random.Range(0f, 5f), Random.Range(0f, 5f));
+
     }
 
    

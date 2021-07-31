@@ -12,6 +12,8 @@ TagManager:
   - Props
   - Potion
   - Equipment
+  - Plant
+  - NPC
   layers:
   - Default
   - TransparentFX
@@ -24,9 +26,9 @@ TagManager:
   - Terrian
   - Enemy
   - Object
+  - NPC
+  - Plant
   - Player
-  - 
-  - 
   - 
   - 
   - 
@@ -54,4 +56,13 @@ TagManager:
     locked: 0
   - name: Bar
     uniqueID: 250518457
+    locked: 0
+  - name: BackGround
+    uniqueID: 2277805561
+    locked: 0
+  - name: NpcUI
+    uniqueID: 2209101119
+    locked: 0
+  - name: PlayerUI
+    uniqueID: 3351646757
     locked: 0

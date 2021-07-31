@@ -13,12 +13,16 @@ public class ObjectPool : MonoBehaviour
     [SerializeField]
     private GameObject objectTargeting; // 오브젝트 타겟팅 원본 프리팹
     [SerializeField]
+    private GameObject npcTargeting; // NPC 타겟팅 원본 프리팹
+
+    [SerializeField]
     private GameObject damageTxt; //데미지 표시 텍스트 
 
     private Queue<Spin> wayPointQueue = new Queue<Spin>(); //웨이포인트 큐
     private Queue<DamageTextManager> dTextQueue = new Queue<DamageTextManager>(); //데미지 텍스트 큐
     private GameObject eTargeting; //오브젝트 풀에 담을 적 타겟팅
     private GameObject oTargeting; //오브젝트 풀에 담을 사물 타겟팅
+    private GameObject nTargeting; //오브젝트 풀에 담을 npc 타겟팅
 
 
 
@@ -39,9 +43,11 @@ public class ObjectPool : MonoBehaviour
         }
         eTargeting = Instantiate(enemyTargeting, transform);
         oTargeting = Instantiate(objectTargeting, transform);
+        nTargeting = Instantiate(npcTargeting, transform);
+
         eTargeting.SetActive(false);
         oTargeting.SetActive(false);
-
+        nTargeting.SetActive(false);
     }
 
 
@@ -105,11 +111,18 @@ public class ObjectPool : MonoBehaviour
 
             return instance.eTargeting;
         }
+        else if(idx == 11)
+        {
+            instance.nTargeting.transform.SetParent(null);
+            instance.nTargeting.SetActive(true);
 
+            return instance.nTargeting;
+        }
         return null;
     }
 
-    public static void ReturnTargeting(GameObject tageting) //타겟팅 오브젝트 회수하기
+    //타겟팅 오브젝트 회수하기
+    public static void ReturnTargeting(GameObject tageting) 
     {
         tageting.gameObject.SetActive(false);
         tageting.transform.SetParent(instance.transform);
@@ -134,6 +147,7 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
+    //데미지 텍스트 회수
     public static void ReturnDTxt(DamageTextManager text)
     {
         text.gameObject.SetActive(false);

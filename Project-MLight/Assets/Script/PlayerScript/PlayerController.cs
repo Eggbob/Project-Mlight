@@ -136,7 +136,8 @@ public class PlayerController : LivingEntity
             {            
                 pmanager.curtarget = PlayerMoveController.TargetLayer.None;
                 pState = PlayerState.Idle;
-                pmanager.nav.isStopped = true;
+                pmanager.mstate = PlayerMoveController.MoveState.Stop;
+                //pmanager.nav.isStopped = true;
                 return;
             }
             else
@@ -183,6 +184,14 @@ public class PlayerController : LivingEntity
                 inventory.Add(item, amount);
                 target = null;
             }
+            else if(obj is CoinPickUp cpick)
+            {
+                int coinAmount = cpick.Drop();
+
+                inventory.GetGold(coinAmount);
+                target = null;
+            }
+
             else 
             {
                 Debug.Log("습득할수 없는 아이템입니다.");

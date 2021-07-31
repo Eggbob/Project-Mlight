@@ -14,7 +14,6 @@ public class InvenUIManager : MonoBehaviour
     [SerializeField] private Text weightTxt; //무게 텍스트
     [SerializeField] private Text goldTxt; //골드 텍스트
 
-
     [Space]
     [SerializeField] private bool showItemTooltip = false; //아이템 툴팁 활성화 여부
     [SerializeField] private bool showEquipTooltip = false; //장비 툴팁 활성화 여부
@@ -44,11 +43,17 @@ public class InvenUIManager : MonoBehaviour
 
     private FilterOption currentFilterOption = FilterOption.All;
 
+    public bool isBusiness; //상점이용 중인지
 
     private void Awake()
     {
         Init();
         QuickInit();
+    }
+
+    private void OnEnable()
+    {
+        this.transform.SetSiblingIndex(3);
     }
 
     private void Update()
@@ -73,6 +78,8 @@ public class InvenUIManager : MonoBehaviour
         //무게 설정
         weightSlider.value = 0;        
         weightTxt.text =  inventory.currentWeight + " / " + inventory.MaxWeight;
+
+        isBusiness = false;
 
         UpdateGold();
 
@@ -121,7 +128,7 @@ public class InvenUIManager : MonoBehaviour
         //이전 클릭슬롯이 없고 현재 클릭슬롯이 있다면
         if(prevClickSlot == null && beginClickSlot != null)
         {
-            beginClickSlot.Highlight(true);
+            beginClickSlot.ShowHighLight(true);
             prevClickSlot = beginClickSlot;
         }
         //이전 클릭슬롯과 현재 클릭슬롯이 동일하다면
@@ -132,8 +139,8 @@ public class InvenUIManager : MonoBehaviour
         //이전 클릭슬롯과 현재 클릭슬롯이 동일하지 않다면
         else if(prevClickSlot != beginClickSlot)
         {
-            prevClickSlot.Highlight(false);
-            beginClickSlot.Highlight(true);
+            prevClickSlot.ShowHighLight(false);
+            beginClickSlot.ShowHighLight(true);
             prevClickSlot = beginClickSlot;
         }
     }
@@ -147,10 +154,15 @@ public class InvenUIManager : MonoBehaviour
             beginClickSlot = RaycastAndGetFirstComponent<ItemSlotUI>(); //클릭한 슬롯 가져오기
 
             //아이템을 갖고 있는 슬롯만 해당
-            if(beginClickSlot != null && beginClickSlot.HasItem && beginClickSlot.IsAccesible)
+            if(beginClickSlot != null && beginClickSlot.HasItem && beginClickSlot.IsAccesible && !isBusiness)
             {         
                 HighlightImg(); //하이라이트 이미지 보여주기
                 ShowToolTip(beginClickSlot.Index); //툴팁보여주기
+            }
+            else if (beginClickSlot != null && beginClickSlot.HasItem && beginClickSlot.IsAccesible && isBusiness)
+            {
+                HighlightImg(); //하이라이트 이미지 보여주기
+                ShowSellToolTip(beginClickSlot.Index);
             }
             //else
             //{
@@ -225,7 +237,7 @@ public class InvenUIManager : MonoBehaviour
 
         slotUiList[index].RemoveItem();
         HideItemAmountText(index);
-        slotUiList[index].Highlight(false);
+        slotUiList[index].ShowHighLight(false);
     }
 
     //특정 슬롯 상태 업데이트
@@ -243,7 +255,11 @@ public class InvenUIManager : MonoBehaviour
 
                 case FilterOption.Portion:
                     isUpdated = (itemData is PotionItemData);
-                    break;                   
+                    break;
+
+                case FilterOption.Prop:
+                    isUpdated = (itemData is PropItemData);
+                    break;
             }
         }
 
@@ -280,14 +296,13 @@ public class InvenUIManager : MonoBehaviour
     {
         ItemData data = inventory.GetItemData(index);
 
-        if(data is PotionItemData) //셀수있는 아이템이면
+        if(data is PotionItemData) //포션 아이템이면
         {
             int currentAmount = inventory.GetCurrentAmount(index);
 
             tooltip.SetItemInfo(data, () => inventory.Use(index), () => ShowToolTip(index),
                 () => ShowConfirm(index, currentAmount), currentAmount);
-            
-        
+                  
             if(showEquipTooltip)
             {
                 eTooltip.gameObject.SetActive(false);
@@ -296,7 +311,7 @@ public class InvenUIManager : MonoBehaviour
 
             showItemTooltip = true;
         }
-        else if(data is PropItemData)
+        else if(data is PropItemData) //물품 아이템이면
         {
             int currentAmount = inventory.GetCurrentAmount(index);
             tooltip.SetPropItemInfo(data, () => ShowConfirm(index, currentAmount), currentAmount);
@@ -322,6 +337,36 @@ public class InvenUIManager : MonoBehaviour
             showEquipTooltip = true;
         }
       
+    }
+
+    //판매창 보여주기
+    private void ShowSellToolTip(int index)
+    {
+        ItemData data = inventory.GetItemData(index);
+
+        int currentAmount = inventory.GetCurrentAmount(index);
+
+        tooltip.SetSellItemInfo(data,() => ShowPopUpUI(index, currentAmount), currentAmount);
+
+        if (showEquipTooltip)
+        {
+            eTooltip.gameObject.SetActive(false);
+            showEquipTooltip = false;
+        }
+
+        showItemTooltip = true;
+
+    }
+
+    //팝업창 보여주기
+    private void ShowPopUpUI(int index, int currentAmount)
+    {
+        tooltip.gameObject.SetActive(false);
+        showItemTooltip = false;
+
+        ItemData data = inventory.GetItemData(index);
+        popUp.ShowPopUpUI(cnt => inventory.Remove(index, cnt), 
+            gold => inventory.GetGold(gold), currentAmount, data.ItemSellPrice);
     }
 
     //확인창 보여주기
@@ -350,9 +395,7 @@ public class InvenUIManager : MonoBehaviour
         if (data is PotionItemData pi) //포션 아이템이면
         {
             int currentAmount = inventory.GetCurrentAmount(index);
-           
-
-
+          
             prevClickSlot.SetQuickSlotIndex(qIndex); //아이템이 퀵슬롯에 장착되었는지 업데이트
             QuickSlots[qIndex].SetItem(pi, currentAmount, () => inventory.Use(index), () => inventory.GetCurrentAmount(index));
 

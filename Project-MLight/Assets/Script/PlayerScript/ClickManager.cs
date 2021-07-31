@@ -19,7 +19,6 @@ public class ClickManager : MonoBehaviour
     public bool isAttack; // 공격 관련 불값
 
     private Vector3 destination; // 캐릭터가 이동할 목적지 
-    private float range; // 사거리
     private int targetlayer; //현재 타겟 레이어
     private int prevtarget; // 이전 타겟 레이어
 
@@ -60,7 +59,6 @@ public class ClickManager : MonoBehaviour
         rigid = this.GetComponent<Rigidbody>();
 
         nav.updateRotation = false; // 네비의회전 기능 비활성화
-        range = 7f;
     }
 
    

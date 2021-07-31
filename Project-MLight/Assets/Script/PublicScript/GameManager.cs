@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameObject inventory;
+    public GameObject shopUI;
 
     private void Start()
     {
@@ -15,9 +16,10 @@ public class GameManager : MonoBehaviour
     IEnumerator StartRoutine()
     {
         inventory.SetActive(true);
-
+        shopUI.SetActive(true);
         yield return null;
 
         inventory.SetActive(false);
+        shopUI.SetActive(false);
     }
 }

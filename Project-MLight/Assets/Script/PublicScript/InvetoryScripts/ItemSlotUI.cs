@@ -55,19 +55,15 @@ public class ItemSlotUI : MonoBehaviour
 
     private void OnDisable()
     {
-        Highlight(false);
+        ShowHighLight(false);
     }
 
     private void Init() //초기설정
     {
-
-        // Game Objects
         iconGo = iconImg.gameObject;
         textGo = amountTxt.gameObject;
         higlightGo = highlightImg;
-        textImgGo = amountImg;
-
-        
+        textImgGo = amountImg;   
     }
 
     //퀵슬롯 인덱스 지정
@@ -164,7 +160,7 @@ public class ItemSlotUI : MonoBehaviour
     }
 
     //하이라이트 이미지 표시
-    public void Highlight(bool show) 
+    public void ShowHighLight(bool show) 
     {
         if (!this.IsAccesible) return;
 
