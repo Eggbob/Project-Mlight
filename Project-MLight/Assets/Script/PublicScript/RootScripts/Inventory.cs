@@ -552,6 +552,26 @@ public class Inventory : MonoBehaviour
         }
     }
 
+
+    public int GetItemCount(string type)
+    {
+        int itemCount = 0;
+
+        for(int i = 0; i<Capacity; i++)
+        {
+            var current = items[i];
+            if (current == null)
+                continue;
+
+            if (current.Data.Name.Equals(type) && current is CountableItem ci)
+            {
+                itemCount += ci.Amount;
+            }
+        }
+
+        return itemCount;
+    }
+
     //스킬북 갯수 반환
     public (int count, int index) CountSkillBook()
     {
