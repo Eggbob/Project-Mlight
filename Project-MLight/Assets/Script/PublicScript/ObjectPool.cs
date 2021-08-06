@@ -7,6 +7,9 @@ public class ObjectPool : MonoBehaviour
     private static ObjectPool instance; //싱글톤 변수
 
     [SerializeField]
+    private RectTransform UITransform;
+
+    [SerializeField]
     private GameObject wayPoint; //웨이포인트 원본 프리팹
     [SerializeField]
     private GameObject enemyTargeting; // 적 타겟팅 원본프리팹
@@ -17,9 +20,13 @@ public class ObjectPool : MonoBehaviour
 
     [SerializeField]
     private GameObject damageTxt; //데미지 표시 텍스트 
+    [SerializeField]
+    private GameObject questSlotBtn; //퀘스트 슬롯
+
 
     private Queue<Spin> wayPointQueue = new Queue<Spin>(); //웨이포인트 큐
     private Queue<DamageTextManager> dTextQueue = new Queue<DamageTextManager>(); //데미지 텍스트 큐
+    private Queue<QuestSlotUI> qSlotQueue = new Queue<QuestSlotUI>(); //퀘스트 슬롯 큐
     private GameObject eTargeting; //오브젝트 풀에 담을 적 타겟팅
     private GameObject oTargeting; //오브젝트 풀에 담을 사물 타겟팅
     private GameObject nTargeting; //오브젝트 풀에 담을 npc 타겟팅
@@ -40,6 +47,8 @@ public class ObjectPool : MonoBehaviour
         {
             wayPointQueue.Enqueue(CreateNewObject());
             dTextQueue.Enqueue(CreateNewTxt());
+            qSlotQueue.Enqueue(CreateNewQSlot());
+
         }
         eTargeting = Instantiate(enemyTargeting, transform);
         oTargeting = Instantiate(objectTargeting, transform);
@@ -63,6 +72,14 @@ public class ObjectPool : MonoBehaviour
     private DamageTextManager CreateNewTxt()
     {
         var newObj = Instantiate(damageTxt, transform).GetComponent<DamageTextManager>();
+        newObj.gameObject.SetActive(false);
+        return newObj;
+    }
+
+    //퀘스트 슬롯 생성
+    private QuestSlotUI CreateNewQSlot()
+    {
+        var newObj = Instantiate(questSlotBtn, transform).GetComponent<QuestSlotUI>();
         newObj.gameObject.SetActive(false);
         return newObj;
     }
@@ -92,6 +109,24 @@ public class ObjectPool : MonoBehaviour
         spin.gameObject.SetActive(false);
         spin.transform.SetParent(instance.transform);
         instance.wayPointQueue.Enqueue(spin);
+    }
+
+    public static QuestSlotUI GetQuSlot()
+    {
+        if(instance.qSlotQueue.Count >0)
+        {
+            var obj = instance.qSlotQueue.Dequeue();
+            obj.transform.SetParent(null);
+            obj.gameObject.SetActive(true);
+            return obj;
+        }
+        else
+        {
+            var newObj = instance.CreateNewQSlot();
+            newObj.transform.SetParent(null);
+            newObj.gameObject.SetActive(false);
+            return newObj;
+        }
     }
 
     // 타겟팅 오브젝트 가져가기
@@ -153,6 +188,13 @@ public class ObjectPool : MonoBehaviour
         text.gameObject.SetActive(false);
         text.transform.SetParent(instance.transform);
     }
+
+    public static void ReturnQuSlot(QuestSlotUI qSlot)
+    {
+        qSlot.gameObject.SetActive(false);
+        qSlot.transform.SetParent(instance.transform);
+    }
+ 
 }
 
 

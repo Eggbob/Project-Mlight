@@ -4,11 +4,19 @@ using UnityEngine;
 
 public abstract class NpcController : MonoBehaviour
 {
-    public Transform targetingTr;
+    public Transform targetingTr; //npc 타겟팅
+
+    public bool IsInteracting { get; set; } //접촉했는지
 
     //접촉시에
-    public abstract void Interact();
+    public virtual void Interact() 
+    {
+        IsInteracting = true;
+    }
 
     //접촉종료시에
-    public abstract void StopInteract();
+    public virtual void StopInteract() 
+    {
+        IsInteracting = false;
+    }
 }

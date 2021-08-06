@@ -27,15 +27,10 @@ public class Inventory : MonoBehaviour
     //최대 수용가능한 무게
     [SerializeField]
     private int maxWeight;
-    public int MaxWeight => maxWeight;
-
-    //현재 무게
-    public int currentWeight { get; private set; }
 
     //현재 소유중인 금화
     [SerializeField]
     private int gold;
-    public int Gold => gold;
 
     [SerializeField]
     private InvenUIManager inventoryUI; //인벤토리 UI
@@ -46,7 +41,13 @@ public class Inventory : MonoBehaviour
 
     //아이템이 추가 되었는지?
     private bool isItemAdded;
- 
+
+    //현재 무게
+    public int currentWeight { get; private set; }
+    public int Gold => gold;
+    public int MaxWeight => maxWeight;
+    public Action<ItemData> itemAddEvent; //아이템 획득시 이벤트
+
     private readonly static Dictionary<Type, int> sortWeight = new Dictionary<Type, int>
     {
         {typeof(PotionItemData), 10000},
@@ -253,7 +254,7 @@ public class Inventory : MonoBehaviour
         return HasItem(index) && items[index] is CountableItem;
     }
     
-    //현재 아이템 개수 리턴
+    //해당 슬롯의 아이템 개수 리턴
     public int GetCurrentAmount(int index)
     {
         if (!IsValidIndex(index)) return -1; //잘못된 인덱스
@@ -403,6 +404,11 @@ public class Inventory : MonoBehaviour
             }         
         }
 
+        if(itemAddEvent!= null)
+        {
+            itemAddEvent(itemData);
+        }
+    
         return amount;
     }
 
@@ -553,9 +559,10 @@ public class Inventory : MonoBehaviour
     }
 
 
-    public int GetItemCount(string type)
+    public (int count, int index) GetItemCount(int itmeId)
     {
         int itemCount = 0;
+        int index = 0;
 
         for(int i = 0; i<Capacity; i++)
         {
@@ -563,13 +570,14 @@ public class Inventory : MonoBehaviour
             if (current == null)
                 continue;
 
-            if (current.Data.Name.Equals(type) && current is CountableItem ci)
+            if (current.Data.ID.Equals(itmeId) && current is CountableItem ci)
             {
                 itemCount += ci.Amount;
+                index = i;
             }
         }
 
-        return itemCount;
+        return (itemCount,index);
     }
 
     //스킬북 갯수 반환
@@ -585,6 +593,7 @@ public class Inventory : MonoBehaviour
             if (current == null)
                 continue;
 
+          
             if(current.Data.Name.Equals("스킬북") && current is CountableItem ci)
             {
                 amount += ci.Amount;

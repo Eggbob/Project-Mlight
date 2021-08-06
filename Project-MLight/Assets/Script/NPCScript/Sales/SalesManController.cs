@@ -12,15 +12,12 @@ public class SalesManController : NpcController
     private SalesWindowManager sManager;
 
 
-
-    public bool IsOpen;
-
     //접촉시에
     public override void Interact()
     {
-      if(!IsOpen)
+      if(!IsInteracting)
         {
-            IsOpen = true;
+            base.Interact();
         
             sManager.AddItem(salesItems);
             sManager.Open();
@@ -31,10 +28,10 @@ public class SalesManController : NpcController
     //접촉종료시에
     public override void StopInteract()
     {
-        if (IsOpen)
+        if (IsInteracting)
         {
-            IsOpen = false;
-     
+            base.StopInteract();
+
             sManager.Close();
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
 
 public class PlayerController : LivingEntity
 {
@@ -12,6 +13,7 @@ public class PlayerController : LivingEntity
     public ActiveSkill pAttack; //플레이어 스킬
     public MeleeWeaponTrail trail; //무기 궤적
     public Transform weaponPos;
+    public Action<LivingEntity> killAction; //적 처치시 액션
         
     public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }
     public PlayerState pState; //플레이어 상태 변수
@@ -133,7 +135,8 @@ public class PlayerController : LivingEntity
         if (enemytarget != null)
         {            
             if (enemytarget.dead)
-            {            
+            {
+                killAction(enemytarget);
                 pmanager.curtarget = PlayerMoveController.TargetLayer.None;
                 pState = PlayerState.Idle;
                 pmanager.mstate = PlayerMoveController.MoveState.Stop;
