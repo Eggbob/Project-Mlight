@@ -76,13 +76,13 @@ public class QuestRewards
         {
             foreach(RewardItemStruct ritem in _rewardItems)
             {
-                isRewarded = PlayerController.instance.Inven.Add(ritem.RewardItem, ritem.ItmeAmount);
+                isRewarded = GameManager.Instance.Inven.Add(ritem.RewardItem, ritem.ItmeAmount);
             }
         }
 
-        PlayerController.instance.ExpGetRoutine(RewardExp);
+        GameManager.Instance.Player.ExpGetRoutine(RewardExp);
 
-        PlayerController.instance.Inven.GetGold(RewardGold);
+        GameManager.Instance.Inven.GetGold(RewardGold);
 
 
         return isRewarded != -1 ? true : false; 

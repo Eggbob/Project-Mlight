@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d38c4cc24a384b4c9b4c495506c2abe, type: 3}
+  m_Name: MoveSpeedPotion
+  m_EditorClassIdentifier: 
+  _id: 8
+  _name: "\uC2E0\uC18D\uC758 \uBE44\uC57D"
+  _tooltip: "300\uCD08 \uB3D9\uC548 \uC774\uB3D9\uC18D\uB3C4\uAC00 50% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  _iconSprite: {fileID: 21300000, guid: 0da3d7ad73ab3ec438b8dd01e749b208, type: 3}
+  _dropItemPrefab: {fileID: 7634493492572016450, guid: ec12341f85a5c2a42a7eef337e0c668b,
+    type: 3}
+  _itemPrice: 1000
+  _itemSellPrice: 100
+  _maxAmount: 99
+  value: 50
+  coolTime: 1
+  appearTime: 300

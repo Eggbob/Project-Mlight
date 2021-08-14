@@ -24,6 +24,11 @@ public class QuestGiverController : NpcController
         Init();  
     }
 
+    private void Start()
+    {
+        UpdateQuestStatus();
+    }
+
     private void Init()
     {
         foreach(Quest quest in quests)

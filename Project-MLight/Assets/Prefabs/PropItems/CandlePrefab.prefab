@@ -9452,7 +9452,7 @@ GameObject:
   - component: {fileID: -4836932544309421947}
   m_Layer: 10
   m_Name: CandlePrefab
-  m_TagString: Props
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

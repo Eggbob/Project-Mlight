@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1519484536072424026
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1519484536072424027}
+  - component: {fileID: 1519484536072424024}
+  m_Layer: 0
+  m_Name: Cross
+  m_TagString: ActiveSkill
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1519484536072424027
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519484536072424026}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1519484536072424024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519484536072424026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d8df99c77a142e4cb52c70b8103c996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 4873aa989d5fcd546b28025805f15ee8, type: 3}
+  _skillName: "\uAC00\uB974\uAE30"
+  _description: "\uBB3C\uB9AC \uACF5\uACA9\uB825\uC758 %\uB9CC\uD07C \uB2E8\uC77C
+    \uACF5\uACA9\uC744 \uD569\uB2C8\uB2E4"
+  _skillId: 1
+  _skillLevel: 1
+  _skillExp: 0
+  _maxSkillExp: 200
+  _mpCost: 15
+  _coolTime: 6
+  _actTime: 1
+  _skillPower: 0
+  EffectPrefab: {fileID: 7321414569882959522, guid: 3dbb404d33542ee4a964702e8742b7be,
+    type: 3}

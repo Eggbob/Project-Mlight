@@ -13,7 +13,7 @@ public class ArmorMastery : PassiveSkill
     {
         PlayerController PCon = LCon as PlayerController;
 
-        PCon.Inven.SetMaxWeight(20);
+        GameManager.Instance.Inven.SetMaxWeight(20);
         PCon.DEF += 12;
      
     }

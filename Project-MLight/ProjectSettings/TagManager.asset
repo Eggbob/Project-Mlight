@@ -14,6 +14,7 @@ TagManager:
   - Equipment
   - Plant
   - NPC
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -29,8 +30,8 @@ TagManager:
   - NPC
   - Plant
   - Player
-  - 
-  - 
+  - MiniMap
+  - Wall
   - 
   - 
   - 

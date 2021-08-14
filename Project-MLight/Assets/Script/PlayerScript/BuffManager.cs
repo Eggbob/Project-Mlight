@@ -163,7 +163,7 @@ public class BuffManager : MonoBehaviour
 
     private void Start()
     {
-        LCon = PlayerController.instance;
+        LCon = GameManager.Instance.Player;
 
         for(int i = 0; i< (int)BuffType.Done ; i++)
         {

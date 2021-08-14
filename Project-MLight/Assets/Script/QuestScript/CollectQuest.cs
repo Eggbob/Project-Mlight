@@ -60,7 +60,7 @@ public class ColletObject
     {
         if(data.ID.Equals(_collectItem.ID))
         {
-            (_currentAmount, _itemIndex) = PlayerController.instance.Inven.GetItemCount(_collectItem.ID);
+            (_currentAmount, _itemIndex) = GameManager.Instance.Inven.GetItemCount(_collectItem.ID);
             //이 아래쪽에 UI업데이트 호출
 
             QuestUIManager.Instance.CheckComplete(); 
@@ -69,6 +69,6 @@ public class ColletObject
 
     public void CompleteQuest() //수집한 아이템 지우기
     {
-        PlayerController.instance.Inven.Remove(_itemIndex, _totalAmount);
+        GameManager.Instance.Inven.Remove(_itemIndex, _totalAmount);
     }
 }

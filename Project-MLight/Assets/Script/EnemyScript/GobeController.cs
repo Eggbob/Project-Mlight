@@ -12,7 +12,6 @@ public class GobeController : LivingEntity
 
     [Header("기본속성")]
     public GobeState gstate = GobeState.None; // 고블린 상태 체크 변수
-    public float MoveSpeed = 1f; // 이동속도
     public Vector3 targetPos; // 타겟의 위치
     public Vector3 patrolPos;
     public Skill GobeAttack; //일반 공격
@@ -20,9 +19,8 @@ public class GobeController : LivingEntity
     public Image hpBar; //hp바
   
     private Vector3 prevPosition; //귀환시 돌아갈 지점
-    private Animator anim;
     private Rigidbody rigid;
-    private NavMeshAgent nav;
+    
 
     [SerializeField]
     private TMP_Text nameTxt;
@@ -62,9 +60,9 @@ public class GobeController : LivingEntity
         rigid = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
-        GobeAttack.LCon = this;
+        //GobeAttack.LCon = this;
         nav.updateRotation = false;
-        nav.speed = MoveSpeed;
+        nav.speed = moveSpeed;
         nameTxt.text = this.name;
     }
 
@@ -359,7 +357,7 @@ public class GobeController : LivingEntity
         {
             gstate = GobeState.Wait; //대기 상태로 변환
             target = null; // 타겟 없애기
-            nav.speed = MoveSpeed; //이동 속도 원상태로 복귀
+            nav.speed = moveSpeed; //이동 속도 원상태로 복귀
             return;
         }
 

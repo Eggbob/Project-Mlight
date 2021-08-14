@@ -87,7 +87,7 @@ public class QuestUIManager : MonoBehaviour
         {
             foreach(var obj in cQuest.ColletObjects)
             {
-                PlayerController.instance.Inven.itemAddEvent += obj.UpdateItemAmount;
+                GameManager.Instance.Inven.itemAddEvent += obj.UpdateItemAmount;
             }          
         }
 
@@ -96,7 +96,7 @@ public class QuestUIManager : MonoBehaviour
         {
             foreach(var obj in kQuest.KillObjects)
             {
-                PlayerController.instance.killAction += obj.UpdateKillCount;
+                GameManager.Instance.Player.killAction += obj.UpdateKillCount;
             }        
         }
 

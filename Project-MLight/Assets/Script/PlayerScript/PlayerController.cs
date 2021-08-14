@@ -7,9 +7,9 @@ using System;
 public class PlayerController : LivingEntity
 {
     public PlayerMoveController pmanager { get; private set; }
-    public GameObject levelUpEffect;
-    public Animator anim { get; private set; } //애니메이터 컴포넌트
-    public static PlayerController instance; //싱글톤을 위한 instance
+    public PlayerSkillController psCon { get; private set; }
+
+    public BuffManager buffManager;
     public ActiveSkill pAttack; //플레이어 스킬
     public MeleeWeaponTrail trail; //무기 궤적
     public Transform weaponPos;
@@ -17,13 +17,6 @@ public class PlayerController : LivingEntity
         
     public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }
     public PlayerState pState; //플레이어 상태 변수
-
-    public float MoveSpeed => pmanager.nav.speed;
-
-    [SerializeField]
-    private Inventory inventory;
-    public Inventory Inven => inventory;
-
 
     private float atkSpeed = 1f; //공격 속도
     private bool isMove; // 움직임 관련 불값
@@ -33,21 +26,11 @@ public class PlayerController : LivingEntity
     public float AtkSpeed => atkSpeed;
 
     private void Awake()
-    {
-           
+    {    
         pmanager = this.GetComponent<PlayerMoveController>();
+        psCon = this.GetComponent<PlayerSkillController>();
         anim = this.GetComponent<Animator>();
         pState = PlayerState.Idle;
-
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            if (instance != this)
-                Destroy(gameObject);
-        }
 
         statusInit();
 
@@ -57,12 +40,18 @@ public class PlayerController : LivingEntity
    
     private void Update()
     {
+        miniMapIcon.transform.eulerAngles = new Vector3(-90, 0, 0);
+
+        if (dead) return;
+
         target = pmanager.target;
+    
         CheckAnimations();
         anim.SetBool("isRun", isMove);
         anim.SetFloat("Attack", atkSpeed);
         anim.SetBool("isAttack", isAttack);
         anim.SetBool("isInter", isInter);
+      
     }
 
     //애니메이션 재생
@@ -96,25 +85,6 @@ public class PlayerController : LivingEntity
         }
     }
 
-    private void CheckStatus()
-    {
-        switch (pState)
-        {
-            case PlayerState.Idle:
-                break;
-            case PlayerState.Move:               
-                break;
-            case PlayerState.Attack:
-                break;
-            case PlayerState.Skill:
-                break;
-            case PlayerState.Drop:
-              //  DropUpdate();
-                break;
-            case PlayerState.Die:
-                break;
-        }
-    }
 
     //스킬 애니메이션 업데이트
     public void SkillUpdate(int sId)
@@ -136,11 +106,12 @@ public class PlayerController : LivingEntity
         {            
             if (enemytarget.dead)
             {
-                killAction(enemytarget);
+                if (killAction != null) { killAction(enemytarget); }
+
                 pmanager.curtarget = PlayerMoveController.TargetLayer.None;
                 pState = PlayerState.Idle;
                 pmanager.mstate = PlayerMoveController.MoveState.Stop;
-                //pmanager.nav.isStopped = true;
+               
                 return;
             }
             else
@@ -181,20 +152,15 @@ public class PlayerController : LivingEntity
 
             if (obj is ItemPickUp ipick)
             {
+                ipick.Drop();
 
-                (ItemData item, int amount) = ipick.Drop();
-
-                inventory.Add(item, amount);
                 target = null;
             }
             else if(obj is CoinPickUp cpick)
             {
-                int coinAmount = cpick.Drop();
-
-                inventory.GetGold(coinAmount);
+                cpick.Drop();
                 target = null;
             }
-
             else 
             {
                 Debug.Log("습득할수 없는 아이템입니다.");
@@ -207,10 +173,37 @@ public class PlayerController : LivingEntity
       
     }
 
+
+    //레벨업시
+    protected override void LvUp()
+    {
+        GameObject obj = ObjectPool.GetLvEffect();
+
+        Vector3 tr = this.transform.position;
+        tr.y += 5f;
+
+        obj.transform.position = tr;
+
+        base.LvUp();
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        anim.SetTrigger("Dead");
+        anim.SetBool("isDead", dead);
+    }
+
     //데미지를 받을시
     public override void OnDamage(Skill skill)
     {
+        if (dead) return;
+
         base.OnDamage(skill);
+
+        var dTxt = ObjectPool.GetDTxt();
+        dTxt.SetText((int)skill.SkillPower);
+        dTxt.transform.position = this.transform.position;
     }
 
     //공격 속도 설정
@@ -219,21 +212,18 @@ public class PlayerController : LivingEntity
         atkSpeed += speed;
     }
 
-    //초기 설정
-    public override void statusInit(int pHp = 100, int pMp = 100, int pPower = 60, int pInt = 30, int pDef = 30)
+
+
+    public void RespawnPlayer()
     {
-        base.statusInit(pHp, pMp, pPower, pInt, pDef);
+        this.Hp = MaxHp;
+        this.Mp = MaxMp;
+
+        dead = false;
+        anim.SetBool("isDead", dead);
+        pState = PlayerState.Idle;
     }
 
-
-    //레벨업시
-    protected override void LvUp()
-    {
-        GameObject pre = Instantiate(levelUpEffect, this.transform.position, Quaternion.identity);
-        Destroy(pre, 1f);
-
-        base.LvUp();
-    }
-
+   
 
 }

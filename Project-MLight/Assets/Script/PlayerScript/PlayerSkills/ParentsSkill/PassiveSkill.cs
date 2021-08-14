@@ -3,12 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PassiveSkill : Skill
-{
-    public virtual void PassiveAction() // 패시브 스킬일 경우
-    {
-
-    }
-
+{   
     protected override void SkillLevelUp()
     {
         float remainSkillExp = SkillExp - MaxSkillExp;
@@ -17,4 +12,6 @@ public class PassiveSkill : Skill
         _maxSkillExp *= 2;
 
     }
+
+    public virtual void PassiveAction() { } // 패시브 스킬일 경우
 }

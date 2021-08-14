@@ -9452,7 +9452,7 @@ GameObject:
   - component: {fileID: -2615649100298117678}
   m_Layer: 10
   m_Name: SkillBookPrefab
-  m_TagString: Props
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

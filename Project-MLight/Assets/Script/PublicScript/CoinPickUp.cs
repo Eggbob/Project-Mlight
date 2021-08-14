@@ -37,11 +37,11 @@ public class CoinPickUp : Object
         coinAmount = _amount;
     }
 
-    public int Drop()
+    public void Drop()
     {
         isDrop = true;
         StartCoroutine(ReturnToPull());
-        return coinAmount;
+        GameManager.Instance.Inven.GetGold(coinAmount);
     }
 
 }

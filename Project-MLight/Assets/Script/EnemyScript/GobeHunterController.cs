@@ -10,7 +10,6 @@ public class GobeHunterController : LivingEntity
 
     [Header("기본속성")]
     public GobeHState ghstate = GobeHState.None; // 고블린 상태 체크 변수
-    public float MoveSpeed = 1f; // 이동속도
 
     public Skill HunterAttack;
     public float AttackRange; // 공격범위
@@ -20,9 +19,8 @@ public class GobeHunterController : LivingEntity
     private Vector3 patrolPos; // 순찰할 위치
     private Vector3 prevPosition; //귀환시 돌아갈 지점
     private Vector3 lookAtPosition; //캐릭터가 바라볼 위치
-    private Animator anim;
     private Rigidbody rigid;
-    private NavMeshAgent nav;
+
 
     [SerializeField]
     private TMP_Text nameTxt;
@@ -62,7 +60,7 @@ public class GobeHunterController : LivingEntity
         rigid = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
-        HunterAttack.LCon = this;
+    //    HunterAttack.LCon = this;
         nav.updateRotation = false;
         nav.speed = MoveSpeed;
         nameTxt.text = this.name;

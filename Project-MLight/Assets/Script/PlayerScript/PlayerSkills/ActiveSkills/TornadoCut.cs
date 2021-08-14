@@ -5,11 +5,11 @@ using UnityEngine;
 public class TornadoCut : ActiveSkill
 {
     public GameObject SkillRangePrefab;
-    private GameObject SkilLRange;
-    public GameObject Effect;
- 
     public LayerMask targetLayer; // 공격 대상 레이어
     public float fRange; // 수색범위
+
+    private GameObject SkilLRange;
+    private GameObject effect;
 
     public override void ActiveAction()
     {
@@ -28,6 +28,8 @@ public class TornadoCut : ActiveSkill
         this.sAttr = SkillAttr.Melee;
         SkilLRange = Instantiate(SkillRangePrefab, LCon.gameObject.transform);
         SkilLRange.SetActive(false);
+        effect = Instantiate(EffectPrefab, this.gameObject.transform);
+        effect.SetActive(false);
 
         this._description = "범위 내의 모든 적들에게 물리 공격력의 " + this._skillPower + "%만큼 공격을 합니다.";
     }
@@ -36,13 +38,17 @@ public class TornadoCut : ActiveSkill
     {
         SkilLRange.SetActive(true);
         yield return new WaitForSeconds(1f);
-        Instantiate(Effect, this.transform.position, Quaternion.identity);
+       // Instantiate(EffectPrefab, this.transform.position, Quaternion.identity);
+        effect.transform.position = this.transform.position;
+        effect.gameObject.SetActive(true);
+
         foreach (Collider col in _colliders)
         {
             LivingEntity enemytarget = col.GetComponent<LivingEntity>();
             enemytarget.OnDamage(this);
         }      
         yield return new WaitForSeconds(1.1f);
+        effect.SetActive(false);
         SkilLRange.SetActive(false);
     }
 

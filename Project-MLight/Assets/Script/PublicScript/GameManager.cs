@@ -6,6 +6,11 @@ public class GameManager : MonoBehaviour
 { 
     private static GameManager instance;
     
+    public PlayerController Player { get; private set; }
+    public Inventory Inven { get; private set; }
+
+    public GameObject RespawnZone;
+  
 
     public static GameManager Instance 
     {
@@ -20,9 +25,32 @@ public class GameManager : MonoBehaviour
     
     }
 
-    private void Start()
+    private void Awake()
     {
+        instance = this;
+        Player = FindObjectOfType<PlayerController>();
+        Inven = FindObjectOfType<Inventory>();
+        Player.AddDieAction(Respawn);
+    }
+
+  
+
+    private void Respawn()
+    {
+        StartCoroutine(ResapwnRoutine());
+    }
+
+    private IEnumerator ResapwnRoutine()
+    {
+        yield return new WaitForSeconds(1f);
+        UIManager.Instance.RespawnUI.gameObject.SetActive(true);
+        yield return new WaitForSeconds(5f);
+        Player.transform.position = RespawnZone.transform.position;
+        Player.RespawnPlayer();
        
+
+        UIManager.Instance.RespawnUI.gameObject.SetActive(false);
+
     }
 
 }

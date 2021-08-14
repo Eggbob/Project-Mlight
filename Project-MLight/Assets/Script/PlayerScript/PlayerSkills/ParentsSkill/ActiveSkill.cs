@@ -5,13 +5,12 @@ using UnityEngine;
 public class ActiveSkill : Skill
 {
 
+    public GameObject EffectPrefab;
+
     protected float Damage;
 
-   public virtual void ActiveAction()
-    {
-
-    }
-
+    public virtual void ActiveAction() { }
+  
     public enum SkillAttr //스킬 속성
     {
         None, Melee, Stun, Buff, Done

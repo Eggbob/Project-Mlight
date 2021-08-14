@@ -4,43 +4,45 @@ using UnityEngine;
 
 public class StrengthUp : ActiveSkill
 {
-    public GameObject EffectPrefab;
+    private PlayerController pCon;
     private GameObject effect;
-    
 
     public override void ActiveAction()
     {
-        Vector3 ePos = LCon.transform.position;
-        ePos.y += 4f;
+        Vector3 ePos = pCon.transform.position;
+        ePos.y += 5f;
 
-        //이펙트 생성
-        effect = Instantiate(EffectPrefab, ePos, this.transform.rotation);
-        Destroy(effect, 1f);
-
-        Damage = LCon.Power * this.SkillPower / 100;
-
-        //버프 적용
-        LCon.buffManager.CreateBuff(BuffManager.BuffType.Atk, this.ActTime, this.Damage);
+        StartCoroutine(BuffRoutine(ePos));
     }
 
     public override void Init(LivingEntity _LCon)
     {
-        LCon = _LCon;
+        pCon = _LCon as PlayerController;
      
         this._description = "자신에게 아래 효과를 부여합니다 \n" + 
             "- 300초동안 공격력이 " +  this._skillPower+"% 증가";  
 
         this.sAttr = SkillAttr.Buff;
+
+        effect = Instantiate(EffectPrefab, this.transform);
+        effect.gameObject.SetActive(false);
     }
 
-    //IEnumerator BuffRoutine()
-    //{
-    //    LCon.Power += (int)this.SkillPower;
-   
-    //    yield return new WaitForSeconds(this.ActTime);
-    //    LCon.Power -= (int)this.SkillPower;
-      
-    //}
+    IEnumerator BuffRoutine(Vector3 _ePos)
+    {
+        Damage = pCon.Power * this.SkillPower / 100;
+        //버프 적용
+        pCon.buffManager.CreateBuff(BuffManager.BuffType.Atk, this.ActTime, this.Damage);
+
+        effect.transform.position = _ePos;
+        effect.transform.rotation = this.transform.rotation;
+        effect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+
+        effect.gameObject.SetActive(false);
+       
+
+    }
 
     protected override void SkillLevelUp()
     {

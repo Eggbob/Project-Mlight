@@ -64,7 +64,9 @@ public class PlayerMoveController : MonoBehaviour
         rigid = this.GetComponent<Rigidbody>();
         mstate = MoveState.None;
         nav.updateRotation = false; // 네비의회전 기능 비활성화
-        playerMask = (-1) - (1 << LayerMask.NameToLayer("Player")); //플레이어 레이어 번호 연산
+        playerMask = (-1) - (1 << LayerMask.NameToLayer("Player") ); //플레이어 레이어 번호 연산
+        //playerMask =  ((1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Wall"))); //플레이어 레이어 번호 연산
+       // playerMask = ~playerMask;
     }
 
 
@@ -79,7 +81,7 @@ public class PlayerMoveController : MonoBehaviour
         {
             if(!EventSystem.current.IsPointerOverGameObject())
             {
-                if (Physics.Raycast(mcamera.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity ,playerMask)) //카메라에서 클릭한 곳으로 레이 쏘기
+                if (Physics.Raycast(mcamera.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity ,playerMask) && !pCon.dead) //카메라에서 클릭한 곳으로 레이 쏘기
                 {
                     nav.velocity = Vector3.zero; //네비 속도 0으로 지정
                     CheckTouch();  // 터치한 대상 분석
@@ -219,7 +221,7 @@ public class PlayerMoveController : MonoBehaviour
         nCon.StopInteract();
     }
 
-    private void SetDestination(Vector3 dest) //목적지 설정
+    public void SetDestination(Vector3 dest) //목적지 설정
     {
         nav.SetDestination(dest); //네비게이션 목적지 설정
         destination = dest; // 목적지 변수에 저장
@@ -229,6 +231,7 @@ public class PlayerMoveController : MonoBehaviour
 
     private void Move()
     {
+        
         switch(mstate)
         {
             case MoveState.Move:

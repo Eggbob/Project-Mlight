@@ -72,7 +72,7 @@ public class ShopBtnManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void SellItem()
     {
-        PlayerController.instance.Inven.UseGold(sItem.Item.ItemPrice);
+        GameManager.Instance.Inven.UseGold(sItem.Item.ItemPrice);
 
         if(!sItem.Unlimited)
         {

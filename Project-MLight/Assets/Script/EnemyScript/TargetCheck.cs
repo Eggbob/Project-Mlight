@@ -6,7 +6,7 @@ public class TargetCheck : MonoBehaviour
 {
     public LayerMask targetLayer; // 공격 대상 레이어
     public float fRange; // 수색범위
-    GameObject target;
+    private GameObject target;
 
     private void Update()
     {
@@ -35,7 +35,7 @@ public class TargetCheck : MonoBehaviour
 
         if (colliderMin != null) //콜라이더가 비어있지 않으면
         {
-             target = colliderMin.gameObject;
+            target = colliderMin.gameObject;
             //LivingEntity livingEntity = colliderMin.GetComponent<LivingEntity>();
 
 
