@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
-  
     [SerializeField]
     private Dictionary<int, ItemData> itemDic = new Dictionary<int, ItemData>();
 
@@ -81,12 +80,18 @@ public class SaveManager : MonoBehaviour
         if (inven.EquipManager.hasArmor)
             pData.equipItems.Add(inven.EquipManager.AITEM.Data.ID);
        
+        for(int i = 1; i< pCon.psCon.PlayerSkills.Count; i++)
+        {
+            float skillexp = (pCon.psCon.PlayerSkills[i].MaxSkillExp + pCon.psCon.PlayerSkills[i].SkillExp) - pCon.psCon.PlayerSkills[i].MaxSkillExp;
+            //pData.saveSKillList.Add(pCon.psCon.PlayerSkills[i]);
+            pData.saveSkills.Add(pCon.psCon.PlayerSkills[i].Skillid, skillexp );         
+        }
         
        // string jsonData = JsonUtility.ToJson(pData, true);
 
         string jsonData = JsonConvert.SerializeObject(pData);
         File.WriteAllText(Application.persistentDataPath + "/" + "playerData.json", jsonData);
-  
+        Debug.Log(Application.persistentDataPath);
     }
 
     //저장한 데이터 로드하기
@@ -142,6 +147,19 @@ public class SaveManager : MonoBehaviour
             }
         }
 
+        for(int i = 1; i< pData.saveSkills.Count; i++)
+        {
+            Skill skill = pCon.psCon.PlayerSkills[i];
+            float exp;
+
+            if(pData.saveSkills.TryGetValue(skill.Skillid, out exp))
+            {
+               skill.GetExp(exp/100);
+            }
+
+        }
+
+        
     }
 
 

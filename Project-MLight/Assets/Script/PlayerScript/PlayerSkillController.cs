@@ -12,30 +12,32 @@ public class PlayerSkillController : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-        Init();
+        DontDestroyOnLoad(gameObject);  
     }
 
     private void Init()
     {
-        for(int i = 0; i< PlayerSkillObject.Length; i++)
-        {
-           var pSkill = Instantiate(PlayerSkillObject[i], this.transform.GetChild(1)).GetComponent<Skill>();
-           PlayerSkills.Add(pSkill);
-        }
-    }
 
-    private void Start()
-    {
-        pCon = GameManager.Instance.Player; 
-
-        for(int i= 0; i< PlayerSkills.Count; i++)
+        for (int i = 0; i < PlayerSkills.Count; i++)
         {
             PlayerSkills[i].Init(pCon);
         }
 
         pCon.pAttack = PlayerSkills[0] as ActiveSkill;
-     
+    }
+
+    private void Start()
+    {
+        pCon = GameManager.Instance.Player;
+
+        for (int i = 0; i < PlayerSkillObject.Length; i++)
+        {
+            var pSkill = Instantiate(PlayerSkillObject[i], this.transform.GetChild(1)).GetComponent<Skill>();
+            PlayerSkills.Add(pSkill);
+        }
+
+        Init();
+
     }
 
     public ActiveSkill GetSkill(int slotNum)

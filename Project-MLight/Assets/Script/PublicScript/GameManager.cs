@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
             }
             return instance;
         }
-    
     }
 
     private void Awake()
@@ -32,8 +31,6 @@ public class GameManager : MonoBehaviour
         Inven = FindObjectOfType<Inventory>();
         Player.AddDieAction(Respawn);
     }
-
-  
 
     private void Respawn()
     {
@@ -50,7 +47,5 @@ public class GameManager : MonoBehaviour
        
 
         UIManager.Instance.RespawnUI.gameObject.SetActive(false);
-
     }
-
 }

@@ -33569,7 +33569,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 730b6b95645fa284086d06995cf9d2ee, type: 2}
   - {fileID: 11400000, guid: 48eba94cd32f11a47a7c5d78f0e92716, type: 2}
   - {fileID: 11400000, guid: ce704fa6e0c892441b4e598aa37c088e, type: 2}
-  - {fileID: 11400000, guid: a50897f979308f648a0d189d238164ec, type: 2}
+  - {fileID: 11400000, guid: 0ea751c226e0ce9408ecc461e0f9b869, type: 2}
   - {fileID: 11400000, guid: e45a058573e41d0448d4209a60fd6cf0, type: 2}
   _AddHelmet: {fileID: 626109060}
   _AddSword: {fileID: 2086169456}

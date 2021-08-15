@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ActiveSkill : Skill
 {
-
     public GameObject EffectPrefab;
 
     protected float Damage;

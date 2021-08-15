@@ -26,7 +26,9 @@ public class PlayerData
 
     public List<int> equipItems = new List<int>();
 
-    // public List<ItemData> equipItems = new List<ItemData>();
+    public Dictionary<int, float> saveSkills = new Dictionary<int, float>();
+    //public List<Skill> saveSKillList = new List<Skill>();
+ 
 
     public Vector3 savePos;
 
