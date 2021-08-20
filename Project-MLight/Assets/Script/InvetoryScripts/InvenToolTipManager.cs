@@ -53,7 +53,7 @@ public class InvenToolTipManager : MonoBehaviour
     //사용가능한 아이템 설정
     public void SetItemInfo(ItemData data, Action okCallback1, Action okCallback2, Action dumpCallback, int amount)
     {
-        nameTxt.text = data.Name;
+        nameTxt.text = data.ItemName;
         toolTipTxt.text = data.Tooltip;
         ItemImg.sprite = data.IconSprite;
         countTxt.text = amount.ToString();
@@ -73,7 +73,7 @@ public class InvenToolTipManager : MonoBehaviour
     //사용 불가능한 아이템 설정
     public void SetPropItemInfo(ItemData data, Action dumpCallback, int amount)
     {
-        nameTxt.text = data.Name;
+        nameTxt.text = data.ItemName;
         toolTipTxt.text = data.Tooltip;
         ItemImg.sprite = data.IconSprite;
         countTxt.text = amount.ToString();
@@ -90,7 +90,7 @@ public class InvenToolTipManager : MonoBehaviour
     //판매 아이템 설정
     public void SetSellItemInfo(ItemData data, Action sellCallback, int amount)
     {
-        nameTxt.text = data.Name;
+        nameTxt.text = data.ItemName;
         toolTipTxt.text = data.Tooltip;
         ItemImg.sprite = data.IconSprite;
         countTxt.text = amount.ToString();

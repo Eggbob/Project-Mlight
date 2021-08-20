@@ -55,7 +55,7 @@ public class QuestGiverUIManager : MonoBehaviour
 
         foreach (Quest q in qCon.Quests)
         {
-            if(q != null)
+            if(!q.Equals(null))
             {
                 QuestSlotUI qSlot = ObjectPool.GetQuSlot();
 
@@ -102,13 +102,13 @@ public class QuestGiverUIManager : MonoBehaviour
 
         qRewards[curIndex + 2].SetExp(quest.Rewards.RewardExp);
 
-        if(quest.qState == Quest.QuestState.Start) //퀘스트 수락이 가능한 상태라면
+        if(quest.qState.Equals(Quest.QuestState.Start)) //퀘스트 수락이 가능한 상태라면
         {
             acceptBtn.GetComponentInChildren<Text>().text = "수락하기";
             acceptBtn.onClick.AddListener(() => AcceptQuest(quest));
             acceptBtn.gameObject.SetActive(true);
         }
-        else if(quest.qState == Quest.QuestState.Complete)
+        else if(quest.qState.Equals(Quest.QuestState.Complete))
         {
             acceptBtn.GetComponentInChildren<Text>().text = "완료하기";
             acceptBtn.onClick.AddListener(() => CompleteQuest(quest));
@@ -132,7 +132,8 @@ public class QuestGiverUIManager : MonoBehaviour
 
     private void AcceptQuest(Quest quest) //퀘스트 수락
     {
-        QuestUIManager.Instance.AcceptQuest(quest);
+        QuestManager.Instance.AcceptQuest(quest);
+        qCon.UpdateQuestStatus();
         Back();
     }
 
@@ -140,7 +141,7 @@ public class QuestGiverUIManager : MonoBehaviour
     {
         if(quest.IsComplete())
         {
-            for(int i = 0; i<qCon.Quests.Length; i++)
+            for(int i = 0; i<qCon.Quests.Count; i++)
             {
                 if(quest == qCon.Quests[i])
                 {
@@ -166,6 +167,7 @@ public class QuestGiverUIManager : MonoBehaviour
 
                 quest.Rewards.RewardRoutine();
                 quest.qState = Quest.QuestState.InActive;
+                QuestManager.Instance.FinishQuest(quest);
 
                 Back();
             }

@@ -27,19 +27,19 @@ public class TargetCheck : MonoBehaviour
             float fDist = Vector3.Distance(collider.transform.position, this.transform.position);
             //콜라이더를 통해 찾은 타겟과의 거리를 float값으로 계산
 
-            if (colliderMin == null || fPreDist > fDist) // 조건문으로 가장 가까운 대상 찾기
+            if (colliderMin.Equals(null) || fPreDist > fDist) // 조건문으로 가장 가까운 대상 찾기
                 colliderMin = collider;
             fPreDist = fDist;
 
         }
 
-        if (colliderMin != null) //콜라이더가 비어있지 않으면
+        if (!colliderMin.Equals(null)) //콜라이더가 비어있지 않으면
         {
             target = colliderMin.gameObject;
             //LivingEntity livingEntity = colliderMin.GetComponent<LivingEntity>();
 
 
-            if (target != null ) //찾은 리빙엔티티가 죽지않고 null값이 아닐때
+            if (!target.Equals(null) ) //찾은 리빙엔티티가 죽지않고 null값이 아닐때
             {
                gameObject.SendMessageUpwards("OnSetTarget", target, SendMessageOptions.DontRequireReceiver);
             }
@@ -48,9 +48,9 @@ public class TargetCheck : MonoBehaviour
 
     }
 
-    private void OnDrawGizmos() // 범위 그리기
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.transform.position, fRange);
-    }
+    //private void OnDrawGizmos() // 범위 그리기
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(this.transform.position, fRange);
+    //}
 }

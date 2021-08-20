@@ -48,7 +48,7 @@ public class SalesWindowManager : MonoBehaviour
     private void Init()
     {  
         TryGetComponent(out gr); //그래픽 레이캐스터 가져오기
-        if (gr == null)
+        if (gr.Equals(null))
             gr = gameObject.AddComponent<GraphicRaycaster>();
 
         ped = new PointerEventData(EventSystem.current);
@@ -80,18 +80,18 @@ public class SalesWindowManager : MonoBehaviour
     private void HighlightImg() //하이라이트 이미지 활성화 유무
     {
         //이전 클릭슬롯이 없고 현재 클릭슬롯이 있다면
-        if (prevClickSlot == null && beginClickSlot != null)
+        if (prevClickSlot.Equals(null) && !beginClickSlot.Equals(null))
         {
             beginClickSlot.ShowHighLight(true);
             prevClickSlot = beginClickSlot;
         }
         //이전 클릭슬롯과 현재 클릭슬롯이 동일하다면
-        else if (prevClickSlot == beginClickSlot)
+        else if (prevClickSlot.Equals(beginClickSlot))
         {
             return;
         }
         //이전 클릭슬롯과 현재 클릭슬롯이 동일하지 않다면
-        else if (prevClickSlot != beginClickSlot)
+        else if (!prevClickSlot.Equals(beginClickSlot))
         {
             prevClickSlot.ShowHighLight(false);
             beginClickSlot.ShowHighLight(true);
@@ -163,7 +163,7 @@ public class SalesWindowManager : MonoBehaviour
     //윈도우 종료시
     public void Close()
     {
-        if (prevClickSlot != null) { prevClickSlot.ShowHighLight(false); }//하이라이트 이미지 종료
+        if (!prevClickSlot.Equals(null)) { prevClickSlot.ShowHighLight(false); }//하이라이트 이미지 종료
 
         GameManager.Instance.Inven.InvenUI.gameObject.SetActive(false);
         GameManager.Instance.Inven.InvenUI.isBusiness = false;

@@ -32,7 +32,7 @@ public class KillObject
 
     public int CurrentKillCount => _currentKillCount;
 
-    public string EnemyType => _enemyType;
+    public int EnemyID => _enemyID;
 
     [SerializeField]
     private int _totalKillCount; //총 처치할 적 숫자
@@ -41,8 +41,7 @@ public class KillObject
     private int _currentKillCount; //현재 처치한 적 숫자
 
     [SerializeField]
-    private string _enemyType; //적 타입
-
+    private int _enemyID;
 
     public bool IsComplete //적을 전부 처치했는지 
     {
@@ -52,15 +51,20 @@ public class KillObject
         }
     }
 
-    public void UpdateKillCount(LivingEntity LCon)// 처치 횟수 업데이트
+    public void UpdateKillCount(Enemy enemy)// 처치 횟수 업데이트
     {
-        if(_enemyType.Equals(LCon.name))
+
+        if(_enemyID.Equals(enemy.EnemyID))
         {
             if(_currentKillCount < _totalKillCount)
             {
                 _currentKillCount++;
-            }
-            QuestUIManager.Instance.CheckComplete();
+                NotificationUI.Instance.GenerateTxt(enemy.EnemyName + " : " +  _currentKillCount + "/" + _totalKillCount);
+
+                if (_currentKillCount.Equals(_totalKillCount))
+                { NotificationUI.Instance.GenerateTxt(enemy.EnemyName + " (처치 완료)"); }
+            }         
+            QuestManager.Instance.CheckComplete();
         }
     }
 }

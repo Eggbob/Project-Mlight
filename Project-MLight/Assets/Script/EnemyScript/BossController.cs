@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System.Text;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
-using UnityEditor;
+
 
 public enum BossState
 {
@@ -25,19 +26,13 @@ public class BossController : Enemy
 
     private int randState;
 
-    private LivingEntity enemyTarget;
-
-    private BossPowerAttack bPAttack;
-
+    
     public Text hpTxt;
 
+    public GameObject bossUI;
+    public GameObject sword;
+    public GameObject shield;
 
-    public GameObject Sword;
-    public GameObject Shield;
-
-    [Header("공격범위 속성")]
-    private Color bblue = new Color(0f, 0f, 1f, 0.2f);
-    private Color bred = new Color(1f, 0f, 0f, 0.2f);
 
     private void Awake()
     {
@@ -56,8 +51,19 @@ public class BossController : Enemy
         nav.isStopped = true;
 
         target = GameManager.Instance.Player.gameObject;
+
+        bossUI.SetActive(true);
         hpBar.fillAmount = 1;
-        hpTxt.text = _hp.ToString() + "/" + _maxHP.ToString();
+
+        StringBuilder hpstring = new StringBuilder();
+
+        hpstring.Append(_hp);
+        hpstring.Append("/");
+        hpstring.Append(_maxHP);
+
+        hpTxt.text = hpstring.ToString();
+
+        StartCoroutine(Enable());
     }
 
     private void FixedUpdate()
@@ -73,7 +79,7 @@ public class BossController : Enemy
     {
         if(Input.GetKeyDown(KeyCode.R))
         {
-            StartCoroutine(Enable());
+            StartCoroutine(PowerAttack());
         }
     }
 
@@ -82,16 +88,16 @@ public class BossController : Enemy
     {
         enemyTarget = target.GetComponent<LivingEntity>();
 
-        Sword.gameObject.SetActive(false);
-        Shield.gameObject.SetActive(false);
+        sword.gameObject.SetActive(false);
+        shield.gameObject.SetActive(false);
 
         bState = BossState.Enable;
         yield return new WaitForSeconds(0.1f);
         ShowAnimation((int)bState);
         yield return new WaitForSeconds(5f);
 
-        Sword.gameObject.SetActive(true);
-        Shield.gameObject.SetActive(true);
+        sword.gameObject.SetActive(true);
+        shield.gameObject.SetActive(true);
 
         StartCoroutine(SetBossState());
     }
@@ -165,9 +171,10 @@ public class BossController : Enemy
 
         var pAttack = BossObjectPool.GetPowerAttack();
 
-        pAttack.transform.position = transform.position;
-        pAttack.transform.rotation = Quaternion.Euler(new Vector3(0f, transform.eulerAngles.y, transform.eulerAngles.z));
+        pAttack.transform.position = this.transform.position;
+        pAttack.transform.rotation = Quaternion.Euler(new Vector3(0f, this.transform.eulerAngles.y, this.transform.eulerAngles.z));
         pAttack.gameObject.SetActive(true);
+        pAttack.SkillActive();
 
         yield return new WaitForSeconds(0.6f);
     
@@ -182,13 +189,13 @@ public class BossController : Enemy
 
         ShowAnimation((int)bState);
 
-        Sword.gameObject.SetActive(false);
-        Shield.gameObject.SetActive(false);
+        sword.gameObject.SetActive(false);
+        shield.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(1f);
 
-        Sword.gameObject.SetActive(true);
-        Shield.gameObject.SetActive(true);
+        sword.gameObject.SetActive(true);
+        shield.gameObject.SetActive(true);
 
         for(int i = 0; i< 5; i++)
         {
@@ -300,15 +307,7 @@ public class BossController : Enemy
         }
     }
 
-   
-    // 범위 그리기
-    private void OnDrawGizmos()
-    {
-        Handles.color = isCollision ? bred : bblue;
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, attackRange);
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, attackRange);
-    }
-
+  
     protected override void Die()
     {
         base.Die();
@@ -331,6 +330,7 @@ public class BossController : Enemy
         bState = BossState.Die;
         nav.enabled = false; // 네비 비활성화
 
+        bossUI.SetActive(false);
         target.GetComponent<LivingEntity>().ExpGetRoutine(enemyExp);
         Collider[] enemyColliders = GetComponents<Collider>();
 
@@ -341,6 +341,7 @@ public class BossController : Enemy
         }
 
         rigid.isKinematic = true;
+
 
         yield return new WaitForSeconds(3f);
         //this.gameObject.SetActive(false);

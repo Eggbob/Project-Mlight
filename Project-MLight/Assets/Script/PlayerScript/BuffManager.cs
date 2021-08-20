@@ -45,7 +45,7 @@ public class BuffManager : MonoBehaviour
     {
        int index = FindAdditionalBuff(type);
 
-        if(index != -1) //추가 가능한 버프가 있다면
+        if(!index.Equals(-1)) //추가 가능한 버프가 있다면
         {
             onBuff[index].AddDuration(duration);
             return;
@@ -116,7 +116,7 @@ public class BuffManager : MonoBehaviour
         switch(type)
         {
             case BuffType.Atk:
-                value = Mathf.RoundToInt(LCon.Power * (value / 100));
+                //value = Mathf.RoundToInt(LCon.Power * (value / 100));
                 onBuff[index].Init(type, duration, value, index, atkIcon);              
                 break;
             case BuffType.Exp:
@@ -140,7 +140,7 @@ public class BuffManager : MonoBehaviour
     {
         for(int i = 0; i< onBuff.Count; i++ )
         {
-            if (onBuff[i] == null)
+            if (onBuff[i].Equals(null))
                 continue;
 
             if (onBuff[i].BuffType.Equals(type))

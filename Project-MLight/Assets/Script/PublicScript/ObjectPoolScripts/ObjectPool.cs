@@ -22,11 +22,13 @@ public class ObjectPool : MonoBehaviour
     private GameObject damageTxt; //데미지 표시 텍스트 
     [SerializeField]
     private GameObject questSlotBtn; //퀘스트 슬롯
-
+    [SerializeField]
+    private GameObject notifiTxt;//알림 텍스트
 
     private Queue<Spin> wayPointQueue = new Queue<Spin>(); //웨이포인트 큐
     private Queue<DamageTextManager> dTextQueue = new Queue<DamageTextManager>(); //데미지 텍스트 큐
     private Queue<QuestSlotUI> qSlotQueue = new Queue<QuestSlotUI>(); //퀘스트 슬롯 큐
+    private Queue<NotificationTxt> nTxtQueue = new Queue<NotificationTxt>();
     private GameObject eTargeting; //오브젝트 풀에 담을 적 타겟팅
     private GameObject oTargeting; //오브젝트 풀에 담을 사물 타겟팅
     private GameObject nTargeting; //오브젝트 풀에 담을 npc 타겟팅
@@ -35,7 +37,7 @@ public class ObjectPool : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        Initialize(20);  
+        Initialize(30);  
     }
 
     //초기설정
@@ -46,6 +48,7 @@ public class ObjectPool : MonoBehaviour
             wayPointQueue.Enqueue(CreateNewObject());
             dTextQueue.Enqueue(CreateNewTxt());
             qSlotQueue.Enqueue(CreateNewQSlot());
+            nTxtQueue.Enqueue(CreateNewNTxt());
         }
 
         eTargeting = Instantiate(enemyTargeting, transform);
@@ -80,6 +83,13 @@ public class ObjectPool : MonoBehaviour
     private QuestSlotUI CreateNewQSlot()
     {
         var newObj = Instantiate(questSlotBtn, transform).GetComponent<QuestSlotUI>();
+        newObj.gameObject.SetActive(false);
+        return newObj;
+    }
+
+    private NotificationTxt CreateNewNTxt()
+    {
+        var newObj = Instantiate(notifiTxt, transform).GetComponent<NotificationTxt>();
         newObj.gameObject.SetActive(false);
         return newObj;
     }
@@ -164,12 +174,12 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-
     //데미지 텍스트 회수
     public static void ReturnDTxt(DamageTextManager text)
     {
         text.gameObject.SetActive(false);
         text.transform.SetParent(instance.transform);
+        instance.dTextQueue.Enqueue(text);
     }
 
     //퀘스트 슬롯 가져가기
@@ -196,6 +206,7 @@ public class ObjectPool : MonoBehaviour
     {
         qSlot.gameObject.SetActive(false);
         qSlot.transform.SetParent(instance.transform);
+        instance.qSlotQueue.Enqueue(qSlot);
     }
  
     //레벨업 이펙트 가져가기
@@ -207,10 +218,36 @@ public class ObjectPool : MonoBehaviour
         return instance.lvEffect;
     }
 
+    //레벨업 이펙트 회수하기
     public static void ReturnLvEffect(GameObject effect)
     {
         effect.gameObject.SetActive(false);
         effect.transform.SetParent(instance.transform);
+    }
+
+    public static NotificationTxt GetNotifiTxt()
+    {
+        if (instance.nTxtQueue.Count > 0)
+        {
+            var obj = instance.nTxtQueue.Dequeue();
+            obj.transform.SetParent(null);
+            obj.gameObject.SetActive(true);
+            return obj;
+        }
+        else
+        {
+            var newObj = instance.CreateNewNTxt();
+            newObj.transform.SetParent(null);
+            newObj.gameObject.SetActive(false);
+            return newObj;
+        }
+    }
+
+    public static void ReturnNotifiTxt(NotificationTxt nTxt)
+    {
+        nTxt.gameObject.SetActive(false);
+        nTxt.transform.SetParent(instance.transform);
+        instance.nTxtQueue.Enqueue(nTxt);
     }
 }
 

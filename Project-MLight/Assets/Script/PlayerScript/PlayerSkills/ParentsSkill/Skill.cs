@@ -36,7 +36,7 @@ public abstract class Skill: MonoBehaviour
     public Sprite Icon => _icon; // 스킬 아이콘
     public string SkillName => _skillName; //스킬 이름
     public string Description => _description; //스킬 설명
-    public int Skillid => _skillId; //스킬 아이디
+    public int SkillId => _skillId; //스킬 아이디
     public int SkillLevel => _skillLevel; //스킬 레벨
     public float SkillExp => _skillExp; //스킬 경험치
     public float MaxSkillExp => _maxSkillExp; //스킬 총 경험치
@@ -54,7 +54,7 @@ public abstract class Skill: MonoBehaviour
     public void GetExp(float _exp)
     {
         _skillExp =+ _exp * 100;
-        while (SkillExp > MaxSkillExp)
+        while (SkillExp >= MaxSkillExp)
         {
             SkillLevelUp();
         }

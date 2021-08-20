@@ -23,25 +23,22 @@ public class SkillBookManager : MonoBehaviour
     public GameObject ActiveskillList; //액티브 스킬 리스트
     public GameObject PassiveSkillList; // 패시브 스킬 리스트
 
-    public List<SkillQuickSlotUI> qSlotUIList = new List<SkillQuickSlotUI>();
+    public List<SkillQuickSlotUI> qSlotUIList = new List<SkillQuickSlotUI>(); //퀵슬롯 
 
-    public List<Button> skillBtns; //플레이어 스킬 버튼 리스트
-
-    private int clickedBtn = 0; //현재 클릭된 버튼
-
+    public List<Button> skillBtns; //플레이어 스킬 목록 리스트
 
     [SerializeField]
     public SkillDetailPage SkillPage; // 상세 스킬 페이지
-    [SerializeField]
+
+
+    private PlayerSkillController psCon; //플레이어 스킬 컨트롤러
     private Inventory inventory;
-
-
-    PlayerSkillController psCon; //플레이어 스킬 컨트롤러
-    
+    private int clickedBtn = 0; //현재 클릭된 버튼
 
     private void Start()
     {
-        psCon = GameManager.Instance.Player.psCon;       
+        psCon = GameManager.Instance.Player.psCon;
+        inventory = GameManager.Instance.Inven;
         SkillButtonInit();
     }
 
@@ -73,7 +70,8 @@ public class SkillBookManager : MonoBehaviour
 
         for(int i = 0; i< skillBtns.Count; i++) //스킬 창에 있는 퀵슬롯 리스트 초기화
         {
-            skillBtns[i].AddEventListner(i, SetSkill); // 퀵슬롯 버튼 클릭시 실행할 함수
+            int btnindex = i;
+            skillBtns[i].onClick.AddListener(() => SetSkill(btnindex, clickedBtn));
             qSlotUIList[i] = skillBtns[i].GetComponent<SkillQuickSlotUI>();
         }
 
@@ -111,14 +109,14 @@ public class SkillBookManager : MonoBehaviour
         SkillPage.gameObject.SetActive(true);
     } 
 
-    private void SetSkill(int btnIndex) //스킬 설정하기
+    public void SetSkill(int btnIndex, int skillIndex) //스킬 설정하기
     {
         if (PassiveSkillList.activeSelf)
         { return; }
 
-        if(clickedBtn != 0)
+        if(!skillIndex.Equals(0))
         {
-            qSlotUIList[btnIndex].SetSkill(psCon.GetSkill(clickedBtn));
+            qSlotUIList[btnIndex].SetSkill(psCon.GetSkill(skillIndex), btnIndex);
         }
     }
 

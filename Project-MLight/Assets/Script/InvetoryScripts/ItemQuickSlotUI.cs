@@ -58,6 +58,8 @@ public class ItemQuickSlotUI : MonoBehaviour
 
     public int Index { get; private set; } //슬롯 인덱스
 
+    private ItemData slotItem;
+
     private void ShowImg() => ItemImg.SetActive(true);
     private void HideImg() => ItemImg.SetActive(false);
 
@@ -81,6 +83,7 @@ public class ItemQuickSlotUI : MonoBehaviour
 
     public bool HasItem => itemImg.sprite != null; //슬롯이 아이템을 보유중인지
 
+    public ItemData SlotItem => slotItem; //슬롯이 보유중이 안이템
 
     private void Awake()
     {
@@ -140,6 +143,8 @@ public class ItemQuickSlotUI : MonoBehaviour
 
             SetUseEvent(action);
             SetAmountEvent(action2);
+
+            slotItem = item;
        }
     }
 

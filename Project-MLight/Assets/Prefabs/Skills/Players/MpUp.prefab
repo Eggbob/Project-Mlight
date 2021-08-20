@@ -53,5 +53,4 @@ MonoBehaviour:
   _mpCost: 0
   _coolTime: 0
   _actTime: 0
-  _skillPower: 0
-  LCon: {fileID: 0}
+  _skillPower: 10

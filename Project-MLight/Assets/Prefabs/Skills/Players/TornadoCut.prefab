@@ -231,6 +231,7 @@ MonoBehaviour:
   _skillPower: 0
   EffectPrefab: {fileID: 1648509489993130, guid: 8a0c2ade089d4c44fbdf861f7bcd7be6,
     type: 3}
+  Damage: 120
   SkillRangePrefab: {fileID: 166723256}
   targetLayer:
     serializedVersion: 2

@@ -6,6 +6,7 @@ public class BossObjectPool : MonoBehaviour
 {
     private static BossObjectPool instance; //싱글톤 변수
 
+    [SerializeField]
     private BossController bCon;
 
     [SerializeField]
@@ -17,8 +18,7 @@ public class BossObjectPool : MonoBehaviour
     [SerializeField]
     private GameObject powerAttackPrefab;
 
-    [SerializeField]
-    private GameObject pAttackEffectPrefab;
+
 
     private Queue<PowerAttack> powerAttackQueue = new Queue<PowerAttack>();
     private Queue<FireBall> fireBallQueue = new Queue<FireBall>();
@@ -28,7 +28,7 @@ public class BossObjectPool : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        bCon = FindObjectOfType<BossController>();
+        //bCon = FindObjectOfType<BossController>();
 
         Init(10);
     }

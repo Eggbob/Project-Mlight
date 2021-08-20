@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IronSword
   m_EditorClassIdentifier: 
   _id: 10
-  _name: "\uCCA0\uAC80"
+  _itemName: "\uAC15\uCCA0\uAC80"
   _tooltip: "\uD3C9\uBC94\uD55C \uCCA0\uAC80 \uC785\uB2C8\uB2E4"
   _iconSprite: {fileID: 21300000, guid: 490de5b67a54a914088038c8d2c8282f, type: 3}
   _dropItemPrefab: {fileID: 7221983367366862869, guid: 416b191302540bb4aa8e89e55b5c47a7,

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Buff : MonoBehaviour
 {
-
     private BuffManager.BuffType buffType; //버프 타입 변수
     private float duration; //지속시간
     private float currentTime; //현재 시간
@@ -64,15 +63,11 @@ public class Buff : MonoBehaviour
 
         buffImg.fillAmount = 0;
         currentTime = 0;
-
-        
-
         DeActiveBuff();
     }
 
     private void DeActiveBuff()
     {
         Destroy(this.gameObject);
-
     }
 }

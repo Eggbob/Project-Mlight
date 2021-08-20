@@ -58,7 +58,7 @@ public class InvenEquipToolTipManager : MonoBehaviour
     //아이템 설정
     public void SetItemInfo(ItemData data, Action okCallback, Action dumpCallback)
     {
-        nameTxt.text = data.Name;
+        nameTxt.text = data.ItemName;
         toolTipTxt.text = data.Tooltip;
         ItemImg.sprite = data.IconSprite;
         priceTxt.text = data.ItemSellPrice.ToString() + "G";
@@ -95,7 +95,7 @@ public class InvenEquipToolTipManager : MonoBehaviour
     public void SetEquipItemInfo(Item item, Action<Item> unEquipCallback)
     {
        
-        nameTxt.text = item.Data.Name;
+        nameTxt.text = item.Data.ItemName;
         toolTipTxt.text = item.Data.Tooltip;
         ItemImg.sprite = item.Data.IconSprite;
         priceTxt.text = item.Data.ItemSellPrice.ToString() + "G";

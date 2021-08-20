@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     
     public PlayerController Player { get; private set; }
     public Inventory Inven { get; private set; }
+    public SkillBookManager SbookManager { get; private set; }
+    public SaveManager sManager { get; private set; }
 
     public GameObject RespawnZone;
   
@@ -29,6 +31,9 @@ public class GameManager : MonoBehaviour
         instance = this;
         Player = FindObjectOfType<PlayerController>();
         Inven = FindObjectOfType<Inventory>();
+        SbookManager = FindObjectOfType<SkillBookManager>();
+        sManager = FindObjectOfType<SaveManager>();
+
         Player.AddDieAction(Respawn);
     }
 

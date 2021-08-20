@@ -6,6 +6,7 @@ public class ActiveSkill : Skill
 {
     public GameObject EffectPrefab;
 
+    [SerializeField]
     protected float Damage;
 
     public virtual void ActiveAction() { }

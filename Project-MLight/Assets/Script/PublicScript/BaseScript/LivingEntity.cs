@@ -17,8 +17,7 @@ public class LivingEntity : Status
     public GameObject target;
 
     public GameObject miniMapIcon;
-    //
-
+    
     public Animator anim { get; protected set; } //애니메이터 컴포넌트
 
     public NavMeshAgent nav { get; protected set; } //네브 메쉬 컴포넌트

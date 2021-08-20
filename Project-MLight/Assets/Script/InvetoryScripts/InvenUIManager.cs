@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,13 @@ using UnityEngine.EventSystems;
 
 public class InvenUIManager : MonoBehaviour
 {
+    #region
+    //인벤토리 UI 내 아이템 필터링 옵션 
+    private enum FilterOption
+    {
+        All, Equipment, Portion, Prop
+    }
+
     [SerializeField] private RectTransform contentArea; //슬롯이 위치할 영역
     [SerializeField] private RectTransform quickArea; //슬롯이 위치할 영역
     [SerializeField] private Button sortBtn; //정렬 버튼
@@ -22,7 +30,8 @@ public class InvenUIManager : MonoBehaviour
     [SerializeField] private InvenEquipToolTipManager eTooltip; //장비 툴팁
 
     private ItemSlotUI[] slotUiList; //아이템 슬롯
-    private ItemQuickSlotUI[] QuickSlots; //퀵슬롯 버튼
+    private ItemQuickSlotUI[] quickSlots; //퀵슬롯 버튼
+    public ItemQuickSlotUI[] QuickSlotUIs => quickSlots; 
 
     private GraphicRaycaster gr;
     private PointerEventData ped;//마우스 입력감지
@@ -34,16 +43,12 @@ public class InvenUIManager : MonoBehaviour
 
     private ItemSlotUI prevClickSlot; // 이전 클릭한 슬롯
     private ItemSlotUI beginClickSlot; //현재 클릭한  슬롯
- 
-    //인벤토리 UI 내 아이템 필터링 옵션 
-    private enum FilterOption
-    {
-        All, Equipment, Portion, Prop
-    }
-
+  
     private FilterOption currentFilterOption = FilterOption.All;
 
     public bool isBusiness; //상점이용 중인지
+
+    #endregion
 
     private void Awake()
     {
@@ -75,8 +80,14 @@ public class InvenUIManager : MonoBehaviour
         rrList = new List<RaycastResult>(10);
 
         //무게 설정
-        weightSlider.value = 0;        
-        weightTxt.text =  inventory.currentWeight + " / " + inventory.MaxWeight;
+        weightSlider.value = 0;
+
+        StringBuilder weightString = new StringBuilder();
+        weightString.Append(inventory.currentWeight);
+        weightString.Append(" / ");
+        weightString.Append(inventory.MaxWeight);
+
+        weightTxt.text = weightString.ToString();
 
         isBusiness = false;
 
@@ -97,13 +108,13 @@ public class InvenUIManager : MonoBehaviour
     //퀵슬롯 초기 설정
     private void QuickInit()
     {
-        QuickSlots = quickArea.GetComponentsInChildren<ItemQuickSlotUI>();
+        quickSlots = quickArea.GetComponentsInChildren<ItemQuickSlotUI>();
 
-        for (int i = 0; i < QuickSlots.Length; i++)
+        for (int i = 0; i < quickSlots.Length; i++)
         {
             int index = i;
-            QuickSlots[index].SetSlotIndex(index);
-            QuickSlots[index].SetSlotEvent(() => SetQuickSlot(index));
+            quickSlots[index].SetSlotIndex(index);
+            quickSlots[index].SetSlotEvent(() => SetQuickSlot(index , prevClickSlot.Index));
         }
     }
 
@@ -150,12 +161,12 @@ public class InvenUIManager : MonoBehaviour
             beginClickSlot = RaycastAndGetFirstComponent<ItemSlotUI>(); //클릭한 슬롯 가져오기
 
             //아이템을 갖고 있는 슬롯만 해당
-            if(beginClickSlot != null && beginClickSlot.HasItem && beginClickSlot.IsAccesible && !isBusiness)
+            if(!beginClickSlot.Equals(null) && beginClickSlot.HasItem && beginClickSlot.IsAccesible && !isBusiness)
             {         
                 HighlightImg(); //하이라이트 이미지 보여주기
                 ShowToolTip(beginClickSlot.Index); //툴팁보여주기
             }
-            else if (beginClickSlot != null && beginClickSlot.HasItem && beginClickSlot.IsAccesible && isBusiness)
+            else if (!beginClickSlot.Equals(null) && beginClickSlot.HasItem && beginClickSlot.IsAccesible && isBusiness)
             {
                 HighlightImg(); //하이라이트 이미지 보여주기
                 ShowSellToolTip(beginClickSlot.Index);
@@ -195,7 +206,7 @@ public class InvenUIManager : MonoBehaviour
         if(slotUiList[index].IsQuicked)
         {
             int slotindex = slotUiList[index].QuickedIndex;
-            QuickSlots[slotindex].UpdateItemAmount();
+            quickSlots[slotindex].UpdateItemAmount();
         }
     }
 
@@ -223,7 +234,7 @@ public class InvenUIManager : MonoBehaviour
     {
         bool isUpdated = true;
 
-        if(itemData != null)
+        if(!itemData.Equals(null))
         {
             switch(currentFilterOption)
             {
@@ -258,6 +269,11 @@ public class InvenUIManager : MonoBehaviour
     //무게 업데이트
     public void UpdateWeight()
     {
+        StringBuilder weightString = new StringBuilder();
+        weightString.Append(inventory.currentWeight);
+        weightString.Append(" / ");
+        weightString.Append(inventory.MaxWeight);
+
         weightTxt.text = inventory.currentWeight + " / " + inventory.MaxWeight;
         weightSlider.value = (float)inventory.currentWeight / (float)inventory.MaxWeight;
     }
@@ -354,20 +370,16 @@ public class InvenUIManager : MonoBehaviour
 
 
     //아이템 퀵슬롯 등록
-    private void SetQuickSlot(int qIndex)
+    public void SetQuickSlot(int qIndex , int itemIndex)
     {
-        if (prevClickSlot == null) return;
-
-        int index = prevClickSlot.Index;
-
-        ItemData data = inventory.GetItemData(index);
+        ItemData data = inventory.GetItemData(itemIndex);
 
         if (data is PotionItemData pi) //포션 아이템이면
         {
-            int currentAmount = inventory.GetCurrentAmount(index);
-          
-            prevClickSlot.SetQuickSlotIndex(qIndex); //아이템이 퀵슬롯에 장착되었는지 업데이트
-            QuickSlots[qIndex].SetItem(pi, currentAmount, () => inventory.Use(index), () => inventory.GetCurrentAmount(index));
+            int currentAmount = inventory.GetCurrentAmount(itemIndex);
+            slotUiList[itemIndex].SetQuickSlotIndex(qIndex);
+            //prevClickSlot.SetQuickSlotIndex(qIndex); //아이템이 퀵슬롯에 장착되었는지 업데이트
+            quickSlots[qIndex].SetItem(pi, currentAmount, () => inventory.Use(itemIndex), () => inventory.GetCurrentAmount(itemIndex));
         }      
     }
 

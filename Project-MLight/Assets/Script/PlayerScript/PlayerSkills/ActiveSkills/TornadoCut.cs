@@ -15,7 +15,7 @@ public class TornadoCut : ActiveSkill
     {
         Collider[] colliders = Physics.OverlapSphere(LCon.transform.position, fRange, targetLayer);//콜라이더 설정하기
 
-        if (colliders != null) //콜라이더가 비어있지 않으면
+        if (!colliders.Equals(null)) //콜라이더가 비어있지 않으면
         {
             StartCoroutine(DamageRoutine(colliders));
         }
@@ -31,7 +31,7 @@ public class TornadoCut : ActiveSkill
         effect = Instantiate(EffectPrefab, this.gameObject.transform);
         effect.SetActive(false);
 
-        this._description = "범위 내의 모든 적들에게 물리 공격력의 " + this._skillPower + "%만큼 공격을 합니다.";
+        this._description = "범위 내의 모든 적들에게 물리 공격력의 " + Damage + "%만큼 공격을 합니다.";
     }
 
     IEnumerator DamageRoutine (Collider[] _colliders)
@@ -63,7 +63,7 @@ public class TornadoCut : ActiveSkill
         _skillLevel++;
         _maxSkillExp *= 2;
 
-        this._description = "범위 내의 모든 적들에게 물리 공격력의 " + this._skillPower + "%만큼 공격을 합니다.";
+        this._description = "범위 내의 모든 적들에게 물리 공격력의 " + Damage + "%만큼 공격을 합니다.";
     }
 
 }

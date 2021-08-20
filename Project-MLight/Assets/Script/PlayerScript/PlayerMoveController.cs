@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -13,8 +12,6 @@ public class PlayerMoveController : MonoBehaviour
     [SerializeField]
     private Camera mcamera; //메인카메라 컴포넌트
     private PlayerController pCon; // 플레이어 컨트롤러
-    private Rigidbody rigid;
-
 
     private Transform targetingTr; //타겟팅 오브젝트 트랜스폼
     private Vector3 destination; // 캐릭터가 이동할 목적지 
@@ -31,6 +28,7 @@ public class PlayerMoveController : MonoBehaviour
 
     public GameObject target { get; private set; } //지정된 타겟
     public NavMeshAgent nav { get; private set; } // 네비메쉬 컴포넌트
+    public Rigidbody rigid { get; private set; }
 
     [Header("공격범위 속성")]
     [SerializeField]
@@ -208,7 +206,6 @@ public class PlayerMoveController : MonoBehaviour
         nTargeting.transform.position = targetingTr.position;//타겟팅 오브젝트 위치 지정
         nTargeting.transform.parent = target.transform;
 
-
         mstate = MoveState.Move;
 
         yield return new WaitUntil(() => isCollision);
@@ -230,8 +227,7 @@ public class PlayerMoveController : MonoBehaviour
 
 
     private void Move()
-    {
-        
+    {   
         switch(mstate)
         {
             case MoveState.Move:
@@ -249,7 +245,11 @@ public class PlayerMoveController : MonoBehaviour
         Vector3 lookPos = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
             - transform.position;
 
-        pCon.transform.forward = lookPos;
+        if(!lookPos.Equals(Vector3.zero))
+        {
+            pCon.transform.forward = lookPos;
+        }
+       
         nav.isStopped = false; //네비 다시 실행
     }
 
@@ -282,11 +282,4 @@ public class PlayerMoveController : MonoBehaviour
         nav.speed += speed;
     }
 
-
-    private void OnDrawGizmos() // 범위 그리기
-    {
-        Handles.color = isCollision ? red : blue;
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, attackRange);
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, attackRange);
-    }
 }

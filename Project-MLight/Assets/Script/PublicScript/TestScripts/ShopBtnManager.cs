@@ -25,7 +25,7 @@ public class ShopBtnManager : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if(_sItem.Quantity > 0 || (_sItem.Quantity == 0 && _sItem.Unlimited))
         {
             icon.sprite = _sItem.Item.IconSprite;
-            title.text = _sItem.Item.Name;
+            title.text = _sItem.Item.ItemName;
          
 
             if (!_sItem.Unlimited)

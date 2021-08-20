@@ -6,7 +6,7 @@ public class MpUp : PassiveSkill
 {
     public override void PassiveAction()
     {
-        LCon.MaxMp += 100;
+        LCon.MaxMp += 10;
         LCon.Mp = LCon.MaxMp;
     }
 
@@ -20,7 +20,7 @@ public class MpUp : PassiveSkill
 
     protected override void SkillLevelUp()
     {
-        _skillPower += 100;
+        _skillPower += 10;
         this._description = "최대 MP가 " + _skillPower + "만큼 증가합니다.";
 
         base.SkillLevelUp();

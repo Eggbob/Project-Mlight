@@ -26,8 +26,6 @@ public class QuestSlotUI : MonoBehaviour
 
         transform.SetAsFirstSibling();
 
-      //  quest.qState = Quest.QuestState.Progressing;
-
         titleTxt.text = quest.Title;
 
         SetQState();

@@ -151,7 +151,7 @@ public class PerchaseToolTipManager : MonoBehaviour
     {
         pCount = 1;
 
-        nameTxt.text = data.Name;
+        nameTxt.text = data.ItemName;
         toolTipTxt.text = data.Tooltip;
         ItemImg.sprite = data.IconSprite;
         countTxt.text = pCount.ToString();

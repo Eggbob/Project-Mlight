@@ -33,7 +33,7 @@ public class Status : MonoBehaviour
     public float BonusDef { get; private set; } = 0;
     public float BonusHp { get; private set; } = 0;
     public float BonusMp { get; private set; } = 0;
-    public float BonusExp { get; private set; } = 0;
+    public float BonusExp { get; private set; } = 1;
 
     public int Level { get { return _level; } set { _level = value; } }
     public int Exp { get { return _exp; } set { _exp = value; } }
@@ -58,10 +58,11 @@ public class Status : MonoBehaviour
         _exp = pExp;
         _maxExp = _level * 200;
    
-        _maxHP = (100 * _level) + 100;
+        _maxHP = pHp;
         _hp = pHp;
 
-        _maxMP = (100 * _level) + 100;
+       // _maxMP = (100 * _level) + 100;
+        _maxMP = pMp;
         _mp = pMp;
 
         _power = pPower;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DragonSword
   m_EditorClassIdentifier: 
   _id: 13
-  _name: "\uC6A9\uACE8\uAC80"
+  _itemName: "\uC6A9\uACE8\uAC80"
   _tooltip: "\uC6A9\uC758\uBF08\uB85C \uB9CC\uB4E4\uC5B4\uC9C4 \uAC80\uC785\uB2C8\uB2E4"
   _iconSprite: {fileID: 21300000, guid: dbd0e81ba08974441932c1b53abce311, type: 3}
   _dropItemPrefab: {fileID: 2490693221504119679, guid: 59842f689ac09a441aa0e755b08d20ff,

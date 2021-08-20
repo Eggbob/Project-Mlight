@@ -5,7 +5,6 @@ using UnityEngine;
 public class ArmorMastery : PassiveSkill
 {
   
-
     [SerializeField]
     protected int plusWeight;
 
@@ -14,8 +13,7 @@ public class ArmorMastery : PassiveSkill
         PlayerController PCon = LCon as PlayerController;
 
         GameManager.Instance.Inven.SetMaxWeight(20);
-        PCon.DEF += 12;
-     
+        PCon.DEF += 3;  
     }
 
     public override void Init(LivingEntity _LCon)
@@ -31,7 +29,10 @@ public class ArmorMastery : PassiveSkill
     protected override void SkillLevelUp()
     {
         plusWeight += 20;
-        _skillPower += 12;
+        _skillPower += 3;
+
+        this._description = "방어력이 " + _skillPower + "증가합니다. \n"
+            + "-최대 소지 무게가 " + plusWeight + "증가합니다.";
 
         base.SkillLevelUp();
         PassiveAction();

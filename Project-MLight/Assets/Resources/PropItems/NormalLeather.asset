@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NormalLeather
   m_EditorClassIdentifier: 
   _id: 30
-  _name: "\uD3C9\uBC94\uD55C \uAC00\uC8FD"
+  _itemName: "\uAC00\uC8FD"
   _tooltip: "\uD754\uD55C \uAC00\uC8FD\uC774\uB2E4"
   _iconSprite: {fileID: 21300000, guid: c0e7217a07e49364db48c62cc2e2b376, type: 3}
   _dropItemPrefab: {fileID: 1929338452042405251, guid: d339534fb62a9c3429a9b4162b782795,

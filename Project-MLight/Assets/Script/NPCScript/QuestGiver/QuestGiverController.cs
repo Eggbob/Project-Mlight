@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class QuestGiverController : NpcController
 {
-    public Quest[] Quests => quests;
+    public List<Quest> Quests => quests;
+
+    private QuestManager qManager;
 
     [SerializeField]
-    private Quest[] quests; //퀘스트 
+    private List<Quest> quests = new List<Quest>(); //퀘스트 
+
+    [SerializeField]
+    private Quest[] originalQuests; //퀘스트 원본
 
     [SerializeField]
     private QuestGiverUIManager questGiverManger;
@@ -26,15 +31,33 @@ public class QuestGiverController : NpcController
 
     private void Start()
     {
-        UpdateQuestStatus();
+        qManager = QuestManager.Instance;
+        UpdateQuestStatus();    
     }
 
     private void Init()
     {
-        foreach(Quest quest in quests)
+        foreach (Quest quest in originalQuests)
         {
-            quest.qGiver = this;
+            if(quest is KillQuest)
+            {
+                Quest giverQuest = ScriptableObject.CreateInstance<KillQuest>();
+                giverQuest = quest;
+
+                giverQuest.qGiver = this;
+                quests.Add(giverQuest);              
+            }
+
+            else if(quest is CollectQuest)
+            {
+                Quest giverQuest = ScriptableObject.CreateInstance<CollectQuest>();
+                giverQuest = quest;
+
+                giverQuest.qGiver = this;
+                quests.Add(giverQuest);
+            }
         }
+      
     }
 
     //퀘스트 진행도 업데이트
@@ -42,21 +65,21 @@ public class QuestGiverController : NpcController
     {
         foreach(Quest quest in quests)
         {
-            if(quest != null)
+            if(!quest.Equals(null))
             {
-                if(quest.IsComplete() && QuestUIManager.Instance.HasQuest(quest))
+                if(quest.qState.Equals(Quest.QuestState.Complete) && qManager.HasQuest(quest))
                 {
                     questionMark.SetActive(true);
                     exclamationMark.SetActive(false);
                     break;
                 }
-                else if(!QuestUIManager.Instance.HasQuest(quest))
+                else if(!qManager.HasQuest(quest) && quest.qState.Equals(Quest.QuestState.Start))
                 {
                     exclamationMark.SetActive(true);
                     questionMark.SetActive(false);
                     break;
                 }
-                else if(!quest.IsComplete() && QuestUIManager.Instance.HasQuest(quest))
+                else if(quest.qState.Equals(Quest.QuestState.Progressing) && qManager.HasQuest(quest))
                 {
                     exclamationMark.SetActive(false);
                     questionMark.SetActive(false);

@@ -40,8 +40,15 @@ public class CoinPickUp : Object
     public void Drop()
     {
         isDrop = true;
-        StartCoroutine(ReturnToPull());
+
         GameManager.Instance.Inven.GetGold(coinAmount);
+
+        if (timer< 5f)
+        {
+            StartCoroutine(ReturnToPull());
+        }
+        
+      
     }
 
 }

@@ -90,14 +90,14 @@ public class CollectObjective : Objective
 {
     public void UpdateItemCount(Item item) //아이템 수집 갯수 업데이트
     {
-        if(MyType.ToLower() == item.Data.Name.ToLower())
+        if(MyType.ToLower() == item.Data.ItemName.ToLower())
         {
             //MyCurrentAmount = PlayerController.instance.Inven.GetItemCount(item.Data.Name);
 
             if(MyCurrentAmount <= MyAmount)
             {
                 FeedManager.Instance.WriteMessage(string.Format("{0}: {1}/{2}",
-                    item.Data.Name, MyCurrentAmount, MyAmount));
+                    item.Data.ItemName, MyCurrentAmount, MyAmount));
             }
 
             QuestLog.MyInstance.UpdateSelected();

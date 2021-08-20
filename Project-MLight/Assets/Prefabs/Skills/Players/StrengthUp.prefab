@@ -54,7 +54,7 @@ MonoBehaviour:
   _mpCost: 22
   _coolTime: 180
   _actTime: 300
-  _skillPower: 20
-  LCon: {fileID: 0}
+  _skillPower: 0
   EffectPrefab: {fileID: 1936098086150093012, guid: 0abd33e6554a7724d92378a3d50f0206,
     type: 3}
+  Damage: 20

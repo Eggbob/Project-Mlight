@@ -16,8 +16,7 @@ public class BossPowerAttack : ActiveSkill
         pBird.gameObject.transform.position = LCon.transform.position;
       
        // pBird.Activation(LCon.transform.forward);
-  
-
+ 
         yield return new WaitForSeconds(1f);
 
       // effect.gameObject.SetActive(false);

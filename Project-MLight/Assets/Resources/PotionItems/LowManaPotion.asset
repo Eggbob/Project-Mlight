@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LowManaPotion
   m_EditorClassIdentifier: 
   _id: 2
-  _name: "\uD558\uAE09 MP \uD68C\uBCF5\uBB3C\uC57D"
+  _itemName: "\uCD08\uAE09MP\uD68C\uBCF5\uBB3C\uC57D"
   _tooltip: "MP\uB97C 50\uB9CC\uD07C \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4"
   _iconSprite: {fileID: 21300000, guid: 74f3ff7910cd94f41af53cfb1413fa03, type: 3}
   _dropItemPrefab: {fileID: 7139482685747842047, guid: d481e52a703ccdd418ad77bf911031ac,

@@ -57,4 +57,5 @@ MonoBehaviour:
   _skillPower: 0
   EffectPrefab: {fileID: 1949624779417528, guid: e73124b5ba126cc499fb7e927b7a79ac,
     type: 3}
+  Damage: 110
   nuckBackForce: 15

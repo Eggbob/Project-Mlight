@@ -20,7 +20,8 @@ public enum EnemyState
 
 public class Enemy : LivingEntity
 {
-    [Header("기본속성")]
+    [Header("적 속성")]
+    [SerializeField]
     private EnemyState eState = EnemyState.None; //적 상태
 
     [SerializeField]
@@ -33,7 +34,7 @@ public class Enemy : LivingEntity
     protected int enemyExp; //적이 가지고 있는 경험치
 
     [SerializeField]
-    protected float attackRange; //공격범위
+    protected float attackRange; //공격사거리
 
     [SerializeField]
     protected Skill EnemyNormalAttack; //기본공격
@@ -50,9 +51,11 @@ public class Enemy : LivingEntity
     [SerializeField]
     protected Transform dTxtPos; //데미지 txt
     [SerializeField]
-    private float chaseTime; // 추적할시간
+    protected float chaseTime; // 추적할시간
 
-    private float timer = 0; //타이머
+    protected float timer = 0; //타이머
+
+    protected LivingEntity enemyTarget;
 
     protected bool move; // 움직임 관련 변수
     protected bool attack; // 공격 관련 변수
@@ -65,10 +68,10 @@ public class Enemy : LivingEntity
 
     [Header("공격범위 속성")]
     [SerializeField]
-    public float angleRange = 45f;
+    public float angleRange = 45f; //공격 범위
     protected bool isCollision = false;//공격범위 충돌 확인
-    private Color blue = new Color(0f, 0f, 1f, 0.2f);
-    private Color red = new Color(1f, 0f, 0f, 0.2f);   
+    //private Color blue = new Color(0f, 0f, 1f, 0.2f);
+    //private Color red = new Color(1f, 0f, 0f, 0.2f);   
     protected float dotValue = 0f;
     protected Vector3 direction;
 
@@ -105,17 +108,21 @@ public class Enemy : LivingEntity
         statusInit(); //스테이터스 초기화
         eState = EnemyState.Idle; // 상태를 유휴상태로 변환
         nav.isStopped = true;
+        rigid.isKinematic = false;
         hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f); //hp바 초기 상태 설정
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (hasTarget && !dead)
         {
             sectorCheck();
             targetPos = target.transform.position; //타겟위치 업데이트
         }
+    }
 
+    private void Update()
+    {
         CheckState();
         AnimationState();
 
@@ -217,19 +224,19 @@ public class Enemy : LivingEntity
         Ray ray = new Ray(patrolPos, Vector3.down);
         RaycastHit raycastHit = new RaycastHit();
 
-        if (Physics.Raycast(ray, out raycastHit, Mathf.Infinity) == true)
+        if (Physics.Raycast(ray, out raycastHit, Mathf.Infinity))
         {
-            if (raycastHit.collider.CompareTag("Plant"))
-            {           
-                PatrolCheck();
-            }
-            else
+            if (raycastHit.collider.CompareTag("Terrian"))
             {
                 chaseTime = Random.Range(6f, 12f); //정찰할 시간 정하기
 
                 patrolPos.y = raycastHit.point.y;
 
-                eState = EnemyState.Patrol;  // 정찰상태로 변환
+                eState = EnemyState.Patrol;  // 정찰상태로 변환               
+            }
+            else
+            {
+                PatrolCheck();
             }
         }
     }
@@ -240,7 +247,7 @@ public class Enemy : LivingEntity
 
         timer += Time.deltaTime; //추적 시간 갱신
 
-        if (Vector3.Distance(this.transform.position, patrolPos) <= 2f) // 순찰지점까지 도착하면
+        if (Vector3.Distance(this.transform.position, patrolPos) <= attackRange) // 순찰지점까지 도착하면
         {
             target = null; //타겟을 없애기
             eState = EnemyState.Wait;
@@ -248,7 +255,6 @@ public class Enemy : LivingEntity
             return;
         }
 
-        Debug.DrawRay(transform.position, transform.forward * 7, Color.red);
 
         if (Physics.Raycast(transform.position, transform.forward, out raycastHit, 7f))
         {
@@ -296,6 +302,7 @@ public class Enemy : LivingEntity
     {
         if (hasTarget) //타겟이 있다면
         {
+            nav.isStopped = false;
             chaseTime = 6f;
             timer += Time.deltaTime; //추적 시간 갱신         
             targetPos = target.transform.position;
@@ -333,6 +340,7 @@ public class Enemy : LivingEntity
         }
 
         target = _target;
+        enemyTarget = target.GetComponent<LivingEntity>();
         prevPos = this.transform.position; //귀환 지점      
         eState = EnemyState.Chase; //타겟을 향해 이동하는 상태로 전환
     }
@@ -340,34 +348,32 @@ public class Enemy : LivingEntity
     private void AttackCheck() //공격 체크
     {   
         if (target != null)
-        {
-            LivingEntity enemytarget = target.GetComponent<LivingEntity>();
-
-            if (enemytarget.dead)
+        {          
+            if (enemyTarget.dead)
             {
                 target = null;
                 return;
             }
             else
             {
-                StartCoroutine(Damage(enemytarget));
+                StartCoroutine(Damage());
             }
         }
     }
 
     private IEnumerator AttackUpdate() // 공격시
     {
-        if (target == null)
+        if (target.Equals(null))
         {
             eState = EnemyState.GetBack;
-            StopAllCoroutines();
+            StopCoroutine(AttackUpdate());           
         }
 
-        lookAtPos = new Vector3(targetPos.x, this.transform.position.y, targetPos.z); //공격시 바라볼 방향
+        //lookAtPos = new Vector3(targetPos.x, this.transform.position.y, targetPos.z); //공격시 바라볼 방향
         nav.isStopped = true;
         nav.velocity = Vector3.zero;
         rigid.velocity = Vector3.zero;
-        transform.LookAt(lookAtPos);
+       // transform.LookAt(lookAtPos);
 
         yield return new WaitForSeconds(1f);
 
@@ -377,7 +383,7 @@ public class Enemy : LivingEntity
         }
     }
 
-    private IEnumerator Damage(LivingEntity enemyTarget) //데미지를 입힘
+    private IEnumerator Damage() //데미지를 입힘
     {
         yield return new WaitForSeconds(0.7f);
         enemyTarget.OnDamage(EnemyNormalAttack);
@@ -388,12 +394,13 @@ public class Enemy : LivingEntity
     {
         if (Vector3.Distance(this.transform.position, prevPos) <= attackRange)// 귀환을 완료할시
         {
-            eState = EnemyState.Wait; //대기 상태로 변환
+            eState = EnemyState.Idle; //대기 상태로 변환
             target = null; // 타겟 없애기
             nav.speed = moveSpeed; //이동 속도 원상태로 복귀
             return;
         }
 
+        RestoreHealth(this.MaxHp);
         nav.speed = 15f; //귀환 속도 지정
         nav.isStopped = false;
         nav.SetDestination(prevPos);
@@ -410,7 +417,7 @@ public class Enemy : LivingEntity
         dTxt.SetText((int)skill.SkillPower);
         dTxt.transform.position = dTxtPos.position;
 
-        if (skill is ActiveSkill aSkill && !dead)
+        if (skill is ActiveSkill aSkill && !dead && !eState.Equals(EnemyState.Stun))
         {
             switch (aSkill.SAttr)
             {
@@ -428,7 +435,7 @@ public class Enemy : LivingEntity
 
     private IEnumerator NormalDamageRoutine() //일반 데미지 루틴
     {
-        if (eState != EnemyState.Stun || !anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack01"))
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Attack01"))
         { anim.SetTrigger("isHit"); } // 트리거 실행
 
         float startTime = Time.time; //시간체크
@@ -446,7 +453,7 @@ public class Enemy : LivingEntity
     {
         nav.velocity = Vector3.zero;
 
-        if (eState != EnemyState.Stun)
+        if (!eState.Equals(EnemyState.Stun))
         { anim.SetTrigger("isStun"); }
 
         eState = EnemyState.Stun;
@@ -475,7 +482,8 @@ public class Enemy : LivingEntity
 
     protected override void Die()
     {
-        base.Die();
+        //base.Die();
+        dead = true;
         StartCoroutine(DieRoutine());
     }
 
@@ -485,7 +493,9 @@ public class Enemy : LivingEntity
         eState = EnemyState.Die;
         nav.enabled = false; // 네비 비활성화
 
-        target.GetComponent<LivingEntity>().ExpGetRoutine(enemyExp);
+        rigid.isKinematic = true;
+
+        target.GetComponent<PlayerController>().ExpGetRoutine(enemyExp);
         Collider[] enemyColliders = GetComponents<Collider>();
 
         // 콜라이더 다끄기
@@ -495,7 +505,8 @@ public class Enemy : LivingEntity
         }
 
         yield return new WaitForSeconds(1f);
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
+        DieAction();
     }
 
     protected virtual void sectorCheck() // 부챗꼴 범위 충돌
@@ -514,4 +525,13 @@ public class Enemy : LivingEntity
         else
             isCollision = false;
     }
+
+
+    //private void OnDrawGizmos() // 범위 그리기
+    //{
+    //    Handles.color = isCollision ? red : blue;
+    //    Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, attackRange);
+    //    Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, attackRange);
+
+    //}
 }

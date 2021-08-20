@@ -20,7 +20,7 @@ public class StrengthUp : ActiveSkill
         pCon = _LCon as PlayerController;
      
         this._description = "자신에게 아래 효과를 부여합니다 \n" + 
-            "- 300초동안 공격력이 " +  this._skillPower+"% 증가";  
+            "- 300초동안 공격력이 " + Damage + "% 증가";  
 
         this.sAttr = SkillAttr.Buff;
 
@@ -30,9 +30,9 @@ public class StrengthUp : ActiveSkill
 
     IEnumerator BuffRoutine(Vector3 _ePos)
     {
-        Damage = pCon.Power * this.SkillPower / 100;
+        this._skillPower = (int)(Damage * pCon.Power / 100);
         //버프 적용
-        pCon.buffManager.CreateBuff(BuffManager.BuffType.Atk, this.ActTime, this.Damage);
+        pCon.buffManager.CreateBuff(BuffManager.BuffType.Atk, this.ActTime, this._skillPower);
 
         effect.transform.position = _ePos;
         effect.transform.rotation = this.transform.rotation;
@@ -49,7 +49,7 @@ public class StrengthUp : ActiveSkill
         float remainSkillExp = SkillExp - MaxSkillExp;
         _skillExp = remainSkillExp;
 
-        _skillPower += 5;
+        Damage += 5;
         _skillLevel++;
         _maxSkillExp *= 2;
 

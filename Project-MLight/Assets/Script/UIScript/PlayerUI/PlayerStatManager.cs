@@ -14,8 +14,6 @@ public class PlayerStatManager : MonoBehaviour
     public Text LvTxt;
     PlayerController pCon;
 
-  
-
     private void Start()
     {
         pCon = GameManager.Instance.Player;

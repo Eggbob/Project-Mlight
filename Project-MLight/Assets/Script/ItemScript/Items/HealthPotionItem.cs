@@ -10,6 +10,8 @@ public class HealthPotionItem : PotionItem
 
     public override bool Use(LivingEntity _Lcon)
     {
+        pCon = _Lcon as PlayerController;
+
         base.Use(_Lcon);
 
         edata = Data as HealthPotionItemData;

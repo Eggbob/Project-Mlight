@@ -2231,8 +2231,8 @@ MonoBehaviour:
   _level: 1
   _exp: 0
   _maxExp: 0
-  _hp: 200
-  _maxHP: 200
+  _hp: 100
+  _maxHP: 100
   _mp: 100
   _maxMP: 100
   _power: 10
@@ -2242,10 +2242,11 @@ MonoBehaviour:
   moveSpeed: 6
   target: {fileID: 0}
   miniMapIcon: {fileID: 918809978}
+  eState: 0
   enemyId: 2
   enemyName: GoblineHunter
   enemyExp: 100
-  AttackRange: 15
+  attackRange: 16
   EnemyNormalAttack: {fileID: 5300616936279747795, guid: c0aa1a504976b1447a9dee51db005690,
     type: 3}
   nameTxt: {fileID: 357481853}
@@ -2253,7 +2254,7 @@ MonoBehaviour:
   chaseTime: 0
   hpBar: {fileID: 6220081637519672208}
   targetingTr: {fileID: 6328995209774244594}
-  angleRange: 45
+  angleRange: 90
 --- !u!136 &7550480540120536993
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2297,10 +2298,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropItems:
-  - dropData: {fileID: 11400000, guid: 7cfca51866fee054294ad96e26c606a7, type: 2}
-    itemAmount: 6
-  - dropData: {fileID: 11400000, guid: 0ea751c226e0ce9408ecc461e0f9b869, type: 2}
-    itemAmount: 3
+  - dropData: {fileID: 11400000, guid: e45a058573e41d0448d4209a60fd6cf0, type: 2}
+    itemAmount: 1
+  - dropData: {fileID: 11400000, guid: a50897f979308f648a0d189d238164ec, type: 2}
+    itemAmount: 1
   goldAmount: 100
 --- !u!1 &7550480540120536996
 GameObject:

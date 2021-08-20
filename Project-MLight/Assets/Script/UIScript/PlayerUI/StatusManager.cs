@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System.Text;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StatusManager : MonoBehaviour
 {
+    public Text lvlTxt;
+
     [Header("스탯 텍스트")]
     public Text pStat;
     public Text iStat;
@@ -48,6 +51,7 @@ public class StatusManager : MonoBehaviour
     void statInit()
     {
 
+        lvlTxt.text = pCon.Level.ToString();
         statPoint = pCon.StatPoint;   
         pStat.text = "힘 " + pCon.Power;
         iStat.text = "지능 " + pCon.Int;
@@ -112,7 +116,16 @@ public class StatusManager : MonoBehaviour
         {
             statPoint--;
             pAddPoint++;
-            pStat.text = "힘 " + pCon.Power + "( +"+ pAddPoint + ")";
+
+            StringBuilder statTxt = new StringBuilder();
+            statTxt.Append("힘");
+            statTxt.Append(pCon.Power);
+            statTxt.Append("( +");
+            statTxt.Append(pAddPoint);
+            statTxt.Append(")");
+           
+
+            pStat.text = statTxt.ToString();
             Stattxt.text = "스탯 포인트 " + statPoint;
         }
     }
@@ -123,7 +136,16 @@ public class StatusManager : MonoBehaviour
         {
             statPoint++;
             pAddPoint--;
-            pStat.text = "힘 " + pCon.Power + "( +" + pAddPoint + ")";
+
+            StringBuilder statTxt = new StringBuilder();
+            statTxt.Append("힘");
+            statTxt.Append(pCon.Power);
+            statTxt.Append("( +");
+            statTxt.Append(pAddPoint);
+            statTxt.Append(")");
+
+
+            pStat.text = statTxt.ToString();
             Stattxt.text = "스탯 포인트 " + statPoint;
         }
     }
@@ -134,7 +156,14 @@ public class StatusManager : MonoBehaviour
         {
             statPoint--;
             iAddPoint++;
-            iStat.text = "지능 " + pCon.Int + "( +" + iAddPoint + ")";
+            StringBuilder statTxt = new StringBuilder();
+            statTxt.Append("지능");
+            statTxt.Append(pCon.Int);
+            statTxt.Append("( +");
+            statTxt.Append(iAddPoint);
+            statTxt.Append(")");
+
+            iStat.text = statTxt.ToString();
             Stattxt.text = "스탯 포인트 " + statPoint;
         }
     } //인트업버튼
@@ -145,7 +174,15 @@ public class StatusManager : MonoBehaviour
         {
             statPoint++;
             iAddPoint--;
-            iStat.text = "지능 " + pCon.Int + "( +" + iAddPoint + ")";
+
+            StringBuilder statTxt = new StringBuilder();
+            statTxt.Append("지능");
+            statTxt.Append(pCon.Int);
+            statTxt.Append("( +");
+            statTxt.Append(iAddPoint);
+            statTxt.Append(")");
+
+            iStat.text = statTxt.ToString();
             Stattxt.text = "스탯 포인트 " + statPoint;
         }
     }//인트다운 버튼
@@ -156,7 +193,15 @@ public class StatusManager : MonoBehaviour
         {
             statPoint--;
             dAddPoint++;
-            dStat.text = "방어도 " + pCon.DEF + "( +" + dAddPoint + ")";
+
+            StringBuilder statTxt = new StringBuilder();
+            statTxt.Append("방어도");
+            statTxt.Append(pCon.DEF);
+            statTxt.Append("( +");
+            statTxt.Append(dAddPoint);
+            statTxt.Append(")");
+
+            dStat.text = statTxt.ToString();
             Stattxt.text = "스탯 포인트 " + statPoint;
         }
     }//데프업버튼
@@ -167,7 +212,15 @@ public class StatusManager : MonoBehaviour
         {
             statPoint++;
             dAddPoint--;
-            dStat.text = "방어도 " + pCon.DEF + "( +" + dAddPoint + ")";
+
+            StringBuilder statTxt = new StringBuilder();
+            statTxt.Append("방어도");
+            statTxt.Append(pCon.DEF);
+            statTxt.Append("( +");
+            statTxt.Append(dAddPoint);
+            statTxt.Append(")");
+
+            dStat.text = statTxt.ToString();
             Stattxt.text = "스탯 포인트 " + statPoint;
         }
     }//데프다운버튼

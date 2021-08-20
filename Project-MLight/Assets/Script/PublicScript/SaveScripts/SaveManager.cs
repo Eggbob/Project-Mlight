@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -11,13 +12,21 @@ public class SaveManager : MonoBehaviour
 
     private PlayerController pCon;
     private Inventory inven;
+    private SkillBookManager skillBookManager;
+    private QuestManager qManager;
 
     private PlayerData pData;
+    private QuickBtnData qData;
+    private QuestData qeData;
+
+    private string filePath;
 
     private void Start()
     {
         pCon = GameManager.Instance.Player;
         inven = GameManager.Instance.Inven;
+        skillBookManager = GameManager.Instance.SbookManager;
+        qManager = QuestManager.Instance;
 
         LoadAllItemData();
     }
@@ -34,11 +43,6 @@ public class SaveManager : MonoBehaviour
         }
     }
 
-    //파일 저장하기
-    private void Save()
-    {
-        SavePlayer();
-    }
     //플레이어 저장
     private void SavePlayer()
     {          
@@ -50,7 +54,6 @@ public class SaveManager : MonoBehaviour
 
         for (int i = 0; i < inven.InvenItems.Length; i++)
         {
-
             if (inven.InvenItems[i] is CountableItem cItem && inven.InvenItems[i] != null)//수량이 있는 아이템일시
             {
                 int val;
@@ -82,38 +85,98 @@ public class SaveManager : MonoBehaviour
        
         for(int i = 1; i< pCon.psCon.PlayerSkills.Count; i++)
         {
-            float skillexp = (pCon.psCon.PlayerSkills[i].MaxSkillExp + pCon.psCon.PlayerSkills[i].SkillExp) - pCon.psCon.PlayerSkills[i].MaxSkillExp;
+            float skillexp = ((pCon.psCon.PlayerSkills[i].SkillLevel * 200) -200) + pCon.psCon.PlayerSkills[i].SkillExp; 
             //pData.saveSKillList.Add(pCon.psCon.PlayerSkills[i]);
-            pData.saveSkills.Add(pCon.psCon.PlayerSkills[i].Skillid, skillexp );         
+            pData.saveSkills.Add(pCon.psCon.PlayerSkills[i].SkillId, skillexp );         
         }
-        
-       // string jsonData = JsonUtility.ToJson(pData, true);
 
-        string jsonData = JsonConvert.SerializeObject(pData);
-        File.WriteAllText(Application.persistentDataPath + "/" + "playerData.json", jsonData);
-        Debug.Log(Application.persistentDataPath);
+        pData.DictionaryToJson();
+
+   
+        filePath = Application.persistentDataPath + "/" + "PlayerData.json";
+
+        string jsonData = JsonUtility.ToJson(pData, true);
+
+       // string jsonData = JsonConvert.SerializeObject(pData);
+        File.WriteAllText(filePath, jsonData);
+     
+    }
+
+    //퀵슬롯 세이브
+    private void SaveQuick()
+    {
+        qData = new QuickBtnData();
+
+        foreach(ItemQuickSlotUI qSlot in inven.InvenUI.QuickSlotUIs)
+        {
+            if(qSlot.HasItem)
+             qData.itemQuickSlot.Add(qSlot.Index, qSlot.SlotItem.ID);
+        }
+
+    
+        foreach(SkillQuickSlotUI sSlot in skillBookManager.qSlotUIList)
+        {
+            if (sSlot.HasSkill)
+                qData.skillQuickSlot.Add(sSlot.Index, sSlot.slotSkill.SkillId);
+        }
+
+        qData.DictionaryToJson();
+
+        filePath = Application.persistentDataPath + "/" + "QuickSlotData.json";
+        string jsonData = JsonConvert.SerializeObject(qData);
+        File.WriteAllText(filePath, jsonData);
+       
+    }
+
+    //퀘스트 저장
+    private void SaveQuest()
+    {
+        //filePath = Application.persistentDataPath + "/" + "QuestData.asset";
+        filePath = Application.persistentDataPath + "/" + "QuestData.txt";
+
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(filePath);
+
+        qeData = new QuestData();
+
+        //qeData.sampleQuest = qManager.Quests[0];
+        foreach (Quest quest in qManager.Quests)
+        {
+            qeData.playerQuests.Add(quest);
+        }
+
+        var jsonData = JsonUtility.ToJson(qeData, true);
+      
+        bf.Serialize(file, jsonData);
+        file.Close();
+      //  File.WriteAllText(filePath, jsonData);
     }
 
     //저장한 데이터 로드하기
     private void Load()
     {      
         LoadPlayer();
+        LoadQuickSlot();
+        LoadQuest();
     }
 
 
     //플레이어 정보 불러오기
     private void LoadPlayer()
     {
-        if (!File.Exists(Application.persistentDataPath + "/" + "playerData.json"))
+
+        filePath = Application.persistentDataPath + "/" + "PlayerData.json";
+        //if (!File.Exists(Application.persistentDataPath + "/" + "PlayerData.json"))
+        if (!File.Exists(filePath))
         {
             SavePlayer();
         }
 
-        string jsonData = File.ReadAllText(Application.persistentDataPath + "/" + "playerData.json");
+        string jsonData = File.ReadAllText(filePath);
 
 
-        pData = JsonConvert.DeserializeObject<PlayerData>(jsonData);
-        //JsonUtility.FromJson<PlayerData>(jsonData);
+        pData = JsonUtility.FromJson<PlayerData>(jsonData); 
+       
 
         pCon.statusInit(pData.saveLevel,
         pData.saveExp, pData.saveHp, pData.saveMp,
@@ -123,6 +186,8 @@ public class SaveManager : MonoBehaviour
 
         pCon.gameObject.transform.position = pData.savePos;
         inven.GetGold(pData.saveGold);
+
+        pData.JsonToDictionary();
 
         foreach (KeyValuePair<int, int> items in pData.saveItems) //key값 대입후 아이템 넣기
         {
@@ -152,16 +217,75 @@ public class SaveManager : MonoBehaviour
             Skill skill = pCon.psCon.PlayerSkills[i];
             float exp;
 
-            if(pData.saveSkills.TryGetValue(skill.Skillid, out exp))
+            if(pData.saveSkills.TryGetValue(skill.SkillId, out exp))
             {
                skill.GetExp(exp/100);
             }
 
         }
-
-        
+   
     }
 
+    //퀵슬롯 불러오기
+    private void LoadQuickSlot()
+    {
+        filePath = Application.persistentDataPath + "/" + "QuickSlotData.json";
+        
+        if (!File.Exists(filePath))
+        {
+            SaveQuick();
+        }
+
+        string jsonData = File.ReadAllText(filePath);
+
+        qData = JsonUtility.FromJson<QuickBtnData>(jsonData);
+        // qData = JsonConvert.DeserializeObject<QuickBtnData>(jsonData);
+
+        qData.JsonToDictionary();
+
+        foreach (KeyValuePair<int, int> slots in qData.itemQuickSlot) //key값 대입후 아이템 넣기
+        {
+            int slotIndex, itemID;
+
+            qData.itemQuickSlot.TryGetValue(slots.Key, out itemID);
+
+            (itemID, slotIndex) = inven.GetItemCount(itemID);
+
+            inven.InvenUI.SetQuickSlot(slots.Key, slotIndex);
+        }
+
+        foreach (KeyValuePair<int, int> slots in qData.skillQuickSlot) //key값 대입후 아이템 넣기
+        {
+            skillBookManager.SetSkill(slots.Key, slots.Value);         
+        }
+    }
+
+    //퀘스트 정보 불러오기
+    private void LoadQuest()
+    {
+       // filePath = Application.persistentDataPath + "/" + "QuestData.asset";
+        filePath = Application.persistentDataPath + "/" + "QuestData.txt";
+        //if(File.Exists(Application.persistentDataPath + "/" + "QuestData.asset"))
+        if (File.Exists(filePath))
+        {
+            qeData = new QuestData();
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(filePath, FileMode.Open);
+            JsonUtility.FromJsonOverwrite(bf.Deserialize(file).ToString(), qeData);
+
+            foreach(Quest quest in qeData.playerQuests)
+            {
+                qManager.AcceptQuest(quest);
+                quest.qGiver.UpdateQuestStatus();
+            }
+
+            //Debug.Log(qeData.playerQuests[0].Title);
+            file.Close();
+        }
+
+        //var Data = File.GetAttributes(Application.persistentDataPath + "/" + "QuestData.asset");
+
+    }
 
     //모든 아이템 정보 불러오기
     private void LoadAllItemData()
@@ -170,7 +294,14 @@ public class SaveManager : MonoBehaviour
         foreach (ItemData data in datas)
         {
             itemDic.Add(data.ID, data);
-
         }
+    }
+
+    //파일 저장하기
+    public void Save()
+    {
+        SavePlayer();
+        SaveQuick();
+        SaveQuest();
     }
 }

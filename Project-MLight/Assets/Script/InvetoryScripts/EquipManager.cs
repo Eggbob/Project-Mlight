@@ -113,7 +113,7 @@ public class EquipManager : MonoBehaviour
         weaponImg.color = Color.white;
         wItem = _wItem;
 
-        if(wItemPrefab != null)
+        if(!wItemPrefab.Equals(null))
         {
             Destroy(wItemPrefab);
             wItemPrefab = null;

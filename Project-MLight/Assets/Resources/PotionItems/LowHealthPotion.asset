@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LowHealthPotion
   m_EditorClassIdentifier: 
   _id: 1
-  _name: "\uCD08\uAE09 HP\uD68C\uBCF5\uBB3C\uC57D"
+  _itemName: "\uCD08\uAE09HP\uD68C\uBCF5\uBB3C\uC57D"
   _tooltip: "HP\uB97C 50\uB9CC\uD07C \uD68C\uBCF5\uC2DC\uD0B5\uB2C8\uB2E4"
   _iconSprite: {fileID: 21300000, guid: 9e4fbebb6cde952428e19243aeb3289f, type: 3}
   _dropItemPrefab: {fileID: 2944329817428818037, guid: 20f9b2d6371e6124bbe4e48d2c69947f,

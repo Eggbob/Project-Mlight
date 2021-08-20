@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AttackSpeedPotion
   m_EditorClassIdentifier: 
   _id: 7
-  _name: "\uAC00\uC18D\uC758 \uBE44\uC57D"
+  _itemName: "\uD558\uAE09\uAC00\uC18D\uC758\uBE44\uC57D"
   _tooltip: "300\uCD08 \uB3D9\uC548 \uC77C\uBC18\uACF5\uACA9\uC18D\uB3C4\uAC00 50%
     \uC99D\uAC00\uD569\uB2C8\uB2E4"
   _iconSprite: {fileID: 21300000, guid: fd10626a10c79644dbde2e6f1b1476b9, type: 3}

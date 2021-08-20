@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d5b6b8e797a6da43b784d3be37c6ff2, type: 3}
+  m_Name: 03.Kill_BossMonster
+  m_EditorClassIdentifier: 
+  qState: 1
+  qGiver: {fileID: 0}
+  _id: 3
+  _title: "\uBCF4\uC2A4 \uD574\uCE58\uC6B0\uAE30"
+  _info: "\uBCF4\uC2A4 \uBAAC\uC2A4\uD130 \"Dog Night\" \uD574\uCE58\uC6B0\uAE30"
+  _contents: "\uACE0\uBE14\uB9B0\uB4E4\uC758 \uC6B0\uB450\uBA38\uB9AC\uB97C \uD574\uCE58\uC6CC\uC8FC\uAC8C"
+  rewards:
+    _rewardItems:
+    - rewardItem: {fileID: 11400000, guid: f25867c56a441694e961fb50c529b0e8, type: 2}
+      itmeAmount: 1
+    - rewardItem: {fileID: 11400000, guid: e9f3a5ebb0e1ed94daa1d3f01633c790, type: 2}
+      itmeAmount: 1
+    - rewardItem: {fileID: 11400000, guid: 6f52755e69dbd3442a9a3eb0d57e6b45, type: 2}
+      itmeAmount: 30
+    _rewardGold: 0
+    _rewardExp: 10000
+  _killObjects:
+  - _totalKillCount: 1
+    _currentKillCount: 0
+    _enemyID: 3

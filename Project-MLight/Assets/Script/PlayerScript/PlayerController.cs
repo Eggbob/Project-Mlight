@@ -13,13 +13,13 @@ public class PlayerController : LivingEntity
     public ActiveSkill pAttack; //플레이어 스킬
     public MeleeWeaponTrail trail; //무기 궤적
     public Transform weaponPos;
-    public Action<LivingEntity> killAction; //적 처치시 액션
+    public Action<Enemy> killAction; //적 처치시 액션
         
     public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }
     public PlayerState pState; //플레이어 상태 변수
 
     private float atkSpeed = 1f; //공격 속도
-    private bool isMove; // 움직임 관련 불값
+    private bool isRun; // 움직임 관련 불값
     private bool isInter; // 오브젝트 상호작용 관련 불값
     private bool isAttack; // 공격하는지
 
@@ -47,7 +47,8 @@ public class PlayerController : LivingEntity
         target = pmanager.target;
     
         CheckAnimations();
-        anim.SetBool("isRun", isMove);
+        
+        anim.SetBool("isRun", isRun);
         anim.SetFloat("Attack", atkSpeed);
         anim.SetBool("isAttack", isAttack);
         anim.SetBool("isInter", isInter);
@@ -60,22 +61,23 @@ public class PlayerController : LivingEntity
         switch (pState)
         {
             case PlayerState.Idle:
-                isMove = false;
+                isRun = false;
                 isAttack = false;
                 isInter = false;
                 break;
             case PlayerState.Move:
-                isMove = true;
+               
+                isRun = true;
                 isAttack = false;
                 isInter = false;      
                 break;
             case PlayerState.Attack:
-                isMove = false;
+                isRun = false;
                 isInter = false;
                 isAttack = true;
                 break;
             case PlayerState.Drop:
-                isMove = false;
+                isRun = false;
                 isAttack = false;
                 isInter = true;
                 DropUpdate();
@@ -99,14 +101,14 @@ public class PlayerController : LivingEntity
     //공격시
     private void AttackCheck()
     {
-        LivingEntity enemytarget = target.GetComponent<LivingEntity>();
+        Enemy enemytarget = target.GetComponent<Enemy>();
 
         trail.Emit = true;
-        if (enemytarget != null)
+        if (!enemytarget.Equals(null))
         {            
             if (enemytarget.dead)
             {
-                if (killAction != null) { killAction(enemytarget); }
+                if (!killAction.Equals(null)) { killAction(enemytarget); }
 
                 pmanager.curtarget = PlayerMoveController.TargetLayer.None;
                 pState = PlayerState.Idle;
@@ -163,11 +165,10 @@ public class PlayerController : LivingEntity
             }
             else 
             {
-                Debug.Log("습득할수 없는 아이템입니다.");
+                NotificationUI.Instance.GenerateTxt("습득할수 없는 아이템입니다.");
             }
             isInter = false;
            
-
             pState = PlayerState.Idle;
         }
       

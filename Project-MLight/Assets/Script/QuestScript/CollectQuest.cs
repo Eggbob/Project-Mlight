@@ -31,12 +31,6 @@ public class CollectQuest : Quest
 [System.Serializable]
 public class ColletObject 
 {
-    public ItemData CollectItem => _collectItem;
-
-    public int TotalAmount => _totalAmount;
-
-    public int CurAmount => _currentAmount;
-
     [SerializeField]
     private ItemData _collectItem; //수집할 아이템
 
@@ -47,6 +41,12 @@ public class ColletObject
     private int _currentAmount; //현재 수집한 아이템 개수
 
     private int _itemIndex; //인벤토리에서의 아이템 인덱스
+
+    public ItemData CollectItem => _collectItem;
+
+    public int TotalAmount => _totalAmount;
+
+    public int CurAmount => _currentAmount;
 
     public bool IsComplete //아이템을 전부 수집했는지
     {
@@ -63,7 +63,15 @@ public class ColletObject
             (_currentAmount, _itemIndex) = GameManager.Instance.Inven.GetItemCount(_collectItem.ID);
             //이 아래쪽에 UI업데이트 호출
 
-            QuestUIManager.Instance.CheckComplete(); 
+            if(_currentAmount < _totalAmount)
+            {
+                NotificationUI.Instance.GenerateTxt(_collectItem.ItemName + " : " + _currentAmount + "/" + _totalAmount);
+               
+                if(_currentAmount.Equals(_totalAmount))
+                    NotificationUI.Instance.GenerateTxt(_collectItem.ItemName + " (수집 완료)");
+            }
+        
+            QuestManager.Instance.CheckComplete(); 
         }   
     }
 

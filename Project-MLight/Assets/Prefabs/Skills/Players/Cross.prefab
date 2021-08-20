@@ -57,3 +57,4 @@ MonoBehaviour:
   _skillPower: 0
   EffectPrefab: {fileID: 7321414569882959522, guid: 3dbb404d33542ee4a964702e8742b7be,
     type: 3}
+  Damage: 125
