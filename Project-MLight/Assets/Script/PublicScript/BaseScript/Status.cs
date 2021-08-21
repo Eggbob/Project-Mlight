@@ -61,7 +61,6 @@ public class Status : MonoBehaviour
         _maxHP = pHp;
         _hp = pHp;
 
-       // _maxMP = (100 * _level) + 100;
         _maxMP = pMp;
         _mp = pMp;
 

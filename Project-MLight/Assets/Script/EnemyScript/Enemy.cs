@@ -70,8 +70,6 @@ public class Enemy : LivingEntity
     [SerializeField]
     public float angleRange = 45f; //공격 범위
     protected bool isCollision = false;//공격범위 충돌 확인
-    //private Color blue = new Color(0f, 0f, 1f, 0.2f);
-    //private Color red = new Color(1f, 0f, 0f, 0.2f);   
     protected float dotValue = 0f;
     protected Vector3 direction;
 
@@ -208,10 +206,8 @@ public class Enemy : LivingEntity
 
         else // 타겟이 없으면
         {
-
             nav.isStopped = true; //네비 멈추기                           
             PatrolCheck(); //정찰할 지점 정하기
-
         }
     }
 
@@ -369,11 +365,11 @@ public class Enemy : LivingEntity
             StopCoroutine(AttackUpdate());           
         }
 
-        //lookAtPos = new Vector3(targetPos.x, this.transform.position.y, targetPos.z); //공격시 바라볼 방향
+        
         nav.isStopped = true;
         nav.velocity = Vector3.zero;
         rigid.velocity = Vector3.zero;
-       // transform.LookAt(lookAtPos);
+    
 
         yield return new WaitForSeconds(1f);
 
@@ -482,7 +478,7 @@ public class Enemy : LivingEntity
 
     protected override void Die()
     {
-        //base.Die();
+
         dead = true;
         StartCoroutine(DieRoutine());
     }
@@ -505,7 +501,7 @@ public class Enemy : LivingEntity
         }
 
         yield return new WaitForSeconds(1f);
-        //this.gameObject.SetActive(false);
+    
         DieAction();
     }
 
@@ -527,11 +523,5 @@ public class Enemy : LivingEntity
     }
 
 
-    //private void OnDrawGizmos() // 범위 그리기
-    //{
-    //    Handles.color = isCollision ? red : blue;
-    //    Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, attackRange);
-    //    Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, attackRange);
-
-    //}
+  
 }

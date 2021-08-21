@@ -245,7 +245,7 @@ public class PlayerMoveController : MonoBehaviour
         Vector3 lookPos = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
             - transform.position;
 
-        if(!lookPos.Equals(Vector3.zero))
+        if(lookPos != Vector3.zero)
         {
             pCon.transform.forward = lookPos;
         }

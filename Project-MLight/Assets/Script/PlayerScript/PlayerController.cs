@@ -104,11 +104,11 @@ public class PlayerController : LivingEntity
         Enemy enemytarget = target.GetComponent<Enemy>();
 
         trail.Emit = true;
-        if (!enemytarget.Equals(null))
+        if (enemytarget != null)
         {            
             if (enemytarget.dead)
             {
-                if (!killAction.Equals(null)) { killAction(enemytarget); }
+                if (killAction != null) { killAction(enemytarget); }
 
                 pmanager.curtarget = PlayerMoveController.TargetLayer.None;
                 pState = PlayerState.Idle;
@@ -186,6 +186,7 @@ public class PlayerController : LivingEntity
         obj.transform.position = tr;
 
         base.LvUp();
+
     }
 
     protected override void Die()

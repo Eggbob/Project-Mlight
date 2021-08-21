@@ -60,6 +60,8 @@ public class ItemQuickSlotUI : MonoBehaviour
 
     private ItemData slotItem;
 
+    private int itemAmount;
+
     private void ShowImg() => ItemImg.SetActive(true);
     private void HideImg() => ItemImg.SetActive(false);
 
@@ -104,10 +106,12 @@ public class ItemQuickSlotUI : MonoBehaviour
     {
         if (!HasItem)
             return;
-
         UpdateItemAmount();
         ItemUse();
         coolDown.UseSpell(coolTime);
+
+        if (itemAmount < 1)
+            RemoveItem();
     }
 
 
@@ -129,7 +133,8 @@ public class ItemQuickSlotUI : MonoBehaviour
        if(item != null)
        {
             itemImg.sprite = item.IconSprite;
-            amountTxt.text = amount.ToString();
+            itemAmount = amount;
+            amountTxt.text = itemAmount.ToString();
             quickImg.sprite = item.IconSprite;
             quickAmountTxt.text = amount.ToString();
             coolTime = item.CoolTime;
@@ -151,9 +156,9 @@ public class ItemQuickSlotUI : MonoBehaviour
     //아이템 수량 업데이트
     public void UpdateItemAmount()
     {
-        int amount = UpdateAmount();
-        amountTxt.text = amount.ToString();
-        quickAmountTxt.text = amount.ToString();
+        itemAmount = UpdateAmount();
+        amountTxt.text = itemAmount.ToString();
+        quickAmountTxt.text = itemAmount.ToString();
     }
 
     private void SetUseEvent(Action action) => ItemUse = action;

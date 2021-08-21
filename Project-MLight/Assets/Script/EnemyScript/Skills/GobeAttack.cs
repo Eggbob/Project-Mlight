@@ -5,7 +5,6 @@ using UnityEngine;
 public class GobeAttack : Skill
 {  
 
-
     protected override void SkillLevelUp()
     {
         throw new System.NotImplementedException();

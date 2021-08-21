@@ -7,7 +7,6 @@ public class NormalPlayerAttack : ActiveSkill
     public override void Init(LivingEntity _LCon)
     {
         LCon = _LCon;
-        //this.SkillPower = LCon.Power;
         this.sAttr = SkillAttr.Melee;
     }
 

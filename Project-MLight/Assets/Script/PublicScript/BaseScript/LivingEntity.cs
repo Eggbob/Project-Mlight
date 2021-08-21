@@ -43,6 +43,9 @@ public class LivingEntity : Status
         _maxHP += 100;
         _maxMP += 100;
 
+        this._hp = _maxHP;
+        this._mp = _maxMP;
+
         _exp = leftexp;
         _statPoint += 3;
     }
@@ -57,8 +60,7 @@ public class LivingEntity : Status
             Hp = 0;
             StopAllCoroutines();
             
-            Die();
-            
+            Die(); 
        }
     }
 

@@ -46,14 +46,8 @@ public class InvenEquipToolTipManager : MonoBehaviour
         equipImg.SetActive(false);
         okBtn.onClick.AddListener(() => OkBtnEvent());
         dumpBtn.onClick.AddListener(() => DumpBtnEvent());
-
-      
     }
 
-    private void OnDisable()
-    {
- 
-    }
 
     //아이템 설정
     public void SetItemInfo(ItemData data, Action okCallback, Action dumpCallback)
@@ -93,8 +87,7 @@ public class InvenEquipToolTipManager : MonoBehaviour
 
     //장비중인 아이템 설정
     public void SetEquipItemInfo(Item item, Action<Item> unEquipCallback)
-    {
-       
+    {    
         nameTxt.text = item.Data.ItemName;
         toolTipTxt.text = item.Data.Tooltip;
         ItemImg.sprite = item.Data.IconSprite;

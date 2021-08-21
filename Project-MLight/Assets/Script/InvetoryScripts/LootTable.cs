@@ -25,7 +25,6 @@ public class LootTable : MonoBehaviour
 
     [SerializeField] //드랍할 아이템 리스트
     private List<DropItem> dropItems = new List<DropItem>();
-    //private List<ItemData> dropItems = new List<ItemData>();
 
     [SerializeField]
     private int goldAmount;

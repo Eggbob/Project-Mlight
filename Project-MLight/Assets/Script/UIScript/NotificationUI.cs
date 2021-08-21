@@ -11,7 +11,7 @@ public class NotificationUI : MonoBehaviour
     {
         get
         {
-            if(instance.Equals(null))
+            if(instance != null)
             {
                 instance = FindObjectOfType<NotificationUI>();
             }

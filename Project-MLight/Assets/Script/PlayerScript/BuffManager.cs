@@ -45,7 +45,7 @@ public class BuffManager : MonoBehaviour
     {
        int index = FindAdditionalBuff(type);
 
-        if(!index.Equals(-1)) //추가 가능한 버프가 있다면
+        if(index != -1) //추가 가능한 버프가 있다면
         {
             onBuff[index].AddDuration(duration);
             return;

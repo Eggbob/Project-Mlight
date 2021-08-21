@@ -72,24 +72,7 @@ public class Spawning : MonoBehaviour
         return newObj;
     }
 
-    private void Update()
-    {
 
-        //if(Input.GetKeyDown(KeyCode.M))
-        //{
-        //    Vector3 spawnPos = this.transform.position;
-        //    spawnPos.y += 1f;
-        //    Instantiate(gobeHunter, spawnPos, Quaternion.identity);
-        //}
-        //if(Input.GetKeyDown(KeyCode.N))
-        //{
-        //    Vector3 spawnPos = this.transform.position;
-        //    spawnPos.y += 1f;
-        //    Instantiate(goblin, spawnPos, Quaternion.identity);
-        //}
-
-    }
-    
     //고블린 사망시 동작
     private void GobeDieRoutine(Enemy enemy)
     {

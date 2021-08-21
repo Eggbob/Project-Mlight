@@ -37,7 +37,7 @@ public class BossManager : MonoBehaviour
         isEnter = true;
         roomCam.gameObject.SetActive(true);      
         UIManager.gameObject.SetActive(false);
-        wallAnim.enabled = true;
+               
         StartCoroutine(Shake());
 
         yield return new WaitForSeconds(1.5f);
@@ -67,6 +67,8 @@ public class BossManager : MonoBehaviour
                 roomCam.transform.rotation = Quaternion.RotateTowards(roomCam.transform.rotation, t_rot, shakeForce * Time.deltaTime);
                 yield return null;
             }
+
+            wall.transform.Translate(Vector3.down * 70f * Time.deltaTime);
             yield return null;
         } 
     }

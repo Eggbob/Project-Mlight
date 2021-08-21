@@ -11,16 +11,11 @@ public class BossPowerAttack : ActiveSkill
 
     private IEnumerator AttackRoutine()
     {
-        //effect.gameObject.SetActive(true);
-
+       
         pBird.gameObject.transform.position = LCon.transform.position;
       
-       // pBird.Activation(LCon.transform.forward);
- 
+     
         yield return new WaitForSeconds(1f);
-
-      // effect.gameObject.SetActive(false);
-       // pBird.gameObject.SetActive(false);
     }
 
 
@@ -41,7 +36,7 @@ public class BossPowerAttack : ActiveSkill
         effect.SetActive(false);
 
         pBird = Instantiate(pBirdPrefab, this.transform).GetComponent<PowerAttack>();
-       // pBird.Init(this);
+
         pBird.gameObject.SetActive(false);
     }
 

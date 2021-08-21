@@ -118,7 +118,7 @@ public class ItemSlotUI : MonoBehaviour
         }
     }
 
-    /// <summary> 슬롯에서 아이템 제거 </summary>
+    //슬롯에서 아이템 제거
     public void RemoveItem()
     {
         iconImg.sprite = null;
@@ -127,7 +127,7 @@ public class ItemSlotUI : MonoBehaviour
         HideImg();
     }
 
-    /// <summary> 아이템 개수 텍스트 설정(amount가 1 이하일 경우 텍스트 미표시) </summary>
+    //아이템 개수 텍스트 설정(amount가 1 이하일 경우 텍스트 미표시)
     public void SetItemAmount(int amount)
     {
         if (HasItem && amount > 1)

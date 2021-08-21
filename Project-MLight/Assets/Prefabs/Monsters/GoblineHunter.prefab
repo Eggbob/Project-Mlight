@@ -2298,10 +2298,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropItems:
-  - dropData: {fileID: 11400000, guid: e45a058573e41d0448d4209a60fd6cf0, type: 2}
-    itemAmount: 1
-  - dropData: {fileID: 11400000, guid: a50897f979308f648a0d189d238164ec, type: 2}
-    itemAmount: 1
+  - dropData: {fileID: 11400000, guid: 6f52755e69dbd3442a9a3eb0d57e6b45, type: 2}
+    itemAmount: 3
+  - dropData: {fileID: 11400000, guid: 674792c067628374b8db95e12fcda655, type: 2}
+    itemAmount: 2
   goldAmount: 100
 --- !u!1 &7550480540120536996
 GameObject:

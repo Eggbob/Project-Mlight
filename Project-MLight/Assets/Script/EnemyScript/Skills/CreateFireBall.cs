@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CreateFireBall : ActiveSkill
 {
-    // private List<FireBall> fireball = new List<FireBall>();
 
     private FireBall[] fireball = new FireBall[7];
 
@@ -20,8 +19,6 @@ public class CreateFireBall : ActiveSkill
 
             fireball[i].transform.position = spawnPos;
             fireball[i].CreaeteFire(spawnPos);
-            //fireball[i].gameObject.SetActive(true);
-
             yield return new WaitForSeconds(0.3f);
         }
     }
@@ -43,7 +40,6 @@ public class CreateFireBall : ActiveSkill
         for(int i = 0; i< 7; i++)
         {
             fireball[i] = Instantiate(EffectPrefab, this.transform).GetComponent<FireBall>();
-            //fireball[i].Init(this);
             fireball[i].gameObject.SetActive(false); 
         }
 

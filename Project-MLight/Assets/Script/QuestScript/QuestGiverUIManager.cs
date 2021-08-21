@@ -55,7 +55,7 @@ public class QuestGiverUIManager : MonoBehaviour
 
         foreach (Quest q in qCon.Quests)
         {
-            if(!q.Equals(null))
+            if(q!=null)
             {
                 QuestSlotUI qSlot = ObjectPool.GetQuSlot();
 

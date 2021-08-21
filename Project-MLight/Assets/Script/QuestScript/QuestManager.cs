@@ -45,18 +45,18 @@ public class QuestManager : MonoBehaviour
     private void HighlightImg() //하이라이트 이미지 활성화 유무
     {
         //이전 클릭슬롯이 없고 현재 클릭슬롯이 있다면
-        if (prevClickedQuest.Equals(null) && !beginClickedQuest.Equals(null))
+        if (prevClickedQuest == null && beginClickedQuest != null)
         {
             beginClickedQuest.ShowClickedImg(true);
             prevClickedQuest = beginClickedQuest;
         }
         //이전 클릭슬롯과 현재 클릭슬롯이 동일하다면
-        else if (prevClickedQuest.Equals(beginClickedQuest))
+        else if (prevClickedQuest == beginClickedQuest)
         {
             return;
         }
         //이전 클릭슬롯과 현재 클릭슬롯이 동일하지 않다면
-        else if (!prevClickedQuest.Equals(beginClickedQuest))
+        else if (prevClickedQuest != beginClickedQuest)
         {
             prevClickedQuest.ShowClickedImg(false);
             beginClickedQuest.ShowClickedImg(true);
@@ -67,7 +67,7 @@ public class QuestManager : MonoBehaviour
     //퀘스트 정보 보여주기
     private void ShowQuestInfo(QuestSlotUI qSlotUI)
     {
-        if (qSlotUI.Equals(null))
+        if (qSlotUI == null)
             return;
 
         beginClickedQuest = qSlotUI;
@@ -113,9 +113,7 @@ public class QuestManager : MonoBehaviour
 
         slot.Init(quest);
 
-        slot.GetComponent<Button>().onClick.AddListener(() => ShowQuestInfo(slot));
-
-      //  quests.Add(quest); 
+        slot.GetComponent<Button>().onClick.AddListener(() => ShowQuestInfo(slot));; 
       
         questSlots.Add(slot);
  

@@ -152,7 +152,7 @@ public class Inventory : MonoBehaviour
 
         Item item = items[index];
 
-        if (!item.Equals(null))//아이템이 슬롯에 존재할 경우
+        if (item != null)//아이템이 슬롯에 존재할 경우
         {
             //아이콘 등록
             inventoryUI.SetItemIcon(index, item.Data.IconSprite);
@@ -241,7 +241,7 @@ public class Inventory : MonoBehaviour
     private bool IsAccesible(int index)
     {
         //인덱스 범위가 정상이 아니거나 배열이 비어있다면
-        if (!IsValidIndex(index) || items[index].Equals(null))
+        if (!IsValidIndex(index) || items[index] == null)
         {
             return false;
         }
@@ -261,7 +261,7 @@ public class Inventory : MonoBehaviour
     public int GetCurrentAmount(int index)
     {
         if (!IsValidIndex(index)) return -1; //잘못된 인덱스
-        if (items[index].Equals(null)) return 0; //해당 슬롯이 비어있으면
+        if (items[index] == null) return 0; //해당 슬롯이 비어있으면
 
         CountableItem ci = items[index] as CountableItem;
         if (ci == null)
@@ -274,7 +274,7 @@ public class Inventory : MonoBehaviour
     public ItemData GetItemData(int index)
     {
         if (!IsValidIndex(index)) return null; //잘못된 인덱스이면
-        if (items[index].Equals(null)) return null;  // 슬롯이 비어있으면
+        if (items[index] == null) return null;  // 슬롯이 비어있으면
 
         return items[index].Data;
 
@@ -284,7 +284,7 @@ public class Inventory : MonoBehaviour
     public string GetItemName(int index)
     {
         if (!IsValidIndex(index)) return ""; //잘못된 인덱스이면
-        if (items[index].Equals(null)) return "";  // 슬롯이 비어있으면
+        if (items[index] == null) return "";  // 슬롯이 비어있으면
 
         return items[index].Data.ItemName; 
     }
@@ -328,7 +328,7 @@ public class Inventory : MonoBehaviour
                 {
                     index = FindEmptySlot(index + 1);
                     //빈슬롯이 없을 경우
-                    if(index.Equals(-1))
+                    if(index == -1)
                     {
                         break;
                     }
@@ -354,7 +354,7 @@ public class Inventory : MonoBehaviour
         else
         {
             // 아이템 1개만 얻을시
-            if(amount.Equals(1))
+            if(amount == 1)
             {
                 index = FindEmptySlot();
 
@@ -396,7 +396,7 @@ public class Inventory : MonoBehaviour
                     index = FindEmptySlot(index + 1);
 
                     // 아이템을 다 넣지 못할경우
-                    if (index.Equals(-1))
+                    if (index == -1)
                     {
                         break;
                     }
@@ -412,12 +412,11 @@ public class Inventory : MonoBehaviour
                 
         }
 
-        if(!itemAddEvent.Equals(null))
+        if(itemAddEvent != null)
         {
             itemAddEvent(itemData);
         }
 
-        //return amount;
         return index;
     }
 
@@ -579,7 +578,7 @@ public class Inventory : MonoBehaviour
             if (current == null)
                 continue;
 
-            if (current.Data.ID.Equals(itmeId) && current is CountableItem ci)
+            if (current.Data.ID == itmeId && current is CountableItem ci)
             {
                 itemCount += ci.Amount;
                 index = i;
@@ -603,7 +602,7 @@ public class Inventory : MonoBehaviour
                 continue;
 
           
-            if(current.Data.ID.Equals(36) && current is CountableItem ci)
+            if(current.Data.ID == 36 && current is CountableItem ci)
             {
                 amount += ci.Amount;
                 index = i;

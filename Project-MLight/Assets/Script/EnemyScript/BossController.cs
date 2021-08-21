@@ -26,7 +26,6 @@ public class BossController : Enemy
 
     private int randState;
 
-    
     public Text hpTxt;
 
     public GameObject bossUI;
@@ -75,13 +74,6 @@ public class BossController : Enemy
         }
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            StartCoroutine(PowerAttack());
-        }
-    }
 
     //첫 시작 모션
     private IEnumerator Enable()
@@ -342,9 +334,8 @@ public class BossController : Enemy
 
         rigid.isKinematic = true;
 
-
         yield return new WaitForSeconds(3f);
-        //this.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
     public override void OnDamage(Skill skill)

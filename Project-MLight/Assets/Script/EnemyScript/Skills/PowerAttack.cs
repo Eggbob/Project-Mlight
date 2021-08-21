@@ -20,16 +20,6 @@ public class PowerAttack : Skill
     private void OnEnable()
     {
         target = GameManager.Instance.Player;
-        //rigid.velocity = this.transform.forward * 30f;
-
-        //if (LCon != null)
-        //{
-        //    effect.transform.SetParent(null);
-        //    effect.transform.position = LCon.transform.position;
-        //    effect.SetActive(true);
-        //}
-     
-        //Invoke("ReturnRoutine", 4.5f);
     } 
 
     private void OnTriggerEnter(Collider other)
@@ -57,7 +47,7 @@ public class PowerAttack : Skill
     {
         rigid.velocity = this.transform.forward * 30f;
 
-        if (!LCon.Equals(null))
+        if (LCon != null)
         {
             effect.transform.SetParent(null);
             effect.transform.position = LCon.transform.position;

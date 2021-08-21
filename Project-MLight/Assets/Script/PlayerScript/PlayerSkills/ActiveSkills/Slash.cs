@@ -19,7 +19,6 @@ public class Slash : ActiveSkill
 
         _skillPower = LCon.Power * (1 + (Damage / 100));
         this.sAttr = SkillAttr.Stun;
-       // nuckBackForce = 15;
 
         this._description = "물리공격력의 " + Damage + "%만큼 단일 공격을 합니다.\n"
         +"- 대상을 기절시킵니다.";

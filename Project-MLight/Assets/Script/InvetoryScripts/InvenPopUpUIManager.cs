@@ -77,7 +77,6 @@ public class InvenPopUpUIManager : MonoBehaviour
         //플러스 버튼 이벤트
         plusBtn.onClick.AddListener(() =>
         {
-            //int.TryParse(countTxt.text, out int count);
             if (preCount < maxCount)
             {
                 int nextCount = preCount + 1;

@@ -29,25 +29,20 @@ public class SaveManager : MonoBehaviour
         qManager = QuestManager.Instance;
 
         LoadAllItemData();
+        Load();
     }
 
-    private void Update()
+    private void OnApplicationQuit()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Save();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Load();
-        }
+        Save();
     }
+
 
     //플레이어 저장
     private void SavePlayer()
     {          
         pData = new PlayerData(pCon.Level,
-        pCon.Exp, pCon.Hp, pCon.Mp, pCon.Power,
+        pCon.Exp, pCon.MaxHp, pCon.MaxMp, pCon.Power,
         pCon.DEF, pCon.Int, pCon.StatPoint, pCon.gameObject.transform.position);
 
         pData.saveGold = inven.Gold;
@@ -86,7 +81,6 @@ public class SaveManager : MonoBehaviour
         for(int i = 1; i< pCon.psCon.PlayerSkills.Count; i++)
         {
             float skillexp = ((pCon.psCon.PlayerSkills[i].SkillLevel * 200) -200) + pCon.psCon.PlayerSkills[i].SkillExp; 
-            //pData.saveSKillList.Add(pCon.psCon.PlayerSkills[i]);
             pData.saveSkills.Add(pCon.psCon.PlayerSkills[i].SkillId, skillexp );         
         }
 
@@ -97,7 +91,6 @@ public class SaveManager : MonoBehaviour
 
         string jsonData = JsonUtility.ToJson(pData, true);
 
-       // string jsonData = JsonConvert.SerializeObject(pData);
         File.WriteAllText(filePath, jsonData);
      
     }
@@ -130,16 +123,14 @@ public class SaveManager : MonoBehaviour
 
     //퀘스트 저장
     private void SaveQuest()
-    {
-        //filePath = Application.persistentDataPath + "/" + "QuestData.asset";
+    { 
         filePath = Application.persistentDataPath + "/" + "QuestData.txt";
 
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(filePath);
 
         qeData = new QuestData();
-
-        //qeData.sampleQuest = qManager.Quests[0];
+    
         foreach (Quest quest in qManager.Quests)
         {
             qeData.playerQuests.Add(quest);
@@ -149,7 +140,7 @@ public class SaveManager : MonoBehaviour
       
         bf.Serialize(file, jsonData);
         file.Close();
-      //  File.WriteAllText(filePath, jsonData);
+ 
     }
 
     //저장한 데이터 로드하기
@@ -166,7 +157,6 @@ public class SaveManager : MonoBehaviour
     {
 
         filePath = Application.persistentDataPath + "/" + "PlayerData.json";
-        //if (!File.Exists(Application.persistentDataPath + "/" + "PlayerData.json"))
         if (!File.Exists(filePath))
         {
             SavePlayer();
@@ -239,7 +229,6 @@ public class SaveManager : MonoBehaviour
         string jsonData = File.ReadAllText(filePath);
 
         qData = JsonUtility.FromJson<QuickBtnData>(jsonData);
-        // qData = JsonConvert.DeserializeObject<QuickBtnData>(jsonData);
 
         qData.JsonToDictionary();
 
@@ -263,9 +252,9 @@ public class SaveManager : MonoBehaviour
     //퀘스트 정보 불러오기
     private void LoadQuest()
     {
-       // filePath = Application.persistentDataPath + "/" + "QuestData.asset";
+  
         filePath = Application.persistentDataPath + "/" + "QuestData.txt";
-        //if(File.Exists(Application.persistentDataPath + "/" + "QuestData.asset"))
+
         if (File.Exists(filePath))
         {
             qeData = new QuestData();
@@ -279,12 +268,8 @@ public class SaveManager : MonoBehaviour
                 quest.qGiver.UpdateQuestStatus();
             }
 
-            //Debug.Log(qeData.playerQuests[0].Title);
             file.Close();
         }
-
-        //var Data = File.GetAttributes(Application.persistentDataPath + "/" + "QuestData.asset");
-
     }
 
     //모든 아이템 정보 불러오기
@@ -297,6 +282,7 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+   
     //파일 저장하기
     public void Save()
     {

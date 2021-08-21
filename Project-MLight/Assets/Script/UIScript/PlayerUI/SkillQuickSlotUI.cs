@@ -52,7 +52,7 @@ public class SkillQuickSlotUI : MonoBehaviour
 
     private void UseSkill() //스킬 사용
     {
-        if(!skill.Equals(null))
+        if(skill != null)
         {
             switch (skill.SAttr)
             {

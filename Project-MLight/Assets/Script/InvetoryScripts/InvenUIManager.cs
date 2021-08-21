@@ -161,20 +161,16 @@ public class InvenUIManager : MonoBehaviour
             beginClickSlot = RaycastAndGetFirstComponent<ItemSlotUI>(); //클릭한 슬롯 가져오기
 
             //아이템을 갖고 있는 슬롯만 해당
-            if(!beginClickSlot.Equals(null) && beginClickSlot.HasItem && beginClickSlot.IsAccesible && !isBusiness)
+            if(beginClickSlot != null && beginClickSlot.HasItem && beginClickSlot.IsAccesible && !isBusiness)
             {         
                 HighlightImg(); //하이라이트 이미지 보여주기
                 ShowToolTip(beginClickSlot.Index); //툴팁보여주기
             }
-            else if (!beginClickSlot.Equals(null) && beginClickSlot.HasItem && beginClickSlot.IsAccesible && isBusiness)
+            else if (beginClickSlot != null && beginClickSlot.HasItem && beginClickSlot.IsAccesible && isBusiness)
             {
                 HighlightImg(); //하이라이트 이미지 보여주기
                 ShowSellToolTip(beginClickSlot.Index);
             }
-            //else
-            //{
-            //    beginClickSlot = null;
-            //}
         }
     }
 
@@ -191,8 +187,6 @@ public class InvenUIManager : MonoBehaviour
     //슬롯에 아이템 아이콘 등록
     public void SetItemIcon(int index, Sprite icon)
     {
-       // EditorLog($"Set Item Icon : Slot [{index}]");
-
         slotUiList[index].SetItem(icon);
     }
 
@@ -234,7 +228,7 @@ public class InvenUIManager : MonoBehaviour
     {
         bool isUpdated = true;
 
-        if(!itemData.Equals(null))
+        if(itemData != null)
         {
             switch(currentFilterOption)
             {
@@ -378,7 +372,7 @@ public class InvenUIManager : MonoBehaviour
         {
             int currentAmount = inventory.GetCurrentAmount(itemIndex);
             slotUiList[itemIndex].SetQuickSlotIndex(qIndex);
-            //prevClickSlot.SetQuickSlotIndex(qIndex); //아이템이 퀵슬롯에 장착되었는지 업데이트
+ 
             quickSlots[qIndex].SetItem(pi, currentAmount, () => inventory.Use(itemIndex), () => inventory.GetCurrentAmount(itemIndex));
         }      
     }

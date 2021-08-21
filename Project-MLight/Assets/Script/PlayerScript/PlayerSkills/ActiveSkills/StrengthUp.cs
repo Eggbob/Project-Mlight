@@ -40,8 +40,7 @@ public class StrengthUp : ActiveSkill
         yield return new WaitForSeconds(1f);
 
         effect.gameObject.SetActive(false);
-       
-
+      
     }
 
     protected override void SkillLevelUp()

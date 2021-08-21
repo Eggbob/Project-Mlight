@@ -1,13 +1,38 @@
 {
-    "m_SelectedDeviceId": "",
+    "m_SelectedDeviceId": "LMG710N585fc26c",
     "m_SelectedPackage": {
-        "deviceId": "",
-        "name": "",
-        "processId": 0,
+        "deviceId": "LMG710N585fc26c",
+        "name": "com.lsw.projectmlight",
+        "processId": 32092,
         "exited": false
     },
     "m_SelectedPriority": 0,
-    "m_KnownPackagesForSerialization": [],
+    "m_KnownPackagesForSerialization": [
+        {
+            "deviceId": "LMG710N585fc26c",
+            "name": "com.lge.launcher3",
+            "processId": 2707,
+            "exited": false
+        },
+        {
+            "deviceId": "LMG710N585fc26c",
+            "name": "com.lsw.projectmlight",
+            "processId": 29933,
+            "exited": true
+        },
+        {
+            "deviceId": "LMG710N585fc26c",
+            "name": "com.android.settings",
+            "processId": 24756,
+            "exited": false
+        },
+        {
+            "deviceId": "LMG710N585fc26c",
+            "name": "com.lsw.projectmlight",
+            "processId": 32092,
+            "exited": false
+        }
+    ],
     "m_Tags": {
         "m_Entries": [
             {
@@ -41,9 +66,20 @@
         ]
     },
     "m_MemoryViewerState": {
-        "MemoryWindowHeight": 0.0,
-        "MemoryWindowWidth": 0.0,
-        "MemoryTypeEnabled": [],
+        "MemoryWindowHeight": 300.0,
+        "MemoryWindowWidth": 170.0,
+        "MemoryTypeEnabled": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+        ],
         "MemoryGroup": 2,
         "Behavior": 0
     },

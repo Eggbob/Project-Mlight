@@ -15,7 +15,7 @@ public class TornadoCut : ActiveSkill
     {
         Collider[] colliders = Physics.OverlapSphere(LCon.transform.position, fRange, targetLayer);//콜라이더 설정하기
 
-        if (!colliders.Equals(null)) //콜라이더가 비어있지 않으면
+        if (colliders != null) //콜라이더가 비어있지 않으면
         {
             StartCoroutine(DamageRoutine(colliders));
         }
@@ -38,7 +38,7 @@ public class TornadoCut : ActiveSkill
     {
         SkilLRange.SetActive(true);
         yield return new WaitForSeconds(1f);
-       // Instantiate(EffectPrefab, this.transform.position, Quaternion.identity);
+ 
         effect.transform.position = this.transform.position;
         effect.gameObject.SetActive(true);
 

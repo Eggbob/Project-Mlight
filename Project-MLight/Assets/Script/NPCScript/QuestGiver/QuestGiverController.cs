@@ -63,35 +63,45 @@ public class QuestGiverController : NpcController
     //퀘스트 진행도 업데이트
     public void UpdateQuestStatus()
     {
+        int completeCnt = 0;
+        int startCnt = 0;
+
         foreach(Quest quest in quests)
         {
-            if(!quest.Equals(null))
+            if(quest != null)
             {
-                if(quest.qState.Equals(Quest.QuestState.Complete) && qManager.HasQuest(quest))
+                if (quest.qState == Quest.QuestState.Complete)
                 {
-                    questionMark.SetActive(true);
-                    exclamationMark.SetActive(false);
-                    break;
+                    //questionMark.SetActive(true);
+                    //exclamationMark.SetActive(false);
+                    completeCnt++;
+                   
                 }
-                else if(!qManager.HasQuest(quest) && quest.qState.Equals(Quest.QuestState.Start))
+                else if (quest.qState == Quest.QuestState.Start)
                 {
-                    exclamationMark.SetActive(true);
-                    questionMark.SetActive(false);
-                    break;
-                }
-                else if(quest.qState.Equals(Quest.QuestState.Progressing) && qManager.HasQuest(quest))
-                {
-                    exclamationMark.SetActive(false);
-                    questionMark.SetActive(false);
-                    break;
-                }
-                else
-                {
-                    exclamationMark.SetActive(false);
-                    questionMark.SetActive(false);
-                    break;
-                }
+                    //exclamationMark.SetActive(true);
+                    //questionMark.SetActive(false);
+                    startCnt++;
+                }               
             }
+        }
+
+        if(completeCnt > 0)
+        {
+            questionMark.SetActive(true);
+            exclamationMark.SetActive(false);
+            return;
+        }
+        else if(startCnt > 0)
+        {
+            exclamationMark.SetActive(true);
+            questionMark.SetActive(false);
+            return;
+        }
+        else
+        {
+            exclamationMark.SetActive(false);
+            questionMark.SetActive(false);
         }
     }
 
@@ -113,6 +123,7 @@ public class QuestGiverController : NpcController
         if (IsInteracting)
         {
             base.StopInteract();
+            UpdateQuestStatus();
             questGiverManger.Close();
         }
     }
