@@ -33,7 +33,7 @@ public class TargetCheck : MonoBehaviour
 
         }
 
-        if (colliderMin != null) //콜라이더가 비어있지 않으면
+        if (!colliderMin.Equals(null)) //콜라이더가 비어있지 않으면
         {
             target = colliderMin.gameObject;
             //LivingEntity livingEntity = colliderMin.GetComponent<LivingEntity>();
