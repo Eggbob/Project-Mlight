@@ -36,8 +36,6 @@ public class PlayerMoveController : MonoBehaviour
     [SerializeField]
     private float angleRange = 45f;
     public bool isCollision { get; private set; }
-    private Color blue = new Color(0f, 0f, 1f, 0.2f);
-    private Color red = new Color(1f, 0f, 0f, 0.2f);
     private float dotValue = 0f;
     private Vector3 direction;
 
@@ -63,8 +61,6 @@ public class PlayerMoveController : MonoBehaviour
         mstate = MoveState.None;
         nav.updateRotation = false; // 네비의회전 기능 비활성화
         playerMask = (-1) - (1 << LayerMask.NameToLayer("Player") ); //플레이어 레이어 번호 연산
-        //playerMask =  ((1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Wall"))); //플레이어 레이어 번호 연산
-       // playerMask = ~playerMask;
     }
 
 

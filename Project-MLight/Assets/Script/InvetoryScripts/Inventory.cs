@@ -87,7 +87,6 @@ public class Inventory : MonoBehaviour
 
             return ((a.Data.ID + sortWeight[aDummy.GetType()])
                    - (b.Data.ID + sortWeight[bDummy.GetType()]));
-
         }      
     }
 
@@ -209,7 +208,6 @@ public class Inventory : MonoBehaviour
             UpdateSlot(i);
         }
     }
-
 
     //모든 슬롯 UI에 접근 가능 여부 업데이트
     public void UpdateAccessStateAll()
@@ -590,8 +588,7 @@ public class Inventory : MonoBehaviour
 
     //스킬북 갯수 반환
     public (int count, int index) CountSkillBook()
-    {
-          
+    {          
         int amount = 0;
         int index = 0;
 

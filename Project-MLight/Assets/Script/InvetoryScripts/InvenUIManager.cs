@@ -71,7 +71,6 @@ public class InvenUIManager : MonoBehaviour
     //초기 설정
     private void Init()
     {
-
         TryGetComponent(out gr); //그래픽 레이캐스터 가져오기
         if (gr == null)
             gr = gameObject.AddComponent<GraphicRaycaster>();

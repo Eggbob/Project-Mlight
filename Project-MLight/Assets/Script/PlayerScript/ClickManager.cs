@@ -27,14 +27,10 @@ public class ClickManager : MonoBehaviour
     private GameObject eTargeting; //애너미 타겟팅 프리팹
     private GameObject oTaregeting; // 오브젝트 타겟팅 프리팹
 
-
-
     [Header("공격범위 속성")]
     public float attackRange = 3f;
     public float angleRange = 45f;
     public bool isCollision = false;
-    Color blue = new Color(0f, 0f, 1f, 0.2f);
-    Color red = new Color(1f, 0f, 0f, 0.2f);
     float dotValue = 0f;
     Vector3 direction;
 
@@ -68,7 +64,6 @@ public class ClickManager : MonoBehaviour
         {          
             sectorCheck();
         }
-
 
         if(Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭시
         {
@@ -135,17 +130,14 @@ public class ClickManager : MonoBehaviour
     }
 
     void EnemyUpdate() // 적 클릭시 호출
-    {
-       
+    {      
         eTargeting = ObjectPool.GetTargeting(targetlayer); // 타겟팅 오브젝트 가져오기
         Transform waytr = hit.collider.gameObject.GetComponent<Enemy>().targetingTr; // 타겟팅 오브젝트 위치 생성
         eTargeting.transform.position = waytr.position;//타겟팅 오브젝트 위치 지정
-
     }
 
     void ObjectUpdate() //오브젝트 클릭시
-    {
-        
+    {       
         oTaregeting = ObjectPool.GetTargeting(targetlayer);
         Transform waytr = hit.collider.gameObject.GetComponent<Object>().targetingTr;
         oTaregeting.transform.position = waytr.position;
@@ -196,14 +188,8 @@ public class ClickManager : MonoBehaviour
                     break;
 
             }        
-          
             this.transform.forward = new Vector3(nav.steeringTarget.x, transform.position.y, nav.steeringTarget.z)
                 - transform.position;
-
-           
-            
-           
-
         }  
     }
 
@@ -232,12 +218,4 @@ public class ClickManager : MonoBehaviour
             isCollision = false;
     }
 
-
-    //private void OnDrawGizmos() // 범위 그리기
-    //{
-    //    Handles.color = isCollision ? red : blue;
-    //    Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, attackRange);
-    //    Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, attackRange);
-
-    //}
 }

@@ -15,7 +15,6 @@ public class TargetCheck : MonoBehaviour
 
     void FindNearEnemy(LayerMask tlayer) // 가장 가까운 대상 찾기
     {
-
         Collider[] colliders = Physics.OverlapSphere(this.transform.position, fRange, tlayer);//콜라이더 설정하기
         Collider colliderMin = null; // 가장가까운 대상의 콜라이더
         float fPreDist = 99999999.0f; // 가장가까운 대상 거리 float값
@@ -30,23 +29,16 @@ public class TargetCheck : MonoBehaviour
             if (colliderMin == null || fPreDist > fDist) // 조건문으로 가장 가까운 대상 찾기
                 colliderMin = collider;
             fPreDist = fDist;
-
         }
 
         if (colliderMin != null) //콜라이더가 비어있지 않으면
         {
             target = colliderMin.gameObject;
-            //LivingEntity livingEntity = colliderMin.GetComponent<LivingEntity>();
-
 
             if (target != null) //찾은 리빙엔티티가 죽지않고 null값이 아닐때
             {
                gameObject.SendMessageUpwards("OnSetTarget", target, SendMessageOptions.DontRequireReceiver);
             }
         }
-
-
     }
-
-   
 }

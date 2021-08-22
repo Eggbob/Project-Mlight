@@ -14,8 +14,15 @@ public class EquipManager : MonoBehaviour
     
     [SerializeField]
     private InvenEquipToolTipManager eManger; //장비 툴팁
-
     private PlayerController LCon;
+
+    private WeaponItem wItem; // 착용중인 무기
+    private ArmorItem aItem; // 착용중인 방어구
+    private GameObject wItemPrefab; //착용중인 무기 프리팹
+   
+    private Action<Item> unEquipEvent;
+    private Action armorReturn;
+    private Action weaponReturn;
 
     public Sprite weaponNormalImg; //무기 기본이미지
     public Sprite armorNormalImg; //방어구 기본이미지
@@ -25,17 +32,6 @@ public class EquipManager : MonoBehaviour
 
     public WeaponItem WITEM => wItem; //현재 착용중인 무기 참조
     public ArmorItem AITEM => aItem; //현재 착용중인 방어구 참조
-
-    private WeaponItem wItem; // 착용중인 무기
-    private ArmorItem aItem; // 착용중인 방어구
-
-    private GameObject wItemPrefab; //착용중인 무기 프리팹
-   
-
-    private Action<Item> unEquipEvent;
-    private Action armorReturn;
-    private Action weaponReturn;
-    
 
     //기본 장비 이미지 알파값
     private static readonly Color normalAlpha = new Color(0.5f, 0.5f, 0.5f, 0.5f);
@@ -64,7 +60,6 @@ public class EquipManager : MonoBehaviour
                 eManger.SetEquipItemInfo(wItem, unEquipEvent);                             
         });
         
-
         armorBtn.onClick.AddListener(() =>
         {
             if (!hasArmor)
@@ -73,8 +68,6 @@ public class EquipManager : MonoBehaviour
                 eManger.SetEquipItemInfo(aItem, unEquipEvent);
         });
     }
-
-
 
     //장비해제 메소드
     private void UnEquip(Item item)
@@ -121,7 +114,6 @@ public class EquipManager : MonoBehaviour
 
         wItemPrefab = Instantiate(wData.DropItem, LCon.weaponPos);
       
-
         LCon.trail = wItemPrefab.GetComponent<MeleeWeaponTrail>();
         LCon.SetBonusPower(wData.Damage);
         SetWeaponReturn(returnCallback);//콜백함수 등록

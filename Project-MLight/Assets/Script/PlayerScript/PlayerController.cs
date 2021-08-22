@@ -6,6 +6,11 @@ using System;
 
 public class PlayerController : LivingEntity
 {
+    private float atkSpeed = 1f; //공격 속도
+    private bool isRun; // 움직임 관련 불값
+    private bool isInter; // 오브젝트 상호작용 관련 불값
+    private bool isAttack; // 공격하는지
+
     public PlayerMoveController pmanager { get; private set; }
     public PlayerSkillController psCon { get; private set; }
 
@@ -17,12 +22,7 @@ public class PlayerController : LivingEntity
         
     public enum PlayerState { Idle, Move, Attack, Skill, Drop, Die }
     public PlayerState pState; //플레이어 상태 변수
-
-    private float atkSpeed = 1f; //공격 속도
-    private bool isRun; // 움직임 관련 불값
-    private bool isInter; // 오브젝트 상호작용 관련 불값
-    private bool isAttack; // 공격하는지
-
+   
     public float AtkSpeed => atkSpeed;
 
     private void Awake()
@@ -213,8 +213,6 @@ public class PlayerController : LivingEntity
     {
         atkSpeed += speed;
     }
-
-
 
     public void RespawnPlayer()
     {

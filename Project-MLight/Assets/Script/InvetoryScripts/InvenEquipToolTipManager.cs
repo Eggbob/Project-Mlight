@@ -80,7 +80,6 @@ public class InvenEquipToolTipManager : MonoBehaviour
         SetOkBtn(okCallback);
         SetDumpBtn(dumpCallback);
        
-
         this.gameObject.SetActive(true);
     }
 
@@ -96,7 +95,6 @@ public class InvenEquipToolTipManager : MonoBehaviour
         okBtn.gameObject.SetActive(false);
         dumpBtn.gameObject.SetActive(false);
         equipImg.SetActive(true);
-
 
         //무기 아이템일시
         if (item.Data is WeaponItemData wdata)

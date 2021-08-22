@@ -32,7 +32,6 @@ public class BossController : Enemy
     public GameObject sword;
     public GameObject shield;
 
-
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -73,7 +72,6 @@ public class BossController : Enemy
             sectorCheck();
         }
     }
-
 
     //첫 시작 모션
     private IEnumerator Enable()
@@ -125,7 +123,6 @@ public class BossController : Enemy
         nav.velocity = Vector3.zero;
 
         yield return new WaitForSeconds(0.2f);
-
 
         StartCoroutine(NormalAttack());
     }
@@ -203,7 +200,6 @@ public class BossController : Enemy
         }
 
         yield return new WaitForSeconds(0.3f);
-        
 
         StartCoroutine(SetBossState());
     }

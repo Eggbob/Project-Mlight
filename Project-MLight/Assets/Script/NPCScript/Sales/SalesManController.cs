@@ -11,7 +11,6 @@ public class SalesManController : NpcController
     [SerializeField]
     private SalesWindowManager sManager;
 
-
     //접촉시에
     public override void Interact()
     {

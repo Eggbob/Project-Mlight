@@ -86,6 +86,5 @@ public class LootTable : MonoBehaviour
                     new Vector3(Random.Range(0f, 5f), Random.Range(0f, 5f), Random.Range(0f, 5f));
 
     }
-
    
 }

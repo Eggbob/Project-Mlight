@@ -51,7 +51,6 @@ public class InvenPopUpUIManager : MonoBehaviour
             {
                 SellBtnEvent(itemPrice * preCount);
             }
-        
         });
 
         pCancelBtn.onClick.AddListener(()=> popUpUI.SetActive(false));
@@ -59,7 +58,6 @@ public class InvenPopUpUIManager : MonoBehaviour
         //마이너스 버튼 이벤트
         minusBtn.onClick.AddListener(() =>
         {
-            //int.TryParse(countTxt.text, out int count);
             if(preCount > 0)
             {
                 int nextCount = preCount - 1;
@@ -113,7 +111,7 @@ public class InvenPopUpUIManager : MonoBehaviour
     {
         if(goldTxt.gameObject.activeSelf)
         {
-            goldTxt.text = (itemPrice * preCount).ToString(); //(itemPrice * int.Parse(countTxt.text)).ToString();
+            goldTxt.text = (itemPrice * preCount).ToString(); 
         }
     }
     

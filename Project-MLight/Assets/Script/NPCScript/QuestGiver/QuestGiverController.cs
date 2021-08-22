@@ -72,15 +72,10 @@ public class QuestGiverController : NpcController
             {
                 if (quest.qState == Quest.QuestState.Complete)
                 {
-                    //questionMark.SetActive(true);
-                    //exclamationMark.SetActive(false);
-                    completeCnt++;
-                   
+                    completeCnt++;                
                 }
                 else if (quest.qState == Quest.QuestState.Start)
                 {
-                    //exclamationMark.SetActive(true);
-                    //questionMark.SetActive(false);
                     startCnt++;
                 }               
             }

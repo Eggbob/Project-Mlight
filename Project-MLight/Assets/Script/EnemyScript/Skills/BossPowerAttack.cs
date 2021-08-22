@@ -11,13 +11,9 @@ public class BossPowerAttack : ActiveSkill
 
     private IEnumerator AttackRoutine()
     {
-       
         pBird.gameObject.transform.position = LCon.transform.position;
-      
-     
         yield return new WaitForSeconds(1f);
     }
-
 
     public override void ActiveAction()
     {
@@ -39,5 +35,4 @@ public class BossPowerAttack : ActiveSkill
 
         pBird.gameObject.SetActive(false);
     }
-
 }

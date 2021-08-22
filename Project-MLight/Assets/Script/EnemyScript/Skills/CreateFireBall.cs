@@ -16,7 +16,6 @@ public class CreateFireBall : ActiveSkill
             spawnPos.z = spawnPos.y + this.transform.position.z;
             spawnPos.y = this.transform.position.y + 3f;
 
-
             fireball[i].transform.position = spawnPos;
             fireball[i].CreaeteFire(spawnPos);
             yield return new WaitForSeconds(0.3f);
@@ -34,7 +33,6 @@ public class CreateFireBall : ActiveSkill
         LCon = _LCon;
         _skillPower = (LCon.Int * Damage) / 100;
 
-   
         this.sAttr = SkillAttr.Melee;
 
         for(int i = 0; i< 7; i++)
@@ -42,8 +40,5 @@ public class CreateFireBall : ActiveSkill
             fireball[i] = Instantiate(EffectPrefab, this.transform).GetComponent<FireBall>();
             fireball[i].gameObject.SetActive(false); 
         }
-
     }
-
- 
 }

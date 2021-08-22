@@ -251,7 +251,6 @@ public class Enemy : LivingEntity
             return;
         }
 
-
         if (Physics.Raycast(transform.position, transform.forward, out raycastHit, 7f))
         {
             if (raycastHit.collider.CompareTag("Plant"))
@@ -359,18 +358,16 @@ public class Enemy : LivingEntity
 
     private IEnumerator AttackUpdate() // 공격시
     {
-        if (target.Equals(null))
+        if (target == null)
         {
             eState = EnemyState.GetBack;
             StopCoroutine(AttackUpdate());           
         }
-
-        
+       
         nav.isStopped = true;
         nav.velocity = Vector3.zero;
         rigid.velocity = Vector3.zero;
     
-
         yield return new WaitForSeconds(1f);
 
         if (!isCollision) //공격범위보다 멀면
@@ -478,7 +475,6 @@ public class Enemy : LivingEntity
 
     protected override void Die()
     {
-
         dead = true;
         StartCoroutine(DieRoutine());
     }
@@ -522,6 +518,4 @@ public class Enemy : LivingEntity
             isCollision = false;
     }
 
-
-  
 }

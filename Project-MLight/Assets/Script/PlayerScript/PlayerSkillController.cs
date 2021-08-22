@@ -35,7 +35,6 @@ public class PlayerSkillController : MonoBehaviour
         {
             PlayerSkills[i].Init(pCon);
         }
-
         pCon.pAttack = PlayerSkills[0] as ActiveSkill;
     }
 

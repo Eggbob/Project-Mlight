@@ -116,7 +116,6 @@ public class BuffManager : MonoBehaviour
         switch(type)
         {
             case BuffType.Atk:
-                //value = Mathf.RoundToInt(LCon.Power * (value / 100));
                 onBuff[index].Init(type, duration, value, index, atkIcon);              
                 break;
             case BuffType.Exp:
@@ -171,9 +170,7 @@ public class BuffManager : MonoBehaviour
             obj.transform.SetParent(BuffGroup);
             onBuff.Add(obj.GetComponent<Buff>());
             obj.SetActive(false);
-        }
-       
+        }       
     }
-
-    
+  
 }

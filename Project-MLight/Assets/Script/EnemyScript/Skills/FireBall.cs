@@ -17,9 +17,7 @@ public class FireBall : Skill
 
             target.OnDamage(this);
             explosionEffect.SetActive(true);
-
-            Invoke("GetBakcRoutine", 0.5f);
-        
+            Invoke("GetBakcRoutine", 0.5f);       
         }
         else if(other.gameObject.CompareTag("Terrian"))
         {
@@ -27,8 +25,6 @@ public class FireBall : Skill
             Invoke("GetBakcRoutine", 0.5f);
         }
     }
-
-    
 
     private void GetBakcRoutine()
     {
@@ -43,7 +39,6 @@ public class FireBall : Skill
    
     public void CreaeteFire(Vector3 pos)
     {
-
         explosionEffect.SetActive(false);
         this.transform.position = pos;
         this.gameObject.SetActive(true);
