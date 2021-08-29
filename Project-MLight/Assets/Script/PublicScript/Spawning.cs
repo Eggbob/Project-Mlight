@@ -81,21 +81,27 @@ public class Spawning : MonoBehaviour
         enemy.transform.SetParent(transform);
 
         gobeQueue.Enqueue(enemy);
+        StartCoroutine(GobeRespawn());
+    }
+    
+    private IEnumerator GobeRespawn()
+    {
+        yield return new WaitForSeconds(12f);
 
-        enemy = gobeQueue.Dequeue();
-        enemy.transform.SetParent(null);
-        enemy.gameObject.SetActive(true);
-        enemy.RestoreHealth(enemy.MaxHp);
+        Enemy spawnEnemy = gobeQueue.Dequeue();
+        spawnEnemy.transform.SetParent(null);
+        spawnEnemy.gameObject.SetActive(true);
+        spawnEnemy.RestoreHealth(spawnEnemy.MaxHp);
 
         spawnPos = Random.insideUnitCircle * 10f; ;
         spawnPos.x += this.transform.position.x;
         spawnPos.z = spawnPos.y + this.transform.position.z;
-        spawnPos.y = this.transform.position.y;
+        spawnPos.y += 2f;
 
 
-        enemy.transform.position = spawnPos;
+        spawnEnemy.transform.position = spawnPos;
     }
-    
+
     //고블린헌터 사망시 동작
     private void GobeHunterDieRoutine(Enemy enemy)
     {
@@ -104,19 +110,26 @@ public class Spawning : MonoBehaviour
         enemy.transform.SetParent(transform);
 
         gobeHunterQueue.Enqueue(enemy);
+        StartCoroutine(GobeHunterRespawn());
 
-        enemy = gobeQueue.Dequeue();
-        enemy.transform.SetParent(null);
-        enemy.gameObject.SetActive(true);
-        enemy.RestoreHealth(enemy.MaxHp);
+    }
+
+    private IEnumerator GobeHunterRespawn()
+    {
+        yield return new WaitForSeconds(12f);
+
+        Enemy spawnEnemy = gobeHunterQueue.Dequeue();
+        spawnEnemy.transform.SetParent(null);
+        spawnEnemy.gameObject.SetActive(true);
+        spawnEnemy.RestoreHealth(spawnEnemy.MaxHp);
 
         spawnPos = Random.insideUnitCircle * 6f; ;
         spawnPos.x += this.transform.position.x;
         spawnPos.z = spawnPos.y + this.transform.position.z;
-        spawnPos.y = this.transform.position.y;
+        spawnPos.y += 2f;
 
 
-        enemy.transform.position = spawnPos;
+        spawnEnemy.transform.position = spawnPos;
     }
 
 

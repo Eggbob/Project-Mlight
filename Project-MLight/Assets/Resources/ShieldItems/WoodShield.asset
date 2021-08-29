@@ -20,4 +20,4 @@ MonoBehaviour:
   _itemPrice: 200
   _itemSellPrice: 100
   weight: 10
-  defence: 150
+  defence: 10

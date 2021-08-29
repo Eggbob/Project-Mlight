@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: MoveSpeedPotion
   m_EditorClassIdentifier: 
   _id: 8
-  _name: "\uC2E0\uC18D\uC758 \uBE44\uC57D"
+  _itemName: 
   _tooltip: "300\uCD08 \uB3D9\uC548 \uC774\uB3D9\uC18D\uB3C4\uAC00 50% \uC99D\uAC00\uD569\uB2C8\uB2E4"
   _iconSprite: {fileID: 21300000, guid: 0da3d7ad73ab3ec438b8dd01e749b208, type: 3}
   _dropItemPrefab: {fileID: 7634493492572016450, guid: ec12341f85a5c2a42a7eef337e0c668b,
     type: 3}
-  _itemPrice: 1000
+  _itemPrice: 150
   _itemSellPrice: 100
   _maxAmount: 99
   value: 50

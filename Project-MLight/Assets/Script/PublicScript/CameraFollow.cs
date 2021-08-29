@@ -26,6 +26,8 @@ public class CameraFollow : MonoBehaviour
         camera.rect = rect;
     }
 
+    void OnPreCull() => GL.Clear(true, true, Color.black);
+
     private void Update()
     {
         transform.position = target.position + offset;

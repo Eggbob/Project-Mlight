@@ -72,7 +72,7 @@ public class QuestRewards
         int isRewarded = 0;
 
         //보상 아이템이 존재한다면
-        if(!_rewardItems.Equals(null))
+        if(_rewardItems != null)
         {
             foreach(RewardItemStruct ritem in _rewardItems)
             {

@@ -1,9 +1,9 @@
 {
     "m_SelectedDeviceId": "LMG710N585fc26c",
     "m_SelectedPackage": {
-        "deviceId": "LMG710N585fc26c",
-        "name": "com.lsw.projectmlight",
-        "processId": 32092,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -24,12 +24,24 @@
             "deviceId": "LMG710N585fc26c",
             "name": "com.android.settings",
             "processId": 24756,
-            "exited": false
+            "exited": true
         },
         {
             "deviceId": "LMG710N585fc26c",
             "name": "com.lsw.projectmlight",
             "processId": 32092,
+            "exited": true
+        },
+        {
+            "deviceId": "LMG710N585fc26c",
+            "name": "com.lsw.projectmlight",
+            "processId": 28826,
+            "exited": true
+        },
+        {
+            "deviceId": "LMG710N585fc26c",
+            "name": "com.android.settings",
+            "processId": 8734,
             "exited": false
         }
     ],

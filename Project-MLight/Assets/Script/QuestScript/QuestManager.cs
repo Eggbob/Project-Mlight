@@ -23,6 +23,8 @@ public class QuestManager : MonoBehaviour
     private static QuestManager instance; //싱글톤
 
     public List<Quest> Quests => quests;
+    public List<QuestSlotUI> Slots => questSlots;
+
 
     public static QuestManager Instance
     {
@@ -117,7 +119,7 @@ public class QuestManager : MonoBehaviour
       
         questSlots.Add(slot);
  
-        CheckComplete();
+        //CheckComplete();
     }
 
     public void CheckComplete() //퀘스트 진행도 확인
@@ -141,13 +143,22 @@ public class QuestManager : MonoBehaviour
     }
 
     public void FinishQuest(Quest quest) //퀘스트 클리어
-    {
+    {     
+        for(int i = 0; i< questSlots.Count; i++)
+        {
+            if (questSlots[i].SlotQuest.ID.Equals(quest.ID))
+            {
+                questSlots[i].SlotQuest.qState = Quest.QuestState.InActive;
+                questSlots[i].SetQState();
+            }
+        }
+
         foreach (Quest qs in quests)
         {
            if(qs.ID.Equals(quest.ID))
-            {
+           {
                 qs.qState = Quest.QuestState.InActive;
-            }
+           }
         }
     }
 

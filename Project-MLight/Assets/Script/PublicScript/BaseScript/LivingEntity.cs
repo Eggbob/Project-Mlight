@@ -24,6 +24,9 @@ public class LivingEntity : Status
 
     public float MoveSpeed => moveSpeed;
 
+    [SerializeField]
+    protected Transform dTxtPos; //데미지 txt
+
     #endregion
 
 
@@ -53,9 +56,23 @@ public class LivingEntity : Status
   
     public virtual void OnDamage(Skill skill)//데미지를 받을시 호출될 함수
     {
-        Hp -= (int)skill.SkillPower;  // 스킬의 위력만큼 HP 감소
+        var dTxt = ObjectPool.GetDTxt();
 
-       if(Hp <= 0 && !dead)
+        int totalDamage = (int)(skill.SkillPower - ((this._def + this.BonusDef * 40) * 0.01)) + 1;
+        if (totalDamage < 0)
+        {
+            Hp -= 1;
+            dTxt.SetText(1);
+        }
+        else
+        {
+            Hp -= totalDamage;
+            dTxt.SetText((int)totalDamage);
+        }
+        //(int)skill.SkillPower;  // 스킬의 위력만큼 HP 감소  
+        dTxt.transform.position = dTxtPos.position;
+
+        if (Hp <= 0 && !dead)
        {
             Hp = 0;
             StopAllCoroutines();

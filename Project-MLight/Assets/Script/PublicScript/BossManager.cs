@@ -19,15 +19,16 @@ public class BossManager : MonoBehaviour
     private Vector3 shakeOffset = Vector3.zero;
 
 
-    private Animator wallAnim;
+ 
     private bool isEnter;
+    private bool isStart;
     private PlayerController pCon;
 
     private void Start()
     {
         pCon = GameManager.Instance.Player;
         isEnter = false;
-        wallAnim = wall.GetComponent<Animator>();
+        isStart = false;
     }
 
 
@@ -75,6 +76,7 @@ public class BossManager : MonoBehaviour
 
     private IEnumerator OperateBoss()
     {
+        isStart = true;
         camfollow.target = boss.gameObject.transform;
         boss.gameObject.SetActive(true);
         UIManager.gameObject.SetActive(false);
@@ -88,9 +90,9 @@ public class BossManager : MonoBehaviour
     {
         if(other.CompareTag("Player") )
         {
-            if (!isEnter && QuestManager.Instance.HasQuest(bossQuest))
+            if (!isEnter &&  !isStart && QuestManager.Instance.HasQuest(bossQuest))
                 StartCoroutine(RoomOpen());
-            else if (isEnter && !boss.gameObject.activeSelf)
+            else if (isEnter && !isStart && !boss.gameObject.activeSelf)
                 StartCoroutine(OperateBoss());
 
         }

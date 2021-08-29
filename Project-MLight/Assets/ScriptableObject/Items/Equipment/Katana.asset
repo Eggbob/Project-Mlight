@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Katana
   m_EditorClassIdentifier: 
   _id: 11
-  _name: "\uCE74\uD0C0\uB098"
+  _itemName: 
   _tooltip: "\uC608\uB9AC\uD55C \uAC80\uC785\uB2C8\uB2E4"
   _iconSprite: {fileID: 21300000, guid: f594bf2df7f5c264f96b77d4c5537436, type: 3}
   _dropItemPrefab: {fileID: 6103262451346155325, guid: c1f3bb26132af214f81f4732107843d7,
     type: 3}
   _itemPrice: 100
-  _itemSellPrice: 0
+  _itemSellPrice: 10
   weight: 10
-  damage: 200
+  damage: 20

@@ -24,7 +24,7 @@ public class TornadoCut : ActiveSkill
     public override void Init(LivingEntity _LCon)
     {
         LCon = _LCon;
-        _skillPower = (LCon.Power * Damage) / 100;
+        _skillPower = ((LCon.Power + LCon.BonusPower) * Damage) / 100;
         this.sAttr = SkillAttr.Melee;
         SkilLRange = Instantiate(SkillRangePrefab, LCon.gameObject.transform);
         SkilLRange.SetActive(false);

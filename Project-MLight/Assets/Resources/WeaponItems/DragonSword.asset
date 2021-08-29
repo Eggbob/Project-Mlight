@@ -21,4 +21,4 @@ MonoBehaviour:
   _itemPrice: 10000
   _itemSellPrice: 3500
   weight: 10
-  damage: 1000
+  damage: 40

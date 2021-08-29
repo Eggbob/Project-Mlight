@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TowerShield
   m_EditorClassIdentifier: 
   _id: 22
-  _name: "\uD0C0\uC6CC\uC274\uB4DC"
+  _itemName: 
   _tooltip: "\uD654\uC0B4\uB530\uC704\uB294 \uAC00\uBCCD\uAC8C \uB9C9\uC544\uB0B4\uB294
     \uD2BC\uD2BC\uD55C \uBC29\uD328\uC774\uB2E4"
   _iconSprite: {fileID: 21300000, guid: 8f2017239720fdc4399735f620d45e1b, type: 3}
@@ -21,4 +21,4 @@ MonoBehaviour:
   _itemPrice: 460
   _itemSellPrice: 320
   weight: 10
-  defence: 430
+  defence: 20

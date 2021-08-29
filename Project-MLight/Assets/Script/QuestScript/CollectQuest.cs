@@ -15,16 +15,20 @@ public class CollectQuest : Quest
 
     public override bool IsComplete() //퀘스트를 완료했는지
     {
+        int completeCnt = 0;
+
         foreach (ColletObject coll in _collectObjects)
         {
-            if(!coll.IsComplete)
-                return false;
-          
-            else
-                return true;             
-       
+            if (coll.IsComplete)
+                completeCnt++;
         }
-        return false;
+
+        if (completeCnt == _collectObjects.Length)
+            return true;
+        else
+            return false;
+
+    
     }
 }
 
@@ -42,6 +46,8 @@ public class ColletObject
 
     private int _itemIndex; //인벤토리에서의 아이템 인덱스
 
+    private bool _isComplete = false;
+
     public ItemData CollectItem => _collectItem;
 
     public int TotalAmount => _totalAmount;
@@ -51,8 +57,9 @@ public class ColletObject
     public bool IsComplete //아이템을 전부 수집했는지
     {
         get
-        {         
-            return _currentAmount >= _totalAmount;
+        {
+            return  _isComplete;
+            //return _currentAmount >= _totalAmount;
         }
     }
 
@@ -63,20 +70,25 @@ public class ColletObject
             (_currentAmount, _itemIndex) = GameManager.Instance.Inven.GetItemCount(_collectItem.ID);
             //이 아래쪽에 UI업데이트 호출
 
-            if(_currentAmount < _totalAmount)
+          
+            if (_currentAmount < _totalAmount || !_isComplete)
             {
                 NotificationUI.Instance.GenerateTxt(_collectItem.ItemName + " : " + _currentAmount + "/" + _totalAmount);
-               
-                if(_currentAmount.Equals(_totalAmount))
+
+                if (_currentAmount >= _totalAmount)
+                {
                     NotificationUI.Instance.GenerateTxt(_collectItem.ItemName + " (수집 완료)");
-            }
-        
-            QuestManager.Instance.CheckComplete(); 
-        }   
+                    _isComplete = true;
+                }
+                   
+            } 
+        }
+        QuestManager.Instance.CheckComplete();
     }
 
     public void CompleteQuest() //수집한 아이템 지우기
     {
         GameManager.Instance.Inven.Remove(_itemIndex, _totalAmount);
+        _isComplete = false;
     }
 }

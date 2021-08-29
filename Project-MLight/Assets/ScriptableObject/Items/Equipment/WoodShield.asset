@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: WoodShield
   m_EditorClassIdentifier: 
   _id: 20
-  _name: "\uC6B0\uB4DC\uC274\uB4DC"
+  _itemName: 
   _tooltip: "\uB098\uBB34\uB97C \uB367\uB300\uC5B4 \uC81C\uC791\uD55C \uBC29\uD328\uC774\uB2E4"
   _iconSprite: {fileID: 21300000, guid: 0c6de69acca756c409be4810a8510ac5, type: 3}
   _dropItemPrefab: {fileID: 100002, guid: 40cb7d0f2215a5e469af8cc0675fa546, type: 3}
   _itemPrice: 200
   _itemSellPrice: 100
   weight: 10
-  defence: 150
+  defence: 10

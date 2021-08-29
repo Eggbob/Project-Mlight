@@ -75,6 +75,12 @@ public class QuestGiverUIManager : MonoBehaviour
     //퀘스트 상세정보 표시
     private void ShowQuestInfo(Quest quest)
     {
+        for (int i = 0; i < qRewards.Count; i++) //보상 아이템 설정
+        {
+            qRewards[i].gameObject.SetActive(false);
+       
+        }
+
         questInfoGroup.SetActive(true);
         questTitleGroup.SetActive(false);
 
@@ -139,39 +145,41 @@ public class QuestGiverUIManager : MonoBehaviour
 
     private void CompleteQuest(Quest quest) //퀘스트 클리어시
     {
-        if(quest.IsComplete())
+       
+        for(int i = 0; i<qCon.Quests.Count; i++)
         {
-            for(int i = 0; i<qCon.Quests.Count; i++)
-            {
-                if(quest == qCon.Quests[i])
-                {
-                    qCon.Quests[i] = null;
-                }
+            //if(quest == qCon.Quests[i])
+            //{
+            //    qCon.Quests[i] = null;
+            //}
                  
-                if(quest is CollectQuest cQuest) //수집 퀘스트일시
+            if(quest is CollectQuest cQuest) //수집 퀘스트일시
+            {
+                foreach(ColletObject cObj in cQuest.ColletObjects )
                 {
-                    foreach(ColletObject cObj in cQuest.ColletObjects )
-                    {
-                        GameManager.Instance.Inven.itemAddEvent -= cObj.UpdateItemAmount;
-                        cObj.CompleteQuest();
-                    }
+                    GameManager.Instance.Inven.itemAddEvent -= cObj.UpdateItemAmount;
+                    cObj.CompleteQuest();
                 }
+                break;
+            }
 
-                else if(quest is KillQuest kQuest) //처치 퀘스트일시
+            else if(quest is KillQuest kQuest) //처치 퀘스트일시
+            {
+                foreach(KillObject kObj in kQuest.KillObjects)
                 {
-                    foreach(KillObject kObj in kQuest.KillObjects)
-                    {
-                        GameManager.Instance.Player.killAction -= kObj.UpdateKillCount;
-                    }
+                    GameManager.Instance.Player.killAction -= kObj.UpdateKillCount;
                 }
-
-                quest.Rewards.RewardRoutine();
-                quest.qState = Quest.QuestState.InActive;
-                QuestManager.Instance.FinishQuest(quest);
-
-                Back();
+                break;
             }
         }
+        quest.Rewards.RewardRoutine();
+        quest.qState = Quest.QuestState.InActive;
+        QuestManager.Instance.FinishQuest(quest);
+
+        qCon.UpdateQuestStatus();
+
+        Back();
+        
     }
 
     public void Back() //뒤로가기

@@ -1039,25 +1039,26 @@ MonoBehaviour:
   _maxExp: 0
   _hp: 100
   _maxHP: 100
-  _mp: 100
-  _maxMP: 100
-  _power: 10
-  _int: 10
-  _def: 10
+  _mp: 150
+  _maxMP: 150
+  _power: 20
+  _int: 20
+  _def: 20
   _statPoint: 0
   moveSpeed: 6
   target: {fileID: 0}
   miniMapIcon: {fileID: 2106366059}
+  dTxtPos: {fileID: 2090291208}
   eState: 0
   enemyId: 1
   enemyName: Gobline
-  enemyExp: 500
+  enemyExp: 50
   attackRange: 6.26
   EnemyNormalAttack: {fileID: 5300616936279747795, guid: 334bb9a9c97c7ff4289fc30282205cb0,
     type: 3}
   nameTxt: {fileID: 1458383186}
-  dTxtPos: {fileID: 2090291208}
   chaseTime: 0
+  timer: 0
   hpBar: {fileID: 3259135054923330814}
   targetingTr: {fileID: 3259135055125096924}
   angleRange: 120

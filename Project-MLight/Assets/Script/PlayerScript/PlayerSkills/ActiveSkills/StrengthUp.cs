@@ -53,7 +53,7 @@ public class StrengthUp : ActiveSkill
         _maxSkillExp *= 2;
 
         this._description = "자신에게 아래 효과를 부여합니다 \n" +
-           "- 300초동안 공격력이 " + this._skillPower + "% 증가";
+           "- 300초동안 공격력이 " + Damage + "% 증가";
     }
 
 }

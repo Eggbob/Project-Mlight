@@ -21,4 +21,4 @@ MonoBehaviour:
   _itemPrice: 9000
   _itemSellPrice: 3000
   weight: 10
-  defence: 970
+  defence: 40
