@@ -75,24 +75,15 @@ public class EquipManager : MonoBehaviour
         //아이템이 방어구일시
         if(item is ArmorItem)
         {
-            ArmorItemData aData = aItem.Data as ArmorItemData;
-
-            LCon.SetBonusDef(aData.Defence * -1);
-
             armorImg.sprite = armorNormalImg;
             armorImg.color = normalAlpha;
             aItem = null;
 
-          
             armorReturn(); //리턴 이벤트 실행
         }
         //아이템이 무기일시
         else if(item is WeaponItem)
         {
-            WeaponItemData wData = wItem.Data as WeaponItemData;
-
-            LCon.SetBonusDef(wData.Damage * -1);
-
             weaponImg.sprite = weaponNormalImg;
             weaponImg.color = normalAlpha;
             wItem = null;

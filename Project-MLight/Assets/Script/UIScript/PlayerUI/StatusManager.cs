@@ -57,7 +57,7 @@ public class StatusManager : MonoBehaviour
         iStat.text = "지능 " + pCon.Int;
         dStat.text = "방어도 " + pCon.DEF;
         Ptxt.text = "근접 공격력 " + pCon.Power * 20;
-        Itxt.text = "스킬 공격력 " + pCon.Int * 10;
+        Itxt.text = "스킬 공격력 " + pCon.Int * 100;
         Dtxt.text = "물리 방어력 " + pCon.DEF * 5;
         HPtxt.text = "최대 HP " + pCon.MaxHp;
         MPtxt.text = "최대 MP " + pCon.MaxMp;

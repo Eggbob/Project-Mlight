@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 public class TargetCheck : MonoBehaviour
 {
@@ -41,11 +40,5 @@ public class TargetCheck : MonoBehaviour
                gameObject.SendMessageUpwards("OnSetTarget", target, SendMessageOptions.DontRequireReceiver);
             }
         }
-    }
-
-    private void OnDrawGizmos() // 범위 그리기
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.transform.position, fRange);
     }
 }

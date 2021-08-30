@@ -22,16 +22,16 @@ MonoBehaviour:
     \uBB3C\uC790\uB97C \uC218\uC9D1\uD574\uC8FC\uC138\uC694."
   rewards:
     _rewardItems:
-    - rewardItem: {fileID: 11400000, guid: 8351c44a776cdfd4086b98e24c81dfb3, type: 2}
-      itmeAmount: 20
-    - rewardItem: {fileID: 11400000, guid: c25bdbc15a06a4c43b62c9fade0f65a0, type: 2}
-      itmeAmount: 20
+    - rewardItem: {fileID: 11400000, guid: 0370e264cbbbbe14c871a2ba96dc6ee5, type: 2}
+      itmeAmount: 10
+    - rewardItem: {fileID: 11400000, guid: e53196c9d18d2bc4bb216de31484f267, type: 2}
+      itmeAmount: 10
     _rewardGold: 1000
     _rewardExp: 500
   _collectObjects:
   - _collectItem: {fileID: 11400000, guid: e45a058573e41d0448d4209a60fd6cf0, type: 2}
-    _totalAmount: 4
+    _totalAmount: 5
     _currentAmount: 0
   - _collectItem: {fileID: 11400000, guid: a50897f979308f648a0d189d238164ec, type: 2}
-    _totalAmount: 4
+    _totalAmount: 5
     _currentAmount: 0

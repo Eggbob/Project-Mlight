@@ -45,7 +45,7 @@ public class SaveManager : MonoBehaviour
         pCon.Exp, pCon.MaxHp, pCon.MaxMp, pCon.Power,
         pCon.DEF, pCon.Int, pCon.StatPoint, pCon.gameObject.transform.position);
 
-        pData.saveGold = inven.Gold - 6000;
+        pData.saveGold = inven.Gold;
 
         for (int i = 0; i < inven.InvenItems.Length; i++)
         {
@@ -134,10 +134,7 @@ public class SaveManager : MonoBehaviour
         foreach (Quest quest in qManager.Quests)
         {
             qeData.playerQuests.Add(quest);
-            qeData.questStates.Add(quest.ID, (int)quest.qState);
         }
-
-        qeData.DictionaryToJson();
 
         var jsonData = JsonUtility.ToJson(qeData, true);
       
@@ -177,10 +174,9 @@ public class SaveManager : MonoBehaviour
         pData.saveStatPoint);
 
 
-        //pCon.gameObject.transform.position = pData.savePos;
-
+        pCon.gameObject.transform.position = pData.savePos;
         inven.GetGold(pData.saveGold);
-        
+
         pData.JsonToDictionary();
 
         foreach (KeyValuePair<int, int> items in pData.saveItems) //key값 대입후 아이템 넣기
@@ -255,7 +251,8 @@ public class SaveManager : MonoBehaviour
 
     //퀘스트 정보 불러오기
     private void LoadQuest()
-    { 
+    {
+  
         filePath = Application.persistentDataPath + "/" + "QuestData.txt";
 
         if (File.Exists(filePath))
@@ -265,26 +262,11 @@ public class SaveManager : MonoBehaviour
             FileStream file = File.Open(filePath, FileMode.Open);
             JsonUtility.FromJsonOverwrite(bf.Deserialize(file).ToString(), qeData);
 
-            qeData.JsonToDictionary();
-
-            foreach (Quest quest in qeData.playerQuests)
+            foreach(Quest quest in qeData.playerQuests)
             {
                 qManager.AcceptQuest(quest);
+                quest.qGiver.UpdateQuestStatus();
             }
-
-            for(int i = 0; i<qManager.Quests.Count; i++)
-            {
-                int questState;
-
-                if (qeData.questStates.TryGetValue(qManager.Quests[i].ID, out questState))
-                {
-                    qManager.Quests[i].qState = (Quest.QuestState)questState;
-                    qManager.Slots[i].SetQState();
-                    qManager.Quests[i].qGiver.UpdateQuestStatus();
-                }            
-            }
-
-            
 
             file.Close();
         }

@@ -20,11 +20,6 @@ public class QuestInfoUIManager : MonoBehaviour
 
     public void SetQuestInfo(Quest quest)//퀘스트 정보 지정
     {
-        for(int i = 0; i<qRewards.Count; i++)
-        {
-            qRewards[i].gameObject.SetActive(false);
-        }
-
         titleTxt.text = quest.Title;
 
         questInfoTxt.text = "퀘스트 임무 : " + quest.Info;
@@ -36,11 +31,11 @@ public class QuestInfoUIManager : MonoBehaviour
 
         for(int i= 0; i<quest.Rewards.RewardItems.Length; i++) //보상 아이템 설정
         {
-            curIndex = i;
             qRewards[i].SetItem(quest.Rewards.RewardItems[i].RewardItem, 
                 quest.Rewards.RewardItems[i].ItmeAmount);
 
-            qRewards[i].gameObject.SetActive(true);       
+            qRewards[i].gameObject.SetActive(true);
+            curIndex = i;
         }
 
         qRewards[curIndex + 1].SetGold(quest.Rewards.RewardGold);

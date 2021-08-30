@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BlackShield
   m_EditorClassIdentifier: 
   _id: 23
-  _itemName: 
+  _name: "\uBE14\uB799 \uC274\uB4DC"
   _tooltip: "\uAC80\uC740 \uCCA0\uAD11\uC11D\uC744 \uC81C\uB828\uD558\uC5EC \uB9CC\uB4E0
     \uBC29\uD328\uC774\uB2E4\t"
   _iconSprite: {fileID: 21300000, guid: 0d2df74cd40ea7b4cb686dda25352114, type: 3}
@@ -21,4 +21,4 @@ MonoBehaviour:
   _itemPrice: 9000
   _itemSellPrice: 3000
   weight: 10
-  defence: 40
+  defence: 970

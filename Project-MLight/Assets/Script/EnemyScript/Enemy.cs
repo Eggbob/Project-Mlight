@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
-using UnityEditor;
 using TMPro;
 
 public enum EnemyState
@@ -49,11 +48,11 @@ public class Enemy : LivingEntity
 
     [SerializeField]
     protected TMP_Text nameTxt; //이름 txt
-    //[SerializeField]
-  //  protected Transform dTxtPos; //데미지 txt
+    [SerializeField]
+    protected Transform dTxtPos; //데미지 txt
     [SerializeField]
     protected float chaseTime; // 추적할시간
-    [SerializeField]
+
     protected float timer = 0; //타이머
 
     protected LivingEntity enemyTarget;
@@ -72,8 +71,6 @@ public class Enemy : LivingEntity
     public float angleRange = 45f; //공격 범위
     protected bool isCollision = false;//공격범위 충돌 확인
     protected float dotValue = 0f;
-    private Color blue = new Color(0f, 0f, 1f, 0.2f);
-    private Color red = new Color(1f, 0f, 0f, 0.2f);
     protected Vector3 direction;
 
     protected bool hasTarget
@@ -108,20 +105,9 @@ public class Enemy : LivingEntity
     {
         statusInit(); //스테이터스 초기화
         eState = EnemyState.Idle; // 상태를 유휴상태로 변환
+        nav.isStopped = true;
         rigid.isKinematic = false;
         hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f); //hp바 초기 상태 설정
-
-        dead = false;
-
-        nav.enabled = true; // 네비 비활성화
- 
-        Collider[] enemyColliders = GetComponents<Collider>();
-
-        // 콜라이더 활성화
-        for (int i = 0; i < enemyColliders.Length; i++)
-        {
-            enemyColliders[i].enabled = true;
-        }  
     }
 
     private void FixedUpdate()
@@ -310,9 +296,8 @@ public class Enemy : LivingEntity
     private void ChaseUpdate() // 추적시
     {
         if (hasTarget) //타겟이 있다면
-        {         
+        {
             nav.isStopped = false;
-
             chaseTime = 6f;
             timer += Time.deltaTime; //추적 시간 갱신         
             targetPos = target.transform.position;
@@ -344,7 +329,7 @@ public class Enemy : LivingEntity
 
     private void OnSetTarget(GameObject _target) //타겟 지정
     {
-        if (hasTarget || _target.GetComponent<LivingEntity>().dead || eState == EnemyState.GetBack) //타겟이 있다면
+        if (hasTarget || _target.GetComponent<LivingEntity>().dead) //타겟이 있다면
         {
             return;
         }
@@ -421,9 +406,9 @@ public class Enemy : LivingEntity
 
         base.OnDamage(skill);
 
-       // var dTxt = ObjectPool.GetDTxt();
-       // dTxt.SetText((int)skill.SkillPower);
-       // dTxt.transform.position = dTxtPos.position;
+        var dTxt = ObjectPool.GetDTxt();
+        dTxt.SetText((int)skill.SkillPower);
+        dTxt.transform.position = dTxtPos.position;
 
         if (skill is ActiveSkill aSkill && !dead && !eState.Equals(EnemyState.Stun))
         {
@@ -505,8 +490,6 @@ public class Enemy : LivingEntity
         target.GetComponent<PlayerController>().ExpGetRoutine(enemyExp);
         Collider[] enemyColliders = GetComponents<Collider>();
 
-        target = null;
-
         // 콜라이더 다끄기
         for (int i = 0; i < enemyColliders.Length; i++)
         {
@@ -535,11 +518,4 @@ public class Enemy : LivingEntity
             isCollision = false;
     }
 
-    private void OnDrawGizmos() // 범위 그리기
-    {
-        Handles.color = isCollision ? red : blue;
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, angleRange / 2, attackRange);
-        Handles.DrawSolidArc(transform.position, Vector3.up, transform.forward, -angleRange / 2, attackRange);
-
-    }
 }

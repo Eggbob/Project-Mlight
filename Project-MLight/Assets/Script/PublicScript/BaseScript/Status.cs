@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Status : MonoBehaviour
+public class Status : MonoBehaviour
 {
     [SerializeField]
     protected int _level; // 현재 레벨
@@ -72,7 +72,7 @@ public abstract class Status : MonoBehaviour
 
     public void SetBonusPower(int _power){ BonusPower += _power; }
     public void SetBonusInt(float _Int){ BonusInt = _Int; }
-    public void SetBonusDef(float _def){ BonusDef += _def; }
+    public void SetBonusDef(float _def){ BonusDef = _def; }
     public void SetBonusHp(float _hp){ BonusHp = _hp; }
     public void SetBonusMp(float _mp){ BonusMp = _mp; }
     public void SetBonusExp(float _exp){ BonusExp += _exp/100 ; }

@@ -83,7 +83,7 @@ public class ItemQuickSlotUI : MonoBehaviour
     public void SetSlotIndex(int index) => Index = index; // 슬롯 인덱스 설정
     public void SetSlotEvent(Action action) => SetSlot = action;
 
-    public bool HasItem => itemImg.gameObject.activeSelf; //슬롯이 아이템을 보유중인지
+    public bool HasItem => itemImg.sprite != null; //슬롯이 아이템을 보유중인지
 
     public ItemData SlotItem => slotItem; //슬롯이 보유중이 안이템
 
@@ -106,10 +106,8 @@ public class ItemQuickSlotUI : MonoBehaviour
     {
         if (!HasItem)
             return;
-
-        
-        ItemUse();
         UpdateItemAmount();
+        ItemUse();
         coolDown.UseSpell(coolTime);
 
         if (itemAmount < 1)
@@ -158,7 +156,7 @@ public class ItemQuickSlotUI : MonoBehaviour
     //아이템 수량 업데이트
     public void UpdateItemAmount()
     {
-        itemAmount = UpdateAmount();     
+        itemAmount = UpdateAmount();
         amountTxt.text = itemAmount.ToString();
         quickAmountTxt.text = itemAmount.ToString();
     }

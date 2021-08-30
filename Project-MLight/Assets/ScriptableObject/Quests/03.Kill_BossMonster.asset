@@ -26,7 +26,7 @@ MonoBehaviour:
       itmeAmount: 1
     - rewardItem: {fileID: 11400000, guid: 6f52755e69dbd3442a9a3eb0d57e6b45, type: 2}
       itmeAmount: 30
-    _rewardGold: 1000
+    _rewardGold: 0
     _rewardExp: 10000
   _killObjects:
   - _totalKillCount: 1

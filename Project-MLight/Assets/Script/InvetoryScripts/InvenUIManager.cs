@@ -31,7 +31,7 @@ public class InvenUIManager : MonoBehaviour
 
     private ItemSlotUI[] slotUiList; //아이템 슬롯
     private ItemQuickSlotUI[] quickSlots; //퀵슬롯 버튼
-   
+    public ItemQuickSlotUI[] QuickSlotUIs => quickSlots; 
 
     private GraphicRaycaster gr;
     private PointerEventData ped;//마우스 입력감지
@@ -47,8 +47,6 @@ public class InvenUIManager : MonoBehaviour
     private FilterOption currentFilterOption = FilterOption.All;
 
     public bool isBusiness; //상점이용 중인지
-    public ItemQuickSlotUI[] QuickSlotUIs => quickSlots;
-    public InvenToolTipManager ToolTip => tooltip;
 
     #endregion
 

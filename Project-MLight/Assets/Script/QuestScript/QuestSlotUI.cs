@@ -53,8 +53,6 @@ public class QuestSlotUI : MonoBehaviour
                 qStateTxt.text = "완료";
                 break;
         }
-
-        quest.qGiver.UpdateQuestStatus();
     }
 
     //클릭 이미지 표시
@@ -79,5 +77,4 @@ public class QuestSlotUI : MonoBehaviour
             SetQState();
         }
     }
-
 }

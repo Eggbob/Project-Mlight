@@ -47,8 +47,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         UIManager.Instance.RespawnUI.gameObject.SetActive(true);
         yield return new WaitForSeconds(5f);
-        Player.gameObject.transform.position = RespawnZone.transform.position;
-
+        Player.transform.position = RespawnZone.transform.position;
         Player.RespawnPlayer();
        
 

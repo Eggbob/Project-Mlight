@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DarkSword
   m_EditorClassIdentifier: 
   _id: 12
-  _itemName: 
+  _name: "\uAC80\uC740\uAC15\uCCA0\uAC80"
   _tooltip: "\uAC80\uC740\uC0C9\uC758 \uAC80\uC2E0\uC774 \uB450\uB4DC\uB7EC\uC9C4
     \uAC15\uCCA0\uAC80\uC785\uB2C8\uB2E4."
   _iconSprite: {fileID: 21300000, guid: 2d260bd85e5c45747aa86cf3c0975908, type: 3}
@@ -22,4 +22,4 @@ MonoBehaviour:
   _itemPrice: 1000
   _itemSellPrice: 500
   weight: 10
-  damage: 30
+  damage: 500

@@ -132,9 +132,6 @@ public class BossController : Enemy
     {
         bState = BossState.NormalAttack;
         nav.isStopped = true;
-
-        transform.LookAt(targetPos);
-
         ShowAnimation((int)bState);
 
         yield return new WaitForSeconds(0.5f);
@@ -265,10 +262,10 @@ public class BossController : Enemy
                     break;              
                 case 3:
                 case 4:
-                case 5:
                     StartCoroutine(PowerAttack());
                     break;
-          
+
+                case 5:
                 case 6:
                 case 7:
                     StartCoroutine(UseSpell());
@@ -301,8 +298,7 @@ public class BossController : Enemy
   
     protected override void Die()
     {
-        //base.Die();
-        dead = true;
+        base.Die();
         StartCoroutine(DieRoutine());
     }
 
@@ -334,7 +330,6 @@ public class BossController : Enemy
 
         rigid.isKinematic = true;
 
-        DieAction();
         yield return new WaitForSeconds(3f);
         this.gameObject.SetActive(false);
     }
@@ -343,7 +338,7 @@ public class BossController : Enemy
     {
         if (dead) return;
 
-        _hp -= (int)skill.SkillPower;  // 스킬의 위력만큼 HP 감소
+        Hp -= (int)skill.SkillPower;  // 스킬의 위력만큼 HP 감소
 
         if (Hp <= 0 && !dead)
         {
@@ -356,7 +351,7 @@ public class BossController : Enemy
         var dTxt = ObjectPool.GetDTxt();
         dTxt.SetText((int)skill.SkillPower);
         dTxt.transform.position = dTxtPos.position;
-        hpBar.fillAmount = (float)_hp / (float)_maxHP; 
+        hpBar.fillAmount = Mathf.Lerp(hpBar.fillAmount, _hp/_maxHP, 4f * Time.deltaTime);
         hpTxt.text = _hp.ToString() + "/" + _maxHP.ToString();
 
     }

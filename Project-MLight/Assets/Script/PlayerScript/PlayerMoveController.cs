@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
-
 public class PlayerMoveController : MonoBehaviour
 {
     public enum TargetLayer : int { None, Terrian = 8 , Enemy = 9, Object = 10, NPC = 11,   }
@@ -62,7 +61,6 @@ public class PlayerMoveController : MonoBehaviour
         mstate = MoveState.None;
         nav.updateRotation = false; // 네비의회전 기능 비활성화
         playerMask = (-1) - (1 << LayerMask.NameToLayer("Player") ); //플레이어 레이어 번호 연산
-   
     }
 
 
@@ -73,7 +71,7 @@ public class PlayerMoveController : MonoBehaviour
             sectorCheck();
         }
       
-        if (Input.GetMouseButtonDown(0)) // 화면 클릭시
+        if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭시
         {
             if(!EventSystem.current.IsPointerOverGameObject())
             {
@@ -87,21 +85,11 @@ public class PlayerMoveController : MonoBehaviour
         Move(); //움직이기     
     }
 
-    //private bool IsPointerOverUIObject()
-    //{
-    //    PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-    //    eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-    //    List<RaycastResult> results = new List<RaycastResult>();
-    //    EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-    //    return results.Count > 0;
-    //}
-
     private void CheckTouch() // 터치한 대상 분석
     {
         prevtarget = curtarget; //이전 대상을 prevtarget에 넣어주기
         curtarget = (TargetLayer)hit.collider.gameObject.layer; // targetlayer 에 터치한 대상의 레이어 지정
 
-        
         ReturnTargeting(); // 타겟팅 오브젝트 오브젝트 풀로 반환하기 
 
         switch (curtarget)

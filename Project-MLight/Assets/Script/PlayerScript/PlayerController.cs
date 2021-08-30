@@ -66,7 +66,7 @@ public class PlayerController : LivingEntity
                 isInter = false;
                 break;
             case PlayerState.Move:
-                trail.Emit = false;
+               
                 isRun = true;
                 isAttack = false;
                 isInter = false;      
@@ -102,7 +102,6 @@ public class PlayerController : LivingEntity
     private void AttackCheck()
     {
         Enemy enemytarget = target.GetComponent<Enemy>();
-        
 
         trail.Emit = true;
         if (enemytarget != null)
@@ -204,9 +203,9 @@ public class PlayerController : LivingEntity
 
         base.OnDamage(skill);
 
-       // var dTxt = ObjectPool.GetDTxt();
-        //dTxt.SetText((int)skill.SkillPower);
-        //dTxt.transform.position = this.transform.position;
+        var dTxt = ObjectPool.GetDTxt();
+        dTxt.SetText((int)skill.SkillPower);
+        dTxt.transform.position = this.transform.position;
     }
 
     //공격 속도 설정

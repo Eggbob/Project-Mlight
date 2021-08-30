@@ -248,7 +248,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/Lim seong woo/OneDrive/Desktop/UnityKey/User.keystore
+  AndroidKeystoreName: C:/Users/Lim seong woo/OneDrive/Desktop/User.keystore
   AndroidKeyaliasName: user
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0

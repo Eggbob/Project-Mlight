@@ -162,9 +162,6 @@ public class Inventory : MonoBehaviour
                 {
                     items[index] = null;
                     RemoveIcon();
-                    if (inventoryUI.ToolTip.gameObject.activeSelf)
-                        inventoryUI.ToolTip.gameObject.SetActive(false);
-
                     return;
                 }
 

@@ -17,7 +17,7 @@ public class Slash : ActiveSkill
     {
         LCon = _LCon;
 
-        _skillPower = (LCon.Power+LCon.BonusPower) * (1 + (Damage / 100));
+        _skillPower = LCon.Power * (1 + (Damage / 100));
         this.sAttr = SkillAttr.Stun;
 
         this._description = "물리공격력의 " + Damage + "%만큼 단일 공격을 합니다.\n"
@@ -30,8 +30,7 @@ public class Slash : ActiveSkill
     IEnumerator DamageRoutine()
     {
         LivingEntity enemytarget = LCon.target.GetComponent<LivingEntity>();
-
-        effect.transform.SetParent(null);
+ 
         effect.transform.position = this.transform.position;
         effect.transform.rotation = this.transform.rotation;
         effect.gameObject.SetActive(true);
@@ -40,7 +39,6 @@ public class Slash : ActiveSkill
         enemytarget.OnDamage(this);
 
         yield return new WaitForSeconds(0.9f);
-        effect.transform.SetParent(this.transform);
         effect.gameObject.SetActive(false);
      
     }
