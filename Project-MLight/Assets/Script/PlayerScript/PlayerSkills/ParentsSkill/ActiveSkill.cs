@@ -4,13 +4,23 @@ using UnityEngine;
 
 public class ActiveSkill : Skill
 {
-    public GameObject EffectPrefab;
+    public GameObject effectPrefab;
+    public AudioClip effectSound;
 
     [SerializeField]
     protected float Damage;
 
+    protected GameObject effect;
+
+    protected AudioSource pAudio;
+
     public virtual void ActiveAction() { }
-  
+
+    public override void Init(LivingEntity _Lcon)
+    {
+        pAudio = _Lcon.audioSource;
+    }
+
     public enum SkillAttr //스킬 속성
     {
         None, Melee, Stun, Buff, Done
@@ -21,8 +31,5 @@ public class ActiveSkill : Skill
     public SkillAttr SAttr => sAttr;
 
 
-    protected override void SkillLevelUp()
-    {
-        throw new System.NotImplementedException();
-    }
+  
 }

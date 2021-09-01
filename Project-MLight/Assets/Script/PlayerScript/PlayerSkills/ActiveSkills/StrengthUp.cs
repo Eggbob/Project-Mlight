@@ -5,7 +5,7 @@ using UnityEngine;
 public class StrengthUp : ActiveSkill
 {
     private PlayerController pCon;
-    private GameObject effect;
+
 
     public override void ActiveAction()
     {
@@ -24,8 +24,10 @@ public class StrengthUp : ActiveSkill
 
         this.sAttr = SkillAttr.Buff;
 
-        effect = Instantiate(EffectPrefab, this.transform);
+        effect = Instantiate(effectPrefab, this.transform);
         effect.gameObject.SetActive(false);
+
+        base.Init(pCon);
     }
 
     IEnumerator BuffRoutine(Vector3 _ePos)
@@ -37,10 +39,11 @@ public class StrengthUp : ActiveSkill
         effect.transform.position = _ePos;
         effect.transform.rotation = this.transform.rotation;
         effect.gameObject.SetActive(true);
+
+        pAudio.PlayOneShot(effectSound);
         yield return new WaitForSeconds(1f);
 
         effect.gameObject.SetActive(false);
-      
     }
 
     protected override void SkillLevelUp()

@@ -2,28 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireBall : Skill
+public class FireBall : ActiveSkill
 {
-    [SerializeField]
-    private GameObject explosionEffect;
-
     private GameObject dangerCircle;
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player"))
+        pAudio.PlayOneShot(effectSound);
+
+        if (other.gameObject.CompareTag("Player"))
         {
             LivingEntity target = other.gameObject.GetComponent<LivingEntity>();
 
             target.OnDamage(this);
-            explosionEffect.SetActive(true);
+            effectPrefab.SetActive(true);
             Invoke("GetBakcRoutine", 0.5f);       
         }
         else if(other.gameObject.CompareTag("Terrian"))
         {
-            explosionEffect.SetActive(true);
+            effectPrefab.SetActive(true);
             Invoke("GetBakcRoutine", 0.5f);
         }
+       
     }
 
     private void GetBakcRoutine()
@@ -35,11 +35,12 @@ public class FireBall : Skill
     public override void Init(LivingEntity _Lcon)
     {
         LCon = _Lcon;
+        base.Init(LCon);
     }
    
     public void CreaeteFire(Vector3 pos)
     {
-        explosionEffect.SetActive(false);
+        effectPrefab.SetActive(false);
         this.transform.position = pos;
         this.gameObject.SetActive(true);
 

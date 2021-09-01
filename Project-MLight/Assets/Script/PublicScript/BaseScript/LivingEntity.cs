@@ -14,6 +14,8 @@ public class LivingEntity : Status
 
     protected Action DieAction;
 
+    public AudioClip hitSound;
+
     public GameObject target;
 
     public GameObject miniMapIcon;
@@ -21,6 +23,8 @@ public class LivingEntity : Status
     public Animator anim { get; protected set; } //애니메이터 컴포넌트
 
     public NavMeshAgent nav { get; protected set; } //네브 메쉬 컴포넌트
+
+    public AudioSource audioSource { get; protected set; }
 
     public float MoveSpeed => moveSpeed;
 
@@ -53,8 +57,9 @@ public class LivingEntity : Status
   
     public virtual void OnDamage(Skill skill)//데미지를 받을시 호출될 함수
     {
+        audioSource.PlayOneShot(hitSound);
         Hp -= (int)skill.SkillPower;  // 스킬의 위력만큼 HP 감소
-
+       
        if(Hp <= 0 && !dead)
        {
             Hp = 0;

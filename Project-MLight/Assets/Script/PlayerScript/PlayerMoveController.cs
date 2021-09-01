@@ -9,7 +9,6 @@ public class PlayerMoveController : MonoBehaviour
     public enum TargetLayer : int { None, Terrian = 8 , Enemy = 9, Object = 10, NPC = 11,   }
     public enum MoveState {None, Move, Stop }
 
-    [SerializeField]
     private Camera mcamera; //메인카메라 컴포넌트
     private PlayerController pCon; // 플레이어 컨트롤러
 
@@ -76,7 +75,7 @@ public class PlayerMoveController : MonoBehaviour
             if(!EventSystem.current.IsPointerOverGameObject())
             {
                 if (Physics.Raycast(mcamera.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity ,playerMask) && !pCon.dead) //카메라에서 클릭한 곳으로 레이 쏘기
-                {
+                {                  
                     nav.velocity = Vector3.zero; //네비 속도 0으로 지정
                     CheckTouch();  // 터치한 대상 분석
                 }
@@ -226,7 +225,7 @@ public class PlayerMoveController : MonoBehaviour
     {   
         switch(mstate)
         {
-            case MoveState.Move:
+            case MoveState.Move:             
                 navStart();
                 break;
 
@@ -247,6 +246,7 @@ public class PlayerMoveController : MonoBehaviour
         }
        
         nav.isStopped = false; //네비 다시 실행
+
     }
 
     private void navStop() //네비 멈추기

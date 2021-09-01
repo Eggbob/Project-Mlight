@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerAttack : Skill
+public class PowerAttack : ActiveSkill
 {
     private Rigidbody rigid;
     private LivingEntity target;
-    private GameObject effect;
 
-    public GameObject pAttackEffectPrefab;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
-        effect = Instantiate(pAttackEffectPrefab, this.transform);
+        effect = Instantiate(effectPrefab, this.transform);
         effect.SetActive(false);
     }
 
@@ -41,10 +39,14 @@ public class PowerAttack : Skill
     public override void Init(LivingEntity _Lcon)
     {
         LCon = _Lcon;
+
+        base.Init(LCon);
     }
 
     public void SkillActive()
     {
+
+        pAudio.PlayOneShot(effectSound);
         rigid.velocity = this.transform.forward * 30f;
 
         if (LCon != null)

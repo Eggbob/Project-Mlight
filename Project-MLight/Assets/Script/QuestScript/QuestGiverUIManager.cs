@@ -66,6 +66,7 @@ public class QuestGiverUIManager : MonoBehaviour
                 qSlot.transform.SetParent(questTitleGroup.transform);
 
                 btn.onClick.AddListener(() => ShowQuestInfo(q)); //클릭 리스너 등록
+                btn.onClick.AddListener(() => BgmManager.Instance.PlayEffectSound("Button"));
 
                 questSlots.Add(qSlot);
             }         

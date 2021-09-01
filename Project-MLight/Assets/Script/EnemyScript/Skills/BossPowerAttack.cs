@@ -28,7 +28,7 @@ public class BossPowerAttack : ActiveSkill
 
         this.sAttr = SkillAttr.Melee;
 
-        effect = Instantiate(EffectPrefab, this.transform);
+        effect = Instantiate(effectPrefab, this.transform);
         effect.SetActive(false);
 
         pBird = Instantiate(pBirdPrefab, this.transform).GetComponent<PowerAttack>();

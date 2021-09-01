@@ -229,8 +229,9 @@ MonoBehaviour:
   _coolTime: 10
   _actTime: 1
   _skillPower: 0
-  EffectPrefab: {fileID: 1648509489993130, guid: 8a0c2ade089d4c44fbdf861f7bcd7be6,
+  effectPrefab: {fileID: 1648509489993130, guid: 8a0c2ade089d4c44fbdf861f7bcd7be6,
     type: 3}
+  effectSound: {fileID: 8300000, guid: c90fbb18c78d1fb4b9c9a2e0530c16fe, type: 3}
   Damage: 120
   SkillRangePrefab: {fileID: 166723256}
   targetLayer:

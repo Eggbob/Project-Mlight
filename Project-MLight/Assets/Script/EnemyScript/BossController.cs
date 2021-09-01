@@ -21,7 +21,6 @@ public enum BossState
 
 public class BossController : Enemy
 {
-    [SerializeField]
     private BossState bState = BossState.None;
 
     private int randState;

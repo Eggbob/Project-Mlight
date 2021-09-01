@@ -58,8 +58,10 @@ MonoBehaviour:
   _coolTime: 0
   _actTime: 0
   _skillPower: 50
-  pAttackEffectPrefab: {fileID: 7231168968611244482, guid: c93364e96b184f44faa95d69d0ff6d1a,
+  effectPrefab: {fileID: 7231168968611244482, guid: c93364e96b184f44faa95d69d0ff6d1a,
     type: 3}
+  effectSound: {fileID: 8300000, guid: db71e56d109027348a2fd36c9dbda8e9, type: 3}
+  Damage: 0
 --- !u!135 &5231712353950771719
 SphereCollider:
   m_ObjectHideFlags: 0

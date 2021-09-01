@@ -20,6 +20,8 @@ public class TitleManager : MonoBehaviour
 
     private void Start()
     {
+        BgmManager.Instance.PlayBgm("Title");
+
         loginBtn.onClick.AddListener(() => LogIn());
         logOutBtn.onClick.AddListener(() => LogOut());
 
@@ -29,13 +31,14 @@ public class TitleManager : MonoBehaviour
         PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
 
-        LogIn();
+      //  LogIn();
 
     }
 
     //게임시작
     private void LoadScene()
     {
+        BgmManager.Instance.StopBgm();
         LoadingManager.LoadScene("MainScene");
     }
 

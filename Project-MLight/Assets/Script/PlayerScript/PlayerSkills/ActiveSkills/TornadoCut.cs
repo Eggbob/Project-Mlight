@@ -9,7 +9,6 @@ public class TornadoCut : ActiveSkill
     public float fRange; // 수색범위
 
     private GameObject SkilLRange;
-    private GameObject effect;
 
     public override void ActiveAction()
     {
@@ -28,10 +27,12 @@ public class TornadoCut : ActiveSkill
         this.sAttr = SkillAttr.Melee;
         SkilLRange = Instantiate(SkillRangePrefab, LCon.gameObject.transform);
         SkilLRange.SetActive(false);
-        effect = Instantiate(EffectPrefab, this.gameObject.transform);
+        effect = Instantiate(effectPrefab, this.gameObject.transform);
         effect.SetActive(false);
 
         this._description = "범위 내의 모든 적들에게 물리 공격력의 " + Damage + "%만큼 공격을 합니다.";
+
+        base.Init(LCon);
     }
 
     IEnumerator DamageRoutine (Collider[] _colliders)
@@ -41,6 +42,7 @@ public class TornadoCut : ActiveSkill
  
         effect.transform.position = this.transform.position;
         effect.gameObject.SetActive(true);
+        pAudio.PlayOneShot(effectSound);
 
         foreach (Collider col in _colliders)
         {

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Cross : ActiveSkill
 {
- 
-    private GameObject effect;
 
     public override void ActiveAction()
     {
@@ -17,14 +15,17 @@ public class Cross : ActiveSkill
     public override void Init(LivingEntity _LCon)
     {
         LCon = _LCon;
+
         _skillPower = (LCon.Power * Damage) / 100;
 
         this._description = "물리공격력의 " + Damage + "%만큼 단일 공격을 합니다.";
      
         this.sAttr = SkillAttr.Melee;
 
-        effect = Instantiate(EffectPrefab, this.transform);
+        effect = Instantiate(effectPrefab, this.transform);
         effect.gameObject.SetActive(false);
+
+        base.Init(LCon);
     }
 
     IEnumerator DamageRoutine(Rigidbody tRigid)
@@ -38,6 +39,7 @@ public class Cross : ActiveSkill
         effect.gameObject.transform.rotation = this.transform.rotation;
         effect.gameObject.SetActive(true);
 
+        pAudio.PlayOneShot(effectSound);
          yield return new WaitForSeconds(0.5f);
         enemytarget.OnDamage(this);
         yield return new WaitForSeconds(0.9f);

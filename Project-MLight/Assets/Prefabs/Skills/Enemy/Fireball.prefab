@@ -14306,7 +14306,9 @@ MonoBehaviour:
   _coolTime: 0
   _actTime: 0
   _skillPower: 100
-  explosionEffect: {fileID: 273582969}
+  effectPrefab: {fileID: 273582969}
+  effectSound: {fileID: 8300000, guid: 5a13b2af3debf2f41b3cf14075444882, type: 3}
+  Damage: 0
 --- !u!1001 &273514565
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,7 +5,6 @@ using UnityEngine;
 public class Slash : ActiveSkill
 {
 
-    private GameObject effect;
 
     public override void ActiveAction()
     {
@@ -23,8 +22,10 @@ public class Slash : ActiveSkill
         this._description = "물리공격력의 " + Damage + "%만큼 단일 공격을 합니다.\n"
         +"- 대상을 기절시킵니다.";
 
-        effect = Instantiate(EffectPrefab, this.transform);
+        effect = Instantiate(effectPrefab, this.transform);
         effect.gameObject.SetActive(false);
+
+        base.Init(LCon);
     }
 
     IEnumerator DamageRoutine()
@@ -35,6 +36,7 @@ public class Slash : ActiveSkill
         effect.transform.rotation = this.transform.rotation;
         effect.gameObject.SetActive(true);
 
+        pAudio.PlayOneShot(effectSound);
         yield return new WaitForSeconds(1f);
         enemytarget.OnDamage(this);
 

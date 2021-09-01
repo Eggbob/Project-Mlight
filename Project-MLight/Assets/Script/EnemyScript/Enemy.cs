@@ -50,7 +50,6 @@ public class Enemy : LivingEntity
     protected TMP_Text nameTxt; //이름 txt
     [SerializeField]
     protected Transform dTxtPos; //데미지 txt
-    [SerializeField]
     protected float chaseTime; // 추적할시간
 
     protected float timer = 0; //타이머
@@ -89,6 +88,7 @@ public class Enemy : LivingEntity
     {
         rigid = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
+        audioSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
 
         nav.updateRotation = false;

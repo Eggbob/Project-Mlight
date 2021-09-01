@@ -44,7 +44,7 @@ public class SkillBookManager : MonoBehaviour
 
     private void SkillButtonInit()//스킬 버튼 초기화
     {
-        GameObject sButton;
+        GameObject sButton = null;
 
         for(int i = 1; i< psCon.PlayerSkills.Count; i++)
         {
@@ -52,23 +52,21 @@ public class SkillBookManager : MonoBehaviour
             {
                 case "ActiveSkill":
                     sButton = Instantiate(sButtonTemp, ActiveskillList.transform);
-                    sButton.transform.GetChild(0).GetComponent<Image>().sprite = psCon.PlayerSkills[i].Icon;
-                    sButton.transform.GetChild(1).GetComponent<Text>().text = psCon.PlayerSkills[i].SkillName;
-                    sButton.transform.GetChild(2).GetComponent<Text>().text = SkillMaster(psCon.PlayerSkills[i].SkillExp);
-                    sButton.GetComponent<Button>().AddEventListner(i, ShowSkillpage);
                     break;
 
                 case "PassiveSkill":
                     sButton = Instantiate(sButtonTemp, PassiveSkillList.transform);
-                    sButton.transform.GetChild(0).GetComponent<Image>().sprite = psCon.PlayerSkills[i].Icon;
-                    sButton.transform.GetChild(1).GetComponent<Text>().text = psCon.PlayerSkills[i].SkillName;
-                    sButton.transform.GetChild(2).GetComponent<Text>().text = SkillMaster(psCon.PlayerSkills[i].SkillExp);
-                    sButton.GetComponent<Button>().AddEventListner(i, ShowSkillpage);
                     break;
             }
+
+            sButton.transform.GetChild(0).GetComponent<Image>().sprite = psCon.PlayerSkills[i].Icon;
+            sButton.transform.GetChild(1).GetComponent<Text>().text = psCon.PlayerSkills[i].SkillName;
+            sButton.transform.GetChild(2).GetComponent<Text>().text = SkillMaster(psCon.PlayerSkills[i].SkillExp);
+            sButton.GetComponent<Button>().AddEventListner(i, ShowSkillpage);
+            sButton.GetComponent<Button>().onClick.AddListener(()=>BgmManager.Instance.PlayEffectSound("Button"));
         }
 
-        for(int i = 0; i< skillBtns.Count; i++) //스킬 창에 있는 퀵슬롯 리스트 초기화
+        for (int i = 0; i< skillBtns.Count; i++) //스킬 창에 있는 퀵슬롯 리스트 초기화
         {
             int btnindex = i;
             skillBtns[i].onClick.AddListener(() => SetSkill(btnindex, clickedBtn));

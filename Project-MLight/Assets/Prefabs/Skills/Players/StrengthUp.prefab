@@ -55,6 +55,7 @@ MonoBehaviour:
   _coolTime: 180
   _actTime: 300
   _skillPower: 0
-  EffectPrefab: {fileID: 1936098086150093012, guid: 0abd33e6554a7724d92378a3d50f0206,
+  effectPrefab: {fileID: 1936098086150093012, guid: 0abd33e6554a7724d92378a3d50f0206,
     type: 3}
+  effectSound: {fileID: 8300000, guid: 45725e9a400a2a643abf09220e1a4404, type: 3}
   Damage: 20

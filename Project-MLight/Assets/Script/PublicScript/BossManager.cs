@@ -9,6 +9,7 @@ public class BossManager : MonoBehaviour
     public Camera roomCam;  
     public GameObject wall;
 
+
     public CameraFollow camfollow;
     public BossController boss;
     public Quest bossQuest;
@@ -19,7 +20,6 @@ public class BossManager : MonoBehaviour
     private Vector3 shakeOffset = Vector3.zero;
 
 
-    private Animator wallAnim;
     private bool isEnter;
     private PlayerController pCon;
 
@@ -27,7 +27,6 @@ public class BossManager : MonoBehaviour
     {
         pCon = GameManager.Instance.Player;
         isEnter = false;
-        wallAnim = wall.GetComponent<Animator>();
     }
 
 
@@ -37,7 +36,9 @@ public class BossManager : MonoBehaviour
         isEnter = true;
         roomCam.gameObject.SetActive(true);      
         UIManager.gameObject.SetActive(false);
-               
+
+        BgmManager.Instance.StopBgm();
+        BgmManager.Instance.PlayEffectSound("Open");
         StartCoroutine(Shake());
 
         yield return new WaitForSeconds(1.5f);
@@ -75,6 +76,8 @@ public class BossManager : MonoBehaviour
 
     private IEnumerator OperateBoss()
     {
+        BgmManager.Instance.PlayBgm("Boss");
+
         camfollow.target = boss.gameObject.transform;
         boss.gameObject.SetActive(true);
         UIManager.gameObject.SetActive(false);

@@ -37,7 +37,7 @@ public class CreateFireBall : ActiveSkill
 
         for(int i = 0; i< 7; i++)
         {
-            fireball[i] = Instantiate(EffectPrefab, this.transform).GetComponent<FireBall>();
+            fireball[i] = Instantiate(effectPrefab, this.transform).GetComponent<FireBall>();
             fireball[i].gameObject.SetActive(false); 
         }
     }

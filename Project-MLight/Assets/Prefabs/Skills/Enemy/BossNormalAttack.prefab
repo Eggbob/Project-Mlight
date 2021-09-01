@@ -54,4 +54,6 @@ MonoBehaviour:
   _coolTime: 0
   _actTime: 0
   _skillPower: 0
-  EffectPrefab: {fileID: 0}
+  effectPrefab: {fileID: 0}
+  effectSound: {fileID: 8300000, guid: c479a8c92e9f1bd4d8447d5675a1217f, type: 3}
+  Damage: 0

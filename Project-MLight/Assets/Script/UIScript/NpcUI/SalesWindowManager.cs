@@ -127,6 +127,7 @@ public class SalesWindowManager : MonoBehaviour
             {
                 HighlightImg(); //하이라이트 이미지 보여주기
                 ShowPerchaseToolTip(beginClickSlot.Index);
+                BgmManager.Instance.PlayEffectSound("Button");
             }
         }
     }

@@ -17,6 +17,7 @@ public class PlayerController : LivingEntity
     public BuffManager buffManager;
     public ActiveSkill pAttack; //플레이어 스킬
     public MeleeWeaponTrail trail; //무기 궤적
+    public AudioClip footSound;
     public Transform weaponPos;
     public Action<Enemy> killAction; //적 처치시 액션
         
@@ -29,6 +30,7 @@ public class PlayerController : LivingEntity
     {    
         pmanager = this.GetComponent<PlayerMoveController>();
         psCon = this.GetComponent<PlayerSkillController>();
+        audioSource = this.GetComponent<AudioSource>();
         anim = this.GetComponent<Animator>();
         pState = PlayerState.Idle;
 
@@ -66,7 +68,7 @@ public class PlayerController : LivingEntity
                 isInter = false;
                 break;
             case PlayerState.Move:
-               
+             
                 isRun = true;
                 isAttack = false;
                 isInter = false;      
@@ -88,16 +90,7 @@ public class PlayerController : LivingEntity
     }
 
 
-    //스킬 애니메이션 업데이트
-    public void SkillUpdate(int sId)
-    {
-        pState = PlayerState.Skill;
-      
-        anim.SetTrigger("isSkill");
-        anim.SetInteger("Skill", sId);
-        
-    }
-
+  
     //공격시
     private void AttackCheck()
     {
@@ -174,7 +167,7 @@ public class PlayerController : LivingEntity
       
     }
 
-
+   
     //레벨업시
     protected override void LvUp()
     {
@@ -194,6 +187,22 @@ public class PlayerController : LivingEntity
         base.Die();
         anim.SetTrigger("Dead");
         anim.SetBool("isDead", dead);
+    }
+
+    //스킬 애니메이션 업데이트
+    public void SkillUpdate(int sId)
+    {
+        pState = PlayerState.Skill;
+
+        anim.SetTrigger("isSkill");
+        anim.SetInteger("Skill", sId);
+
+    }
+
+
+    public void PlayFootSound()
+    {
+        audioSource.PlayOneShot(footSound);
     }
 
     //데미지를 받을시

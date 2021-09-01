@@ -113,7 +113,8 @@ public class QuestManager : MonoBehaviour
 
         slot.Init(quest);
 
-        slot.GetComponent<Button>().onClick.AddListener(() => ShowQuestInfo(slot));; 
+        slot.GetComponent<Button>().onClick.AddListener(() => ShowQuestInfo(slot));
+        slot.GetComponent<Button>().onClick.AddListener(() => BgmManager.Instance.PlayEffectSound("Button"));
       
         questSlots.Add(slot);
  

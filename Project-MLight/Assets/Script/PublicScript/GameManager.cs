@@ -37,6 +37,11 @@ public class GameManager : MonoBehaviour
         Player.AddDieAction(Respawn);
     }
 
+    private void Start()
+    {
+       // BgmManager.Instance.PlayBgm("Map");
+    }
+
     private void Respawn()
     {
         StartCoroutine(ResapwnRoutine());
