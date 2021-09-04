@@ -62,7 +62,10 @@ public class KillObject
                 NotificationUI.Instance.GenerateTxt(enemy.EnemyName + " : " +  _currentKillCount + "/" + _totalKillCount);
 
                 if (_currentKillCount.Equals(_totalKillCount))
-                { NotificationUI.Instance.GenerateTxt(enemy.EnemyName + " (처치 완료)"); }
+                { 
+                    NotificationUI.Instance.GenerateTxt(enemy.EnemyName + " (처치 완료)");
+                    BgmManager.Instance.PlayEffectSound("Clear");
+                }
             }         
             QuestManager.Instance.CheckComplete();
         }

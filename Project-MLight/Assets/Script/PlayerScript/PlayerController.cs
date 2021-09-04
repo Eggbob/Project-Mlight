@@ -18,6 +18,7 @@ public class PlayerController : LivingEntity
     public ActiveSkill pAttack; //플레이어 스킬
     public MeleeWeaponTrail trail; //무기 궤적
     public AudioClip footSound;
+    public AudioClip lvUpSound;
     public Transform weaponPos;
     public Action<Enemy> killAction; //적 처치시 액션
         
@@ -67,8 +68,7 @@ public class PlayerController : LivingEntity
                 isAttack = false;
                 isInter = false;
                 break;
-            case PlayerState.Move:
-             
+            case PlayerState.Move:            
                 isRun = true;
                 isAttack = false;
                 isInter = false;      
@@ -166,8 +166,7 @@ public class PlayerController : LivingEntity
         }
       
     }
-
-   
+  
     //레벨업시
     protected override void LvUp()
     {
@@ -178,6 +177,7 @@ public class PlayerController : LivingEntity
 
         obj.transform.position = tr;
 
+        audioSource.PlayOneShot(lvUpSound);
         base.LvUp();
 
     }
@@ -196,13 +196,12 @@ public class PlayerController : LivingEntity
 
         anim.SetTrigger("isSkill");
         anim.SetInteger("Skill", sId);
-
     }
 
 
     public void PlayFootSound()
     {
-        audioSource.PlayOneShot(footSound);
+        audioSource.PlayOneShot(footSound, 0.1f);
     }
 
     //데미지를 받을시

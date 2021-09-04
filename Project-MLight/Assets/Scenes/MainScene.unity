@@ -30380,6 +30380,12 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 7fded5509e2f52c42a6ed587e103f6d2, type: 3}
   - bgnName: Boss
     clip: {fileID: 8300000, guid: 7c215164979c96a43ac7f50bbc278172, type: 3}
+  - bgnName: WindowOpen
+    clip: {fileID: 8300000, guid: 19f89c6e740e7447f9e12a8310d3e973, type: 3}
+  - bgnName: Clear
+    clip: {fileID: 8300000, guid: 7478151cf36724a7dada558f746c3633, type: 3}
+  - bgnName: WindowClose
+    clip: {fileID: 8300000, guid: cf6c0e7fbef9449c98a0cdb5ea0c4d9f, type: 3}
 --- !u!1 &1570364570
 GameObject:
   m_ObjectHideFlags: 0
@@ -42261,10 +42267,20 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1714328343}
+    - target: {fileID: 5418152145978455595, guid: b50010b1a68c7654c9e0d54e1cb5fa04,
+        type: 3}
+      propertyPath: hitSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 8a2835373f2216b4ca8315bd9525588b, type: 3}
     - target: {fileID: 5418152145978455596, guid: b50010b1a68c7654c9e0d54e1cb5fa04,
         type: 3}
       propertyPath: m_Name
       value: BossEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5418152145978455596, guid: b50010b1a68c7654c9e0d54e1cb5fa04,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5418152145978878540, guid: b50010b1a68c7654c9e0d54e1cb5fa04,
         type: 3}

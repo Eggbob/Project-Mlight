@@ -37,7 +37,7 @@ public class Enemy : LivingEntity
     protected float attackRange; //공격사거리
 
     [SerializeField]
-    protected Skill EnemyNormalAttack; //기본공격
+    protected ActiveSkill EnemyNormalAttack; //기본공격
 
     protected Vector3 targetPos; // 타겟의 위치
     protected Vector3 patrolPos; // 정찰할 위치

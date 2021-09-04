@@ -12,11 +12,13 @@ public abstract class NpcController : MonoBehaviour
     public virtual void Interact() 
     {
         IsInteracting = true;
+        BgmManager.Instance.PlayEffectSound("WindowOpen");
     }
 
     //접촉종료시에
     public virtual void StopInteract() 
     {
         IsInteracting = false;
+        BgmManager.Instance.PlayEffectSound("WindowClose");
     }
 }

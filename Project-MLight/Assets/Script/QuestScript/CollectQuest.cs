@@ -66,9 +66,12 @@ public class ColletObject
             if(_currentAmount < _totalAmount)
             {
                 NotificationUI.Instance.GenerateTxt(_collectItem.ItemName + " : " + _currentAmount + "/" + _totalAmount);
-               
-                if(_currentAmount.Equals(_totalAmount))
+
+                if (_currentAmount.Equals(_totalAmount))
+                {
                     NotificationUI.Instance.GenerateTxt(_collectItem.ItemName + " (수집 완료)");
+                    BgmManager.Instance.PlayEffectSound("Clear");
+                } 
             }
         
             QuestManager.Instance.CheckComplete(); 

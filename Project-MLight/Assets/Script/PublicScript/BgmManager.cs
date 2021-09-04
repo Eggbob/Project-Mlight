@@ -55,7 +55,8 @@ public class BgmManager : MonoBehaviour
 
     public void PlayEffectSound(string name)
     {
-        audioSource.PlayOneShot(bgmDic[name]);
+        audioSource.PlayOneShot(bgmDic[name], 0.3f);
     }
+
 
 }

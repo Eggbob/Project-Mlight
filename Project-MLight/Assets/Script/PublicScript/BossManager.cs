@@ -25,6 +25,7 @@ public class BossManager : MonoBehaviour
 
     private void Start()
     {
+    
         pCon = GameManager.Instance.Player;
         isEnter = false;
     }
@@ -38,12 +39,16 @@ public class BossManager : MonoBehaviour
         UIManager.gameObject.SetActive(false);
 
         BgmManager.Instance.StopBgm();
+
         BgmManager.Instance.PlayEffectSound("Open");
+        yield return new WaitForSeconds(2f);
         StartCoroutine(Shake());
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(3f);
         StopCoroutine(Shake());
-       
+
+        BgmManager.Instance.StopBgm();
+
         wall.SetActive(false);
         roomCam.gameObject.SetActive(false);
         UIManager.gameObject.SetActive(true);
@@ -69,7 +74,9 @@ public class BossManager : MonoBehaviour
                 yield return null;
             }
 
-            wall.transform.Translate(Vector3.down * 70f * Time.deltaTime);
+            wall.transform.Translate(Vector3.down * 40f * Time.deltaTime);
+
+            
             yield return null;
         } 
     }
@@ -79,7 +86,9 @@ public class BossManager : MonoBehaviour
         BgmManager.Instance.PlayBgm("Boss");
 
         camfollow.target = boss.gameObject.transform;
-        boss.gameObject.SetActive(true);
+        boss.StartRoutine();
+        //boss.gameObject.SetActive(true);
+
         UIManager.gameObject.SetActive(false);
         yield return new WaitForSeconds(3f);
 
@@ -93,7 +102,7 @@ public class BossManager : MonoBehaviour
         {
             if (!isEnter && QuestManager.Instance.HasQuest(bossQuest))
                 StartCoroutine(RoomOpen());
-            else if (isEnter && !boss.gameObject.activeSelf)
+            else if (isEnter/* && !boss.gameObject.activeSelf*/)
                 StartCoroutine(OperateBoss());
 
         }

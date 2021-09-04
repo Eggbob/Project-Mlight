@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GobeAttack : Skill
+public class GobeAttack : ActiveSkill
 {  
     protected override void SkillLevelUp()
     {

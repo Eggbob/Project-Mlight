@@ -36,6 +36,7 @@ public class BossController : Enemy
         rigid = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         nav.updateRotation = false;
         nav.speed = moveSpeed;
@@ -47,9 +48,7 @@ public class BossController : Enemy
         bState = BossState.Idle;
         nav.isStopped = true;
 
-        target = GameManager.Instance.Player.gameObject;
-
-        bossUI.SetActive(true);
+        bossUI.SetActive(false);
         hpBar.fillAmount = 1;
 
         StringBuilder hpstring = new StringBuilder();
@@ -60,7 +59,6 @@ public class BossController : Enemy
 
         hpTxt.text = hpstring.ToString();
 
-        StartCoroutine(Enable());
     }
 
     private void FixedUpdate()
@@ -75,6 +73,7 @@ public class BossController : Enemy
     //첫 시작 모션
     private IEnumerator Enable()
     {
+        target = GameManager.Instance.Player.gameObject;
         enemyTarget = target.GetComponent<LivingEntity>();
 
         sword.gameObject.SetActive(false);
@@ -88,6 +87,8 @@ public class BossController : Enemy
         sword.gameObject.SetActive(true);
         shield.gameObject.SetActive(true);
 
+
+        bossUI.SetActive(true);
         StartCoroutine(SetBossState());
     }
 
@@ -132,12 +133,14 @@ public class BossController : Enemy
         bState = BossState.NormalAttack;
         nav.isStopped = true;
         ShowAnimation((int)bState);
+    
 
         yield return new WaitForSeconds(0.5f);
 
         if (isCollision)
         {
-            enemyTarget.OnDamage(EnemyNormalAttack);
+            EnemyNormalAttack.ActiveAction();
+           // enemyTarget.OnDamage(EnemyNormalAttack);
         }
 
         yield return new WaitForSeconds(0.7f);
@@ -162,7 +165,7 @@ public class BossController : Enemy
         pAttack.transform.position = this.transform.position;
         pAttack.transform.rotation = Quaternion.Euler(new Vector3(0f, this.transform.eulerAngles.y, this.transform.eulerAngles.z));
         pAttack.gameObject.SetActive(true);
-        pAttack.SkillActive();
+        pAttack.ActiveAction();
 
         yield return new WaitForSeconds(0.6f);
     

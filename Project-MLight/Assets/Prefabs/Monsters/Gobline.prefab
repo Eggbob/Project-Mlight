@@ -1059,7 +1059,6 @@ MonoBehaviour:
     type: 3}
   nameTxt: {fileID: 1458383186}
   dTxtPos: {fileID: 2090291208}
-  chaseTime: 0
   hpBar: {fileID: 3259135054923330814}
   targetingTr: {fileID: 3259135055125096924}
   angleRange: 120

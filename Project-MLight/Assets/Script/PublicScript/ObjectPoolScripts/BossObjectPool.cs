@@ -18,8 +18,6 @@ public class BossObjectPool : MonoBehaviour
     [SerializeField]
     private GameObject powerAttackPrefab;
 
-
-
     private Queue<PowerAttack> powerAttackQueue = new Queue<PowerAttack>();
     private Queue<FireBall> fireBallQueue = new Queue<FireBall>();
     private Queue<GameObject> dangerCircleQueue = new Queue<GameObject>();
@@ -28,8 +26,10 @@ public class BossObjectPool : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        //bCon = FindObjectOfType<BossController>();
+    }
 
+    private void Start()
+    {
         Init(10);
     }
 

@@ -154,7 +154,8 @@ public class PlayerMoveController : MonoBehaviour
 
         mstate = MoveState.Move;
 
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, destination) <= 0.1f);
+       yield return new WaitUntil(() => Vector3.Distance(transform.position, destination) <= 0.5f);
+
 
         mstate = MoveState.Stop;
         pCon.pState = PlayerController.PlayerState.Idle; //플레이어 상태를 유휴상태로 변환

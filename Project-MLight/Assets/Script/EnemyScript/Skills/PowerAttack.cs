@@ -43,9 +43,8 @@ public class PowerAttack : ActiveSkill
         base.Init(LCon);
     }
 
-    public void SkillActive()
+    public override void ActiveAction()
     {
-
         pAudio.PlayOneShot(effectSound);
         rigid.velocity = this.transform.forward * 30f;
 
