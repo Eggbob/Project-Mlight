@@ -18,7 +18,8 @@ public class BgmManager : MonoBehaviour
         }
     }
 
-    public AudioSource audioSource;
+    public AudioSource backASource;
+    public AudioSource effectASource;
     public Dictionary<string, AudioClip> bgmDic = new Dictionary<string, AudioClip>();
     public BgmData[] bgmData;
 
@@ -44,19 +45,28 @@ public class BgmManager : MonoBehaviour
 
     public void PlayBgm(string name)
     {
-        audioSource.clip = bgmDic[name];
-        audioSource.Play();
+        backASource.clip = bgmDic[name];
+        backASource.Play();
     }
 
     public void StopBgm()
     {
-        audioSource.Stop();
+        backASource.Stop();
     }
 
     public void PlayEffectSound(string name)
     {
-        audioSource.PlayOneShot(bgmDic[name], 0.3f);
+        effectASource.PlayOneShot(bgmDic[name], 0.3f);
     }
 
+    public void SetBgmVolume(float volume)
+    {
+        backASource.volume = volume;
+    }
+
+    public void SetEffectVolume(float volume)
+    {
+        effectASource.volume = volume;
+    }
 
 }
