@@ -8,7 +8,7 @@ public class FireBall : ActiveSkill
 
     private void OnTriggerEnter(Collider other)
     {
-        pAudio.PlayOneShot(effectSound);
+        BgmManager.Instance.PlayCharacterSound(effectSound);
 
         if (other.gameObject.CompareTag("Player"))
         {

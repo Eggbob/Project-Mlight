@@ -40,7 +40,8 @@ public class StrengthUp : ActiveSkill
         effect.transform.rotation = this.transform.rotation;
         effect.gameObject.SetActive(true);
 
-        pAudio.PlayOneShot(effectSound);
+        //pAudio.PlayOneShot(effectSound);
+        BgmManager.Instance.PlayCharacterSound(effectSound);
         yield return new WaitForSeconds(1f);
 
         effect.gameObject.SetActive(false);

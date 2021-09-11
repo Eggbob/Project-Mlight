@@ -88,7 +88,6 @@ public class Enemy : LivingEntity
     {
         rigid = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
-        audioSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
 
         nav.updateRotation = false;

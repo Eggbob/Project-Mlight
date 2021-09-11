@@ -42,7 +42,8 @@ public class TornadoCut : ActiveSkill
  
         effect.transform.position = this.transform.position;
         effect.gameObject.SetActive(true);
-        pAudio.PlayOneShot(effectSound);
+        //pAudio.PlayOneShot(effectSound);
+        BgmManager.Instance.PlayCharacterSound(effectSound);
 
         foreach (Collider col in _colliders)
         {

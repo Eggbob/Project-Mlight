@@ -39,7 +39,9 @@ public class Cross : ActiveSkill
         effect.gameObject.transform.rotation = this.transform.rotation;
         effect.gameObject.SetActive(true);
 
-        pAudio.PlayOneShot(effectSound);
+        //pAudio.PlayOneShot(effectSound);
+        BgmManager.Instance.PlayCharacterSound(effectSound);
+
          yield return new WaitForSeconds(0.5f);
         enemytarget.OnDamage(this);
         yield return new WaitForSeconds(0.9f);

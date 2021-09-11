@@ -12,14 +12,11 @@ public class ActiveSkill : Skill
 
     protected GameObject effect;
 
-    protected AudioSource pAudio;
 
     public virtual void ActiveAction() { }
 
-    public override void Init(LivingEntity _Lcon)
-    {
-        pAudio = _Lcon.audioSource;
-    }
+    public override void Init(LivingEntity _Lcon) { }
+
 
     public enum SkillAttr //스킬 속성
     {

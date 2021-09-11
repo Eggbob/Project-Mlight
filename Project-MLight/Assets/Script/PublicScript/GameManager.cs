@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-       // BgmManager.Instance.PlayBgm("Map");
+       BgmManager.Instance.PlayBgm("Map");
     }
 
     private void Respawn()

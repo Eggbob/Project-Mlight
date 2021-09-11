@@ -45,7 +45,7 @@ public class PowerAttack : ActiveSkill
 
     public override void ActiveAction()
     {
-        pAudio.PlayOneShot(effectSound);
+        BgmManager.Instance.PlayCharacterSound(effectSound);
         rigid.velocity = this.transform.forward * 30f;
 
         if (LCon != null)

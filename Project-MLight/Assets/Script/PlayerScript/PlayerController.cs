@@ -31,7 +31,6 @@ public class PlayerController : LivingEntity
     {    
         pmanager = this.GetComponent<PlayerMoveController>();
         psCon = this.GetComponent<PlayerSkillController>();
-        audioSource = this.GetComponent<AudioSource>();
         anim = this.GetComponent<Animator>();
         pState = PlayerState.Idle;
 
@@ -177,7 +176,9 @@ public class PlayerController : LivingEntity
 
         obj.transform.position = tr;
 
-        audioSource.PlayOneShot(lvUpSound);
+        //audioSource.PlayOneShot(lvUpSound);
+        BgmManager.Instance.PlayCharacterSound(lvUpSound);
+
         base.LvUp();
 
     }
@@ -201,7 +202,8 @@ public class PlayerController : LivingEntity
 
     public void PlayFootSound()
     {
-        audioSource.PlayOneShot(footSound, 0.1f);
+        //audioSource.PlayOneShot(footSound, 0.1f);
+        BgmManager.Instance.PlayCharacterSound(footSound);
     }
 
     //데미지를 받을시

@@ -1,10 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
+
+
+[System.Serializable]
+public struct BgmData
+{
+    public string bgnName;
+    public AudioClip clip;
+}
 
 public class BgmManager : MonoBehaviour
 {
     private static BgmManager instance;
+
+    private Dictionary<string, AudioClip> bgmDic = new Dictionary<string, AudioClip>();
+    private Dictionary<string, AudioClip> eBgmDic = new Dictionary<string, AudioClip>();
+
+    private float bVol = 1f;
+    private float eVol = 1f;
 
     public static BgmManager Instance
     {
@@ -18,17 +34,15 @@ public class BgmManager : MonoBehaviour
         }
     }
 
-    public AudioSource backASource;
-    public AudioSource effectASource;
-    public Dictionary<string, AudioClip> bgmDic = new Dictionary<string, AudioClip>();
-    public BgmData[] bgmData;
+    public AudioSource backAudio;
+    public AudioSource eAudio;
 
-    [System.Serializable]
-    public struct BgmData
-    {
-        public string bgnName;
-        public AudioClip clip;
-    }
+    public Slider bSlider;
+    public Slider eSlider;
+
+    public BgmData[] bgmData;
+    public BgmData[] effectBgmData;
+
 
     private void Awake()
     {
@@ -41,32 +55,68 @@ public class BgmManager : MonoBehaviour
         {
             bgmDic[bgmData[i].bgnName] = bgmData[i].clip;
         }
+
+        for(int i = 0; i<effectBgmData.Length; i++)
+        {
+            eBgmDic[effectBgmData[i].bgnName] = effectBgmData[i].clip;
+        }
+
+
+        bVol = PlayerPrefs.GetFloat("bVol", 1f);
+        bSlider.value = bVol;
+        backAudio.volume = bSlider.value;
+
+        eVol = PlayerPrefs.GetFloat("eVol", 1f);
+        eSlider.value = eVol;
+        eAudio.volume = eSlider.value;
+
+    }
+
+    private void Update()
+    {
+        SetBgmVolume();
+        SetEffectVolume();
     }
 
     public void PlayBgm(string name)
     {
-        backASource.clip = bgmDic[name];
-        backASource.Play();
+        backAudio.clip = bgmDic[name];
+        backAudio.Play();
     }
 
     public void StopBgm()
     {
-        backASource.Stop();
+        backAudio.Stop();
     }
 
     public void PlayEffectSound(string name)
     {
-        effectASource.PlayOneShot(bgmDic[name], 0.3f);
+        eAudio.PlayOneShot(eBgmDic[name], 0.5f);
     }
 
-    public void SetBgmVolume(float volume)
+
+    public void PlayCharacterSound(AudioClip aClip)
     {
-        backASource.volume = volume;
+        eAudio.PlayOneShot(aClip);
     }
 
-    public void SetEffectVolume(float volume)
+    public void SetBgmVolume()
     {
-        effectASource.volume = volume;
+        // backASource.volume = volume;
+        backAudio.volume = bSlider.value;
+
+        bVol = bSlider.value;
+        PlayerPrefs.SetFloat("bVol", bVol);
+    }
+
+    public void SetEffectVolume()
+    {
+        // effectASource.volume = volume;
+
+        eAudio.volume = eSlider.value;
+
+        eVol = eSlider.value;
+        PlayerPrefs.SetFloat("eVol", eVol);
     }
 
 }

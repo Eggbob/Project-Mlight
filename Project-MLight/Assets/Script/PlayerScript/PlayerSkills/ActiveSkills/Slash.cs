@@ -36,7 +36,8 @@ public class Slash : ActiveSkill
         effect.transform.rotation = this.transform.rotation;
         effect.gameObject.SetActive(true);
 
-        pAudio.PlayOneShot(effectSound);
+        //pAudio.PlayOneShot(effectSound);
+        BgmManager.Instance.PlayCharacterSound(effectSound);
         yield return new WaitForSeconds(1f);
         enemytarget.OnDamage(this);
 

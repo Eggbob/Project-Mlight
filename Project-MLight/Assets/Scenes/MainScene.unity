@@ -3100,8 +3100,8 @@ RectTransform:
   m_Father: {fileID: 1465418314}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8517,7 +8517,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -9082,8 +9082,8 @@ RectTransform:
   m_Father: {fileID: 1737164242}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -12851,24 +12851,13 @@ MonoBehaviour:
   m_FillRect: {fileID: 761949228}
   m_HandleRect: {fileID: 197825086}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 966915455}
-        m_MethodName: SetEffectVolume
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &661484408
 GameObject:
   m_ObjectHideFlags: 0
@@ -15158,7 +15147,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -18834,14 +18823,13 @@ GameObject:
   - component: {fileID: 966915452}
   - component: {fileID: 966915454}
   - component: {fileID: 966915453}
-  - component: {fileID: 966915455}
   m_Layer: 5
   m_Name: VolumeSetting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &966915452
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18903,35 +18891,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 966915451}
   m_CullTransparentMesh: 0
---- !u!114 &966915455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 966915451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30965e29b6cbc364ea7526da3f803cce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backASource: {fileID: 2030225872}
-  effectASource: {fileID: 1486757473}
-  bgmData:
-  - bgnName: Map
-    clip: {fileID: 8300000, guid: ce9dcdb1f90fea9489656012ba969400, type: 3}
-  - bgnName: Button
-    clip: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
-  - bgnName: Open
-    clip: {fileID: 8300000, guid: 7fded5509e2f52c42a6ed587e103f6d2, type: 3}
-  - bgnName: Boss
-    clip: {fileID: 8300000, guid: 7c215164979c96a43ac7f50bbc278172, type: 3}
-  - bgnName: WindowOpen
-    clip: {fileID: 8300000, guid: 19f89c6e740e7447f9e12a8310d3e973, type: 3}
-  - bgnName: Clear
-    clip: {fileID: 8300000, guid: 7478151cf36724a7dada558f746c3633, type: 3}
-  - bgnName: WindowClose
-    clip: {fileID: 8300000, guid: cf6c0e7fbef9449c98a0cdb5ea0c4d9f, type: 3}
 --- !u!1 &969263935
 GameObject:
   m_ObjectHideFlags: 0
@@ -27643,6 +27602,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1434572306}
   m_CullTransparentMesh: 0
+--- !u!1 &1438366525
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1438366526}
+  - component: {fileID: 1438366527}
+  m_Layer: 0
+  m_Name: BgmManger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1438366526
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438366525}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1963825885}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1438366527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438366525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30965e29b6cbc364ea7526da3f803cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backAudio: {fileID: 2030225872}
+  eAudio: {fileID: 1486757473}
+  bSlider: {fileID: 1927924378}
+  eSlider: {fileID: 657342419}
+  bgmData:
+  - bgnName: Map
+    clip: {fileID: 8300000, guid: ce9dcdb1f90fea9489656012ba969400, type: 3}
+  - bgnName: Boss
+    clip: {fileID: 8300000, guid: 7c215164979c96a43ac7f50bbc278172, type: 3}
+  effectBgmData:
+  - bgnName: Button
+    clip: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
+  - bgnName: Open
+    clip: {fileID: 8300000, guid: 7fded5509e2f52c42a6ed587e103f6d2, type: 3}
+  - bgnName: WindowOpen
+    clip: {fileID: 8300000, guid: 19f89c6e740e7447f9e12a8310d3e973, type: 3}
+  - bgnName: Clear
+    clip: {fileID: 8300000, guid: 7478151cf36724a7dada558f746c3633, type: 3}
 --- !u!1 &1443532515
 GameObject:
   m_ObjectHideFlags: 0
@@ -29055,7 +29075,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1481710833
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29421,8 +29441,7 @@ AudioSource:
   m_GameObject: {fileID: 1486757471}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 542075774443321055, guid: 708c4ccc5c58e734cbd2685fe75d9540,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -31744,7 +31763,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -37957,24 +37976,13 @@ MonoBehaviour:
   m_FillRect: {fileID: 1577135653}
   m_HandleRect: {fileID: 459575250}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 966915455}
-        m_MethodName: SetBgmVolume
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1928043043 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7636659023262350514, guid: 35a543664a3e4f24c9f9f313ad850e41,
@@ -38852,6 +38860,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1072936110}
+  - {fileID: 1438366526}
   m_Father: {fileID: 1321682962}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -40739,13 +40748,12 @@ AudioSource:
   m_GameObject: {fileID: 2030225870}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -2033792396682780858, guid: 708c4ccc5c58e734cbd2685fe75d9540,
-    type: 2}
+  OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -43846,7 +43854,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 524998808, guid: b50010b1a68c7654c9e0d54e1cb5fa04, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b50010b1a68c7654c9e0d54e1cb5fa04, type: 3}
 --- !u!1001 &7278884994671514876
 PrefabInstance:

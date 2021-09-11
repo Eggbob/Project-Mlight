@@ -36,8 +36,7 @@ public class BossController : Enemy
         rigid = GetComponent<Rigidbody>();
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
-
+       
         nav.updateRotation = false;
         nav.speed = moveSpeed;
         nameTxt.text = enemyName;
@@ -140,7 +139,6 @@ public class BossController : Enemy
         if (isCollision)
         {
             EnemyNormalAttack.ActiveAction();
-           // enemyTarget.OnDamage(EnemyNormalAttack);
         }
 
         yield return new WaitForSeconds(0.7f);

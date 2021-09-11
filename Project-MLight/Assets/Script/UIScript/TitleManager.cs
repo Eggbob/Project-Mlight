@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class TitleManager : MonoBehaviour
 {
+    private static TitleManager instance;
+
     [SerializeField]
     private Button startBtn;
 
@@ -13,17 +15,51 @@ public class TitleManager : MonoBehaviour
     private Button loginBtn;
 
     [SerializeField]
+    private Button localLoginBtn;
+
+    [SerializeField]
     private Button logOutBtn;
 
     [SerializeField]
     private Button exitBtn;
 
+
+
+    public static TitleManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = GameObject.FindObjectOfType<TitleManager>();
+            }
+            return instance;
+        }
+    }
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void Start()
     {
-        BgmManager.Instance.PlayBgm("Title");
+        TitleBgmManager.Instance.PlayBgm("Title");
 
-        loginBtn.onClick.AddListener(() => LogIn());
-        logOutBtn.onClick.AddListener(() => LogOut());
+        loginBtn.onClick.AddListener(() =>
+        {
+            Social.localUser.Authenticate((bool success) =>
+            {
+                LogIn(success);
+            });
+        });
+
+        logOutBtn.onClick.AddListener(() =>
+        {
+            ((PlayGamesPlatform)Social.Active).SignOut();
+            LogOut();
+        });
+      
 
         startBtn.onClick.AddListener(() => LoadScene());
         exitBtn.onClick.AddListener(() => ExitGame());
@@ -31,14 +67,12 @@ public class TitleManager : MonoBehaviour
         PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
 
-      //  LogIn();
-
     }
 
     //게임시작
     private void LoadScene()
     {
-        BgmManager.Instance.StopBgm();
+        TitleBgmManager.Instance.StopBgm();
         LoadingManager.LoadScene("MainScene");
     }
 
@@ -49,33 +83,30 @@ public class TitleManager : MonoBehaviour
    }
 
     //로그인하기
-    public void LogIn()
-    {
-        Social.localUser.Authenticate((bool success) =>
+    public void LogIn(bool success)
+    {    
+        if (success)
         {
-            if (success)
-            {
-                startBtn.gameObject.SetActive(true);
-                loginBtn.gameObject.SetActive(false);
-                logOutBtn.gameObject.SetActive(true);
-            }
-            else
-            {
-                loginBtn.gameObject.SetActive(true);
-                startBtn.gameObject.SetActive(false);
-                logOutBtn.gameObject.SetActive(false);
-            }
-        });
-
+            startBtn.gameObject.SetActive(true);
+            loginBtn.gameObject.SetActive(false);
+            logOutBtn.gameObject.SetActive(true);
+            localLoginBtn.gameObject.SetActive(false);
+        }
+        else
+        {
+            loginBtn.gameObject.SetActive(true);
+            startBtn.gameObject.SetActive(false);
+            logOutBtn.gameObject.SetActive(false);
+            localLoginBtn.gameObject.SetActive(true);
+        }
     }
 
     //로그아웃 하기
     public void LogOut()
     {
-        ((PlayGamesPlatform)Social.Active).SignOut();
-
         loginBtn.gameObject.SetActive(true);
         startBtn.gameObject.SetActive(false);
         logOutBtn.gameObject.SetActive(false);
+        localLoginBtn.gameObject.SetActive(true);
     }
 }
