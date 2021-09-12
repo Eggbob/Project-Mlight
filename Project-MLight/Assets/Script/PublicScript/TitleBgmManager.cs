@@ -27,10 +27,7 @@ public class TitleBgmManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-    }
 
-    private void Start()
-    {
         for (int i = 0; i < bgmData.Length; i++)
         {
             bgmDic[bgmData[i].bgnName] = bgmData[i].clip;

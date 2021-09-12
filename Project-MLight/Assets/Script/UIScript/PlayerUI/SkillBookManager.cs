@@ -112,10 +112,18 @@ public class SkillBookManager : MonoBehaviour
         if (PassiveSkillList.activeSelf)
         { return; }
 
-        if(!skillIndex.Equals(0))
+        if (skillIndex.Equals(0))
+        { return; }
+
+
+        for (int i = 0; i< qSlotUIList.Count; i++)
         {
-            qSlotUIList[btnIndex].SetSkill(psCon.GetSkill(skillIndex), btnIndex);
+            if (qSlotUIList[i].slotSkill == psCon.GetSkill(skillIndex))
+            { return; }
         }
+
+        qSlotUIList[btnIndex].SetSkill(psCon.GetSkill(skillIndex), btnIndex);
+        
     }
 
 }

@@ -44,7 +44,7 @@ public class RegistUserManager : MonoBehaviour
         {
             if (!hasuser)
             {
-                titleTxt.text = "이미 존재하는 아이디 입니다.!";
+                titleTxt.text = "이미 존재하는 아이디 입니다!";
                 return;
             }
             else

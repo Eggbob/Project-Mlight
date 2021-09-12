@@ -9,6 +9,8 @@ public class SkillQuickSlotUI : MonoBehaviour
     [Tooltip("스킬 창 슬롯")]
     [SerializeField]
     private Button skillSlotBtn;
+    [SerializeField]
+    private Button cancleBtn;
     private Image skillSlotImg;
 
     [Tooltip("퀵 슬롯")]
@@ -48,6 +50,8 @@ public class SkillQuickSlotUI : MonoBehaviour
     private void Start()
     {
         pCon = GameManager.Instance.Player;
+
+        cancleBtn.onClick.AddListener(() => CancelSkill());
     }
 
     private void UseSkill() //스킬 사용
@@ -94,6 +98,17 @@ public class SkillQuickSlotUI : MonoBehaviour
                     break;
             }
         }
+    }
+    
+    private void CancelSkill()
+    {
+        this.skill = null;
+        this.index = 0;
+
+        skillSlotImg.sprite = null;
+        quickSlotImg.sprite = null;
+        skillSlotImg.enabled = false;
+        quickSlotImg.enabled = false;
     }
 
     public void SetSkill(ActiveSkill _skill, int _index)
