@@ -12,7 +12,7 @@ public class Spawning : MonoBehaviour
 
     private Queue<Enemy> gobeHunterQueue = new Queue<Enemy>();
     private Queue<Enemy> gobeQueue = new Queue<Enemy>();
-    
+
     private Vector3 spawnPos;
 
     private int enemyCount;
@@ -21,7 +21,7 @@ public class Spawning : MonoBehaviour
     {
         Init(6);
 
-        for(int i = 0; i<2; i++)
+        for (int i = 0; i < 2; i++)
         {
             spawnPos = Random.insideUnitCircle * 30f; ;
             spawnPos.x += this.transform.position.x;
@@ -47,7 +47,7 @@ public class Spawning : MonoBehaviour
 
     private void Init(int count)
     {
-        for(int i = 0; i< count; i++)
+        for (int i = 0; i < count; i++)
         {
             gobeQueue.Enqueue(CreateGoblin());
             gobeHunterQueue.Enqueue(CreateGobHunter());
@@ -55,7 +55,7 @@ public class Spawning : MonoBehaviour
     }
 
     //고블린 생성
-    private Enemy CreateGoblin() 
+    private Enemy CreateGoblin()
     {
         var newObj = Instantiate(goblin, transform).GetComponent<Enemy>();
         newObj.AddDieAction(() => GobeDieRoutine(newObj));
@@ -81,21 +81,27 @@ public class Spawning : MonoBehaviour
         enemy.transform.SetParent(transform);
 
         gobeQueue.Enqueue(enemy);
+        StartCoroutine(GobeRespawn());
+    }
 
-        enemy = gobeQueue.Dequeue();
-        enemy.transform.SetParent(null);
-        enemy.gameObject.SetActive(true);
-        enemy.RestoreHealth(enemy.MaxHp);
+    private IEnumerator GobeRespawn()
+    {
+        yield return new WaitForSeconds(12f);
+
+        Enemy spawnEnemy = gobeQueue.Dequeue();
+        spawnEnemy.transform.SetParent(null);
+        spawnEnemy.gameObject.SetActive(true);
+        spawnEnemy.RestoreHealth(spawnEnemy.MaxHp);
 
         spawnPos = Random.insideUnitCircle * 10f; ;
         spawnPos.x += this.transform.position.x;
         spawnPos.z = spawnPos.y + this.transform.position.z;
-        spawnPos.y = this.transform.position.y;
+        spawnPos.y += 2f;
 
 
-        enemy.transform.position = spawnPos;
+        spawnEnemy.transform.position = spawnPos;
     }
-    
+
     //고블린헌터 사망시 동작
     private void GobeHunterDieRoutine(Enemy enemy)
     {
@@ -104,19 +110,26 @@ public class Spawning : MonoBehaviour
         enemy.transform.SetParent(transform);
 
         gobeHunterQueue.Enqueue(enemy);
+        StartCoroutine(GobeHunterRespawn());
 
-        enemy = gobeQueue.Dequeue();
-        enemy.transform.SetParent(null);
-        enemy.gameObject.SetActive(true);
-        enemy.RestoreHealth(enemy.MaxHp);
+    }
+
+    private IEnumerator GobeHunterRespawn()
+    {
+        yield return new WaitForSeconds(12f);
+
+        Enemy spawnEnemy = gobeHunterQueue.Dequeue();
+        spawnEnemy.transform.SetParent(null);
+        spawnEnemy.gameObject.SetActive(true);
+        spawnEnemy.RestoreHealth(spawnEnemy.MaxHp);
 
         spawnPos = Random.insideUnitCircle * 6f; ;
         spawnPos.x += this.transform.position.x;
         spawnPos.z = spawnPos.y + this.transform.position.z;
-        spawnPos.y = this.transform.position.y;
+        spawnPos.y += 2f;
 
 
-        enemy.transform.position = spawnPos;
+        spawnEnemy.transform.position = spawnPos;
     }
 
 

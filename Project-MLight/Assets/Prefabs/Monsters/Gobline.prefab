@@ -1038,8 +1038,8 @@ MonoBehaviour:
   _level: 1
   _exp: 0
   _maxExp: 0
-  _hp: 100
-  _maxHP: 100
+  _hp: 200
+  _maxHP: 200
   _mp: 100
   _maxMP: 100
   _power: 10

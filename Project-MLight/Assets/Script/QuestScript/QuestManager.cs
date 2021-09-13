@@ -143,9 +143,26 @@ public class QuestManager : MonoBehaviour
 
     public void FinishQuest(Quest quest) //퀘스트 클리어
     {
+        //foreach (Quest qs in quests)
+        //{
+        //   if(qs.ID.Equals(quest.ID))
+        //    {
+        //        qs.qState = Quest.QuestState.InActive;
+        //    }
+        //}
+
+        for (int i = 0; i < questSlots.Count; i++)
+        {
+            if (questSlots[i].SlotQuest.ID.Equals(quest.ID))
+            {
+                questSlots[i].SlotQuest.qState = Quest.QuestState.InActive;
+                questSlots[i].SetQState();
+            }
+        }
+
         foreach (Quest qs in quests)
         {
-           if(qs.ID.Equals(quest.ID))
+            if (qs.ID.Equals(quest.ID))
             {
                 qs.qState = Quest.QuestState.InActive;
             }

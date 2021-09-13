@@ -72,7 +72,7 @@ public class PlayerMoveController : MonoBehaviour
       
         if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭시
         {
-            if(!EventSystem.current.IsPointerOverGameObject())
+            if(!EventSystem.current.IsPointerOverGameObject(0))
             {
                 if (Physics.Raycast(mcamera.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity ,playerMask) && !pCon.dead) //카메라에서 클릭한 곳으로 레이 쏘기
                 {                  
@@ -171,7 +171,8 @@ public class PlayerMoveController : MonoBehaviour
 
         mstate = MoveState.Move;
 
-        yield return new WaitUntil(() => isCollision);
+        //yield return new WaitUntil(() => isCollision);
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, destination) <= 6f);
         mstate = MoveState.Stop;
 
         pCon.pState = PlayerController.PlayerState.Attack; // 플레이어 상태를 공격으로 변환

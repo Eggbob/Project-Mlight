@@ -20,6 +20,11 @@ public class QuestInfoUIManager : MonoBehaviour
 
     public void SetQuestInfo(Quest quest)//퀘스트 정보 지정
     {
+        foreach (QuestRewardUIManager qReward in qRewards)
+        {
+            qReward.gameObject.SetActive(false);
+        }
+
         titleTxt.text = quest.Title;
 
         questInfoTxt.text = "퀘스트 임무 : " + quest.Info;

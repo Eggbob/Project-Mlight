@@ -25,7 +25,6 @@ public class BossManager : MonoBehaviour
 
     private void Start()
     {
-    
         pCon = GameManager.Instance.Player;
         isEnter = false;
     }
@@ -76,7 +75,6 @@ public class BossManager : MonoBehaviour
 
             wall.transform.Translate(Vector3.down * 40f * Time.deltaTime);
 
-            
             yield return null;
         } 
     }
@@ -94,7 +92,10 @@ public class BossManager : MonoBehaviour
 
         camfollow.target = pCon.gameObject.transform;
         UIManager.gameObject.SetActive(true);
+
+    
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -102,9 +103,8 @@ public class BossManager : MonoBehaviour
         {
             if (!isEnter && QuestManager.Instance.HasQuest(bossQuest))
                 StartCoroutine(RoomOpen());
-            else if (isEnter/* && !boss.gameObject.activeSelf*/)
+            else if (isEnter && boss.gameObject.activeSelf)
                 StartCoroutine(OperateBoss());
-
         }
     }
 

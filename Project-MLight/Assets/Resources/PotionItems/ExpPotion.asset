@@ -19,9 +19,9 @@ MonoBehaviour:
   _iconSprite: {fileID: 21300000, guid: cd57493d4a17891448f4110fab0eece2, type: 3}
   _dropItemPrefab: {fileID: 5539714252788722564, guid: abea346f8e1d99b4ba4ff117dee30abd,
     type: 3}
-  _itemPrice: 1000
+  _itemPrice: 30
   _itemSellPrice: 100
   _maxAmount: 99
   value: 30
   coolTime: 1
-  appearTime: 3
+  appearTime: 600

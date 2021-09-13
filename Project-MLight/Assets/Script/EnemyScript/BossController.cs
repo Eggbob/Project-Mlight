@@ -86,7 +86,6 @@ public class BossController : Enemy
         sword.gameObject.SetActive(true);
         shield.gameObject.SetActive(true);
 
-
         bossUI.SetActive(true);
         StartCoroutine(SetBossState());
     }
@@ -332,6 +331,8 @@ public class BossController : Enemy
 
         yield return new WaitForSeconds(3f);
         this.gameObject.SetActive(false);
+
+        BgmManager.Instance.PlayBgm("Map");
     }
 
     public override void OnDamage(Skill skill)
@@ -348,10 +349,12 @@ public class BossController : Enemy
             Die();
         }
 
+        BgmManager.Instance.PlayCharacterSound(hitSound);
         var dTxt = ObjectPool.GetDTxt();
         dTxt.SetText((int)skill.SkillPower);
         dTxt.transform.position = dTxtPos.position;
-        hpBar.fillAmount = Mathf.Lerp(hpBar.fillAmount, _hp/_maxHP, 4f * Time.deltaTime);
+       //hpBar.fillAmount = Mathf.Lerp(hpBar.fillAmount, _hp/_maxHP, 4f * Time.deltaTime);
+        hpBar.fillAmount = (float)_hp / (float)_maxHP;
         hpTxt.text = _hp.ToString() + "/" + _maxHP.ToString();
 
     }

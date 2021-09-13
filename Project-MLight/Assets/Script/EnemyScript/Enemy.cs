@@ -102,9 +102,9 @@ public class Enemy : LivingEntity
 
     private void OnEnable()
     {
-        statusInit(); //스테이터스 초기화
+        //statusInit(); //스테이터스 초기화
         eState = EnemyState.Idle; // 상태를 유휴상태로 변환
-        nav.isStopped = true;
+        ///nav.isStopped = true;
         rigid.isKinematic = false;
         hpBar.rectTransform.localScale = new Vector3(1f, 1f, 1f); //hp바 초기 상태 설정
     }
@@ -487,13 +487,13 @@ public class Enemy : LivingEntity
         rigid.isKinematic = true;
 
         target.GetComponent<PlayerController>().ExpGetRoutine(enemyExp);
-        Collider[] enemyColliders = GetComponents<Collider>();
+        //Collider[] enemyColliders = GetComponents<Collider>();
 
-        // 콜라이더 다끄기
-        for (int i = 0; i < enemyColliders.Length; i++)
-        {
-            enemyColliders[i].enabled = false;
-        }
+        //// 콜라이더 다끄기
+        //for (int i = 0; i < enemyColliders.Length; i++)
+        //{
+        //    enemyColliders[i].enabled = false;
+        //}
 
         yield return new WaitForSeconds(1f);
     

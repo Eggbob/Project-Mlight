@@ -76,6 +76,11 @@ public class QuestGiverUIManager : MonoBehaviour
     //퀘스트 상세정보 표시
     private void ShowQuestInfo(Quest quest)
     {
+        foreach(QuestRewardUIManager qReward in  qRewards)
+        {
+            qReward.gameObject.SetActive(false);
+        }
+
         questInfoGroup.SetActive(true);
         questTitleGroup.SetActive(false);
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d5b6b8e797a6da43b784d3be37c6ff2, type: 3}
   m_Name: 03.Kill_BossMonster
   m_EditorClassIdentifier: 
-  qState: 2
+  qState: 1
   qGiver: {fileID: 0}
   _id: 3
   _title: "\uBCF4\uC2A4 \uD574\uCE58\uC6B0\uAE30"

@@ -67,7 +67,8 @@ public class PlayerController : LivingEntity
                 isAttack = false;
                 isInter = false;
                 break;
-            case PlayerState.Move:            
+            case PlayerState.Move:
+                trail.Emit = false;
                 isRun = true;
                 isAttack = false;
                 isInter = false;      
