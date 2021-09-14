@@ -174,6 +174,7 @@ public class QuestGiverUIManager : MonoBehaviour
                 quest.Rewards.RewardRoutine();
                 quest.qState = Quest.QuestState.InActive;
                 QuestManager.Instance.FinishQuest(quest);
+                qCon.UpdateQuestStatus();
 
                 Back();
             }

@@ -72,7 +72,7 @@ public class PlayerMoveController : MonoBehaviour
       
         if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 버튼 클릭시
         {
-            if(!EventSystem.current.IsPointerOverGameObject(0))
+            if(!EventSystem.current.IsPointerOverGameObject())
             {
                 if (Physics.Raycast(mcamera.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity ,playerMask) && !pCon.dead) //카메라에서 클릭한 곳으로 레이 쏘기
                 {                  
